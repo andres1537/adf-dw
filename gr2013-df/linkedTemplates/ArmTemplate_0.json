@@ -211,50 +211,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_lt_customer_localizacion')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "1.source"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "LT_customer.csv",
-						"container": "source"
-					},
-					"encodingName": "ISO-8859-1"
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"Cliente ID": {
-							"type": "string"
-						},
-						"Nombre": {
-							"type": "string"
-						},
-						"Apellido": {
-							"type": "string"
-						},
-						"Segmento": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_ZIP_LT_customer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -583,6 +539,55 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "dim_clientes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_TARGET_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "date"
+					},
+					{
+						"name": "num_anio",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "num_trimestre",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_mes",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_dia",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_fechas"
 				}
 			},
 			"dependsOn": [
