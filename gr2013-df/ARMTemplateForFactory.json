@@ -999,6 +999,20 @@
 								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -1120,14 +1134,168 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_GITHUB_SOURCE_LT_customer",
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer_localizacion",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
+								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "customerLocalizacionCSV a STAGING",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "customerLocalizacionZIP a FILESTORAGE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"compressionProperties": {
+										"type": "ZipDeflateReadSettings"
+									}
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.lt_customer_localizacion",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Pais",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Pais",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Ciudad",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Ciudad",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Estado",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Estado",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Codigo Postal",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Codigo Postal",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Region",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Region",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_lt_customer_localizacion",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1149,6 +1317,10 @@
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_ZIP_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_customer')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_LT_customer_localizacion')]",
+				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_ZIP_LT_customer_localizacion')]",
+				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_LT_customer_localizacion')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_lt_customer_localizacion')]",
 				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
@@ -4754,6 +4926,64 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "lt_customer_localizacion.zip",
+						"folderPath": "github",
+						"container": "source"
+					},
+					"columnDelimiter": "\t",
+					"compressionCodec": "ZipDeflate",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Cliente ID",
+						"type": "String"
+					},
+					{
+						"name": "Pais",
+						"type": "String"
+					},
+					{
+						"name": "Ciudad",
+						"type": "String"
+					},
+					{
+						"name": "Estado",
+						"type": "String"
+					},
+					{
+						"name": "Codigo Postal",
+						"type": "String"
+					},
+					{
+						"name": "Region",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_fechas')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4823,6 +5053,33 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "LT_customer.zip",
+						"folderPath": "github",
+						"container": "source"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_ZIP_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "lt_customer_localizacion",
 						"folderPath": "github",
 						"container": "source"
 					}

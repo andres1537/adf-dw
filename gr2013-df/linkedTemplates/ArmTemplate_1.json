@@ -13,6 +13,52 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Xml",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "tb_modo_envio.xml"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Xml",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "tb_tipo_envio.xml"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_clientes')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -888,94 +934,6 @@
 				"typeProperties": {
 					"schema": "staging",
 					"table": "lt_customer_localizacion"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_lt_geografia')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2.staging"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Pais",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Estado",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Ciudad",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "staging",
-					"table": "lt_geografia"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_detalle_envios')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2.staging"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "num_order",
-						"type": "nvarchar"
-					},
-					{
-						"name": "fec_orden",
-						"type": "date"
-					},
-					{
-						"name": "fec_envio",
-						"type": "date"
-					},
-					{
-						"name": "modo_envio",
-						"type": "nvarchar"
-					},
-					{
-						"name": "cliente_id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "imp_subtotal",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "region_id",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "staging",
-					"table": "tb_detalle_envios"
 				}
 			},
 			"dependsOn": []
