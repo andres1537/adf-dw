@@ -74,7 +74,8 @@
 				"          num_anio,",
 				"          num_trimestre,",
 				"          num_mes,",
-				"          num_dia",
+				"          num_dia,",
+				"          fec_modificacion",
 				"     )) ~> DimFechas"
 			]
 		}

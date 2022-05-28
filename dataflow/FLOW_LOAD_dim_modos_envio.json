@@ -85,7 +85,14 @@
 				"     outputRejectedData: true,",
 				"     rejectedData_container: 'errors',",
 				"     transactionCommit: 'single',",
-				"     reportSuccessOnError: false) ~> DimModosEnvio"
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_modo_envio = id_modo,",
+				"          desc_modo_envio = ModosEnvio@Descripcion,",
+				"          id_tipo_envio = id_tipo,",
+				"          desc_tipo_envio = TiposEnvio@Descripcion,",
+				"          fec_modificacion",
+				"     )) ~> DimModosEnvio"
 			]
 		}
 	}
