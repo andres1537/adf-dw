@@ -13,102 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_modos_envio')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "ModosEnvio"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "TiposEnvio"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_DW_dim_modos_envio",
-								"type": "DatasetReference"
-							},
-							"name": "DimModosEnvio",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "JoinTiposEnvio"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_modo as integer,",
-						"          Descripcion as string,",
-						"          Tipo_x0020_ID as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> ModosEnvio",
-						"source(output(",
-						"          id_tipo as integer,",
-						"          Descripcion as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> TiposEnvio",
-						"ModosEnvio, TiposEnvio join(Tipo_x0020_ID == id_tipo,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinTiposEnvio",
-						"JoinTiposEnvio sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_modo_envio as integer,",
-						"          desc_modo_envio as string,",
-						"          id_tipo_envio as integer,",
-						"          desc_tipo_envio as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'allErrors',",
-						"     outputRejectedData: true,",
-						"     rejectedData_container: 'errors',",
-						"     transactionCommit: 'single',",
-						"     reportSuccessOnError: false,",
-						"     mapColumn(",
-						"          id_modo_envio = id_modo,",
-						"          desc_modo_envio = ModosEnvio@Descripcion,",
-						"          id_tipo_envio = id_tipo,",
-						"          desc_tipo_envio = TiposEnvio@Descripcion",
-						"     )) ~> DimModosEnvio"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_productos')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -2033,6 +1937,59 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_LOAD_diario')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_LOAD_fac_compras",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3.load"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras')]"
+			]
 		}
 	]
 }
