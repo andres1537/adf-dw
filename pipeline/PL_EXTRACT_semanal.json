@@ -5,7 +5,14 @@
 			{
 				"name": "customer a STAGING",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "customer a FILESTORAGE",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -104,12 +111,6 @@
 						]
 					}
 				},
-				"inputs": [
-					{
-						"referenceName": "DS_GITHUB_SOURCE_LT_customer",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_customer",
@@ -252,6 +253,37 @@
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_lt_customer_localizacion",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "customer a FILESTORAGE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"outputs": [
+					{
+						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
 						"type": "DatasetReference"
 					}
 				]

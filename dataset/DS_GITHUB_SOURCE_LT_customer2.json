@@ -1,0 +1,23 @@
+{
+	"name": "DS_GITHUB_SOURCE_LT_customer2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_zip_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "LT_customer.zip?raw=true"
+			},
+			"compression": {
+				"type": "ZipDeflate"
+			}
+		}
+	}
+}
