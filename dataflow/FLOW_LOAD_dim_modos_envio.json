@@ -38,6 +38,9 @@
 			"transformations": [
 				{
 					"name": "JoinTiposEnvio"
+				},
+				{
+					"name": "Auditoria"
 				}
 			],
 			"scriptLines": [
@@ -61,7 +64,8 @@
 				"ModosEnvio, TiposEnvio join(Tipo_x0020_ID == id_tipo,",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinTiposEnvio",
-				"JoinTiposEnvio sink(allowSchemaDrift: true,",
+				"JoinTiposEnvio derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_modo_envio as integer,",
@@ -80,13 +84,7 @@
 				"     outputRejectedData: true,",
 				"     rejectedData_container: 'errors',",
 				"     transactionCommit: 'single',",
-				"     reportSuccessOnError: false,",
-				"     mapColumn(",
-				"          id_modo_envio = id_modo,",
-				"          desc_modo_envio = ModosEnvio@Descripcion,",
-				"          id_tipo_envio = id_tipo,",
-				"          desc_tipo_envio = TiposEnvio@Descripcion",
-				"     )) ~> DimModosEnvio"
+				"     reportSuccessOnError: false) ~> DimModosEnvio"
 			]
 		}
 	}

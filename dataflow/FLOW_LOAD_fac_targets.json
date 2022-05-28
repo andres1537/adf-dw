@@ -28,7 +28,11 @@
 					}
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "Auditoria"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          fecha as string,",
@@ -41,7 +45,8 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Targets",
-				"Targets sink(allowSchemaDrift: true,",
+				"Targets derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_fecha as date,",

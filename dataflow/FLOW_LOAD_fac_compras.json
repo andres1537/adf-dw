@@ -54,6 +54,9 @@
 				},
 				{
 					"name": "SeleccionarColumnas"
+				},
+				{
+					"name": "Auditoria"
 				}
 			],
 			"scriptLines": [
@@ -125,7 +128,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-				"IdCompra sink(allowSchemaDrift: true,",
+				"IdCompra derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",

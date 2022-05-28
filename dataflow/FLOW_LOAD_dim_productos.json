@@ -48,6 +48,9 @@
 				},
 				{
 					"name": "JoinCategorias"
+				},
+				{
+					"name": "Auditoria"
 				}
 			],
 			"scriptLines": [
@@ -84,7 +87,8 @@
 				"JoinSubcategorias, Categorias join(Subcategorias@{Categoria Producto ID} == Categorias@{Categoria Producto ID},",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinCategorias",
-				"JoinCategorias sink(allowSchemaDrift: false,",
+				"JoinCategorias derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_producto as integer,",

@@ -38,6 +38,9 @@
 			"transformations": [
 				{
 					"name": "JoinClienteLocalizacion"
+				},
+				{
+					"name": "Auditoria"
 				}
 			],
 			"scriptLines": [
@@ -66,7 +69,8 @@
 				"Clientes, ClienteLocalizacion join(Clientes@{Cliente ID} == ClienteLocalizacion@{Cliente ID},",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinClienteLocalizacion",
-				"JoinClienteLocalizacion sink(allowSchemaDrift: true,",
+				"JoinClienteLocalizacion derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_cliente as integer,",

@@ -28,7 +28,11 @@
 					}
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "Auditoria"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          {Region ID} as integer,",
@@ -39,7 +43,8 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Regiones",
-				"Regiones sink(allowSchemaDrift: true,",
+				"Regiones derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_region as integer,",
