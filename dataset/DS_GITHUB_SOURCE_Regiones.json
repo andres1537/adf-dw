@@ -1,5 +1,5 @@
 {
-	"name": "DS_GITHUB_SOURCE_Regiones2",
+	"name": "DS_GITHUB_SOURCE_Regiones",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
