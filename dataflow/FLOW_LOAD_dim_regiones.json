@@ -56,6 +56,7 @@
 				"     saveOrder: 1,",
 				"     errorHandlingOption: 'allErrors',",
 				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
 				"     transactionCommit: 'single',",
 				"     reportSuccessOnError: false,",
 				"     mapColumn(",
