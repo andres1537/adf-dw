@@ -1571,7 +1571,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_GITHUB_SOURCE_Regiones2",
+								"referenceName": "DS_GITHUB_SOURCE_Regiones",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1743,7 +1743,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_modo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_tb_tipo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_tipo_envio')]",
-				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_Regiones2')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_fechas')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_fechas')]",
@@ -4957,7 +4957,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_Regiones2')]",
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_Regiones')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {

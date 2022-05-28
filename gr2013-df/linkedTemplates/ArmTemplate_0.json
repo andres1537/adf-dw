@@ -343,7 +343,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_Regiones2')]",
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_Regiones')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
