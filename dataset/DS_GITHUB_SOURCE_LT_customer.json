@@ -1,5 +1,5 @@
 {
-	"name": "DS_GITHUB_SOURCE_LT_customer2",
+	"name": "DS_GITHUB_SOURCE_LT_customer",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_GITHUB_SOURCE_zip_banmarket",
