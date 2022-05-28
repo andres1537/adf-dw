@@ -1,0 +1,21 @@
+{
+	"name": "DS_GITHUB_SOURCE_lt_geografia",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "lt_geografia.json"
+			}
+		},
+		"schema": {}
+	}
+}

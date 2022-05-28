@@ -24,6 +24,16 @@
 					}
 				],
 				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": "truncate table staging.lt_geografia",
@@ -80,6 +90,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_lt_geografia",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_lt_geografia",
@@ -309,15 +325,13 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "XmlSource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"namespaces": true
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
@@ -379,6 +393,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_Regiones2",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_Regiones",
