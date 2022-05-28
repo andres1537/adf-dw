@@ -13,15 +13,17 @@
 		"schema": [
 			{
 				"name": "fecha",
-				"type": "nvarchar"
+				"type": "date"
 			},
 			{
 				"name": "anio",
-				"type": "nvarchar"
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "mes",
-				"type": "nvarchar"
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "Region ID",
