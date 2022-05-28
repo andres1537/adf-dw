@@ -5,7 +5,7 @@
 		"type": "HttpServer",
 		"typeProperties": {
 			"url": "https://github.com/here4data/DWH/blob/main/Sources/",
-			"enableServerCertificateValidation": false,
+			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
 	}
