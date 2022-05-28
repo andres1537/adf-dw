@@ -1,0 +1,93 @@
+{
+	"name": "FLOW_LOAD_dim_modos_envio",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "ModosEnvio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "TiposEnvio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_modos_envio",
+						"type": "DatasetReference"
+					},
+					"name": "DimModosEnvio",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinTiposEnvio"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_modo as integer,",
+				"          Descripcion as string,",
+				"          Tipo_x0020_ID as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ModosEnvio",
+				"source(output(",
+				"          id_tipo as integer,",
+				"          Descripcion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> TiposEnvio",
+				"ModosEnvio, TiposEnvio join(Tipo_x0020_ID == id_tipo,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinTiposEnvio",
+				"JoinTiposEnvio sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_modo_envio as integer,",
+				"          desc_modo_envio as string,",
+				"          id_tipo_envio as integer,",
+				"          desc_tipo_envio as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_modo_envio = id_modo,",
+				"          desc_modo_envio = ModosEnvio@Descripcion,",
+				"          id_tipo_envio = id_tipo,",
+				"          desc_tipo_envio = TiposEnvio@Descripcion",
+				"     )) ~> DimModosEnvio"
+			]
+		}
+	}
+}

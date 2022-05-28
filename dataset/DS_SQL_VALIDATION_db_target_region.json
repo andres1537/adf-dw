@@ -1,0 +1,44 @@
+{
+	"name": "DS_SQL_VALIDATION_db_target_region",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fecha",
+				"type": "nvarchar"
+			},
+			{
+				"name": "anio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "mes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Region ID",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Target",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "db_target_region"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,38 @@
+{
+	"name": "DS_SQL_VALIDATION_LT_customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Cliente ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nombre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Apellido",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Segmento",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "LT_customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

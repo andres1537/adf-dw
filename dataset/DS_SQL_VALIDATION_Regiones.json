@@ -1,0 +1,34 @@
+{
+	"name": "DS_SQL_VALIDATION_Regiones",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Region ID",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Region Desc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Detalle region",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "Regiones"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

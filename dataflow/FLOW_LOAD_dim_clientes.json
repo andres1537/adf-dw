@@ -1,0 +1,109 @@
+{
+	"name": "FLOW_LOAD_dim_clientes",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_customer",
+						"type": "DatasetReference"
+					},
+					"name": "Clientes"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_lt_customer_localizacion",
+						"type": "DatasetReference"
+					},
+					"name": "ClienteLocalizacion"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_clientes",
+						"type": "DatasetReference"
+					},
+					"name": "DimClientes",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinClienteLocalizacion"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Cliente ID} as integer,",
+				"          Nombre as string,",
+				"          Apellido as string,",
+				"          Segmento as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Clientes",
+				"source(output(",
+				"          {Cliente ID} as integer,",
+				"          Pais as string,",
+				"          Ciudad as string,",
+				"          Estado as string,",
+				"          {Codigo Postal} as integer,",
+				"          Region as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ClienteLocalizacion",
+				"Clientes, ClienteLocalizacion join(Clientes@{Cliente ID} == ClienteLocalizacion@{Cliente ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinClienteLocalizacion",
+				"JoinClienteLocalizacion sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_cliente as integer,",
+				"          desc_nombres as string,",
+				"          desc_apellidos as string,",
+				"          desc_segmento as string,",
+				"          desc_pais as string,",
+				"          desc_ciudad as string,",
+				"          desc_estado as string,",
+				"          num_codigo_postal as integer,",
+				"          id_region as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_cliente = Clientes@{Cliente ID},",
+				"          desc_nombres = Nombre,",
+				"          desc_apellidos = Apellido,",
+				"          desc_segmento = Segmento,",
+				"          desc_pais = Pais,",
+				"          desc_ciudad = Ciudad,",
+				"          desc_estado = Estado,",
+				"          num_codigo_postal = {Codigo Postal},",
+				"          id_region = Region",
+				"     )) ~> DimClientes"
+			]
+		}
+	}
+}

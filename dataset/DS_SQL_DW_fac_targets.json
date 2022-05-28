@@ -1,0 +1,36 @@
+{
+	"name": "DS_SQL_DW_fac_targets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_fecha",
+				"type": "date"
+			},
+			{
+				"name": "id_region",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "imp_valor",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "fac_targets"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

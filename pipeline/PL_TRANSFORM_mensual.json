@@ -1,0 +1,26 @@
+{
+	"name": "PL_TRANSFORM_mensual",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_TRANSFORM_dim_productos",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TRANSFORM_dim_productos",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "2.transform"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-28T12:03:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

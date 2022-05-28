@@ -1,0 +1,109 @@
+{
+	"name": "FLOW_VALIDATION_detalle_envios",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_tb_detalle_envios",
+						"type": "DatasetReference"
+					},
+					"name": "StagingDetalleEnvios"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationDetalleEnvios",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				},
+				{
+					"name": "ConversionColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          num_order as string,",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          modo_envio as string,",
+				"          cliente_id as string,",
+				"          imp_subtotal as double,",
+				"          region_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingDetalleEnvios",
+				"ConversionColumnas filter(num_order != '' && modo_envio != '' && cliente_id != '') ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy(num_order),",
+				"     fec_orden = first(fec_orden),",
+				"          fec_envio = first(fec_envio),",
+				"          modo_envio = first(modo_envio),",
+				"          cliente_id = first(cliente_id),",
+				"          imp_subtotal = first(imp_subtotal),",
+				"          region_id = first(region_id)) ~> RemoverDuplicados",
+				"StagingDetalleEnvios derive(num_order = case ( \r",
+				"    (isNull(num_order) || (upper(num_order) == 'NULL')), '', num_order\r",
+				"),",
+				"          modo_envio = case ( \r",
+				"    (isNull(modo_envio) || (upper(modo_envio) == 'NULL')), '', modo_envio\r",
+				"),",
+				"          cliente_id = case ( \r",
+				"\r",
+				"        (isNull(cliente_id) || (upper(cliente_id) == 'NULL')), '',\r",
+				"        and(not(isNull(cliente_id) || (upper(cliente_id) == 'NULL')), like(cliente_id, '%-%')), split(cliente_id, '-')[2],\r",
+				"        cliente_id \r",
+				"    )) ~> ConversionColumnas",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          num_order as string,",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          modo_envio as string,",
+				"          cliente_id as string,",
+				"          imp_subtotal as double,",
+				"          region_id as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          num_order,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          modo_envio,",
+				"          cliente_id,",
+				"          imp_subtotal,",
+				"          region_id",
+				"     )) ~> ValidationDetalleEnvios"
+			]
+		}
+	}
+}

@@ -1,0 +1,80 @@
+{
+	"name": "FLOW_VALIDATION_categorias_producto",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_LT_productos_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "StagingCategoriasProducto"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationCategoriasProducto",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				},
+				{
+					"name": "ConversionColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Categoria} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingCategoriasProducto",
+				"ConversionColumnas filter({Categoria Producto ID} != '') ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Categoria Producto ID}),",
+				"     {Descripcion Categoria} = first({Descripcion Categoria})) ~> RemoverDuplicados",
+				"StagingCategoriasProducto derive({Categoria Producto ID} = case ( \r",
+				"    (isNull({Categoria Producto ID}) || (upper({Categoria Producto ID}) == 'NULL')), '', {Categoria Producto ID} \r",
+				")) ~> ConversionColumnas",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Categoria} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Categoria Producto ID},",
+				"          {Descripcion Categoria}",
+				"     )) ~> ValidationCategoriasProducto"
+			]
+		}
+	}
+}

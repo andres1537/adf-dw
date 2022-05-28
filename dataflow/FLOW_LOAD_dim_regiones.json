@@ -1,0 +1,70 @@
+{
+	"name": "FLOW_LOAD_dim_regiones",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
+						"type": "DatasetReference"
+					},
+					"name": "Regiones"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_regiones",
+						"type": "DatasetReference"
+					},
+					"name": "DimRegiones",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Regiones",
+				"Regiones sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_region as integer,",
+				"          desc_region as string,",
+				"          desc_detalle as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_region = {Region ID},",
+				"          desc_region = {Region Desc},",
+				"          desc_detalle = {Detalle region}",
+				"     )) ~> DimRegiones"
+			]
+		}
+	}
+}

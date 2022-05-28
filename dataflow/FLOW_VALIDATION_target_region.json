@@ -1,0 +1,87 @@
+{
+	"name": "FLOW_VALIDATION_target_region",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_db_target_region",
+						"type": "DatasetReference"
+					},
+					"name": "StagingTargetRegion"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_db_target_region",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationTargetRegionn",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "ConversionColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          fecha as string,",
+				"          anio as string,",
+				"          mes as string,",
+				"          {Region ID} as string,",
+				"          Target as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingTargetRegion",
+				"ConversionColumnas filter(and(not(isNull(Target)), Target > 0)) ~> FiltrarInconsistencias",
+				"StagingTargetRegion derive({Region ID} = toInteger(    case (         (isNull({Region ID}) || (upper({Region ID}) == 'NULL')), '', {Region ID}     )),",
+				"          Target = toDecimal(\r",
+				"    case ( \r",
+				"        (isNull(Target) || (upper(Target) == 'NULL')), '', replace(trim(Target), ',', '')\r",
+				"    ), 12, 2\r",
+				")) ~> ConversionColumnas",
+				"FiltrarInconsistencias sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          fecha as string,",
+				"          anio as string,",
+				"          mes as string,",
+				"          {Region ID} as integer,",
+				"          Target as decimal(12,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          fecha,",
+				"          anio,",
+				"          mes,",
+				"          {Region ID},",
+				"          Target",
+				"     )) ~> ValidationTargetRegionn"
+			]
+		}
+	}
+}

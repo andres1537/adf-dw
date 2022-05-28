@@ -1,0 +1,63 @@
+{
+	"name": "PL_mensual",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_EXTRACT_mensual",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_EXTRACT_mensual",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TRANSFORM_mensual",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_EXTRACT_mensual",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TRANSFORM_mensual",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_LOAD_mensual",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TRANSFORM_mensual",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_LOAD_mensual",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-05-27T12:01:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,76 @@
+{
+	"name": "FLOW_LOAD_dim_fechas",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_fechas",
+						"type": "DatasetReference"
+					},
+					"name": "Fechas"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_fechas",
+						"type": "DatasetReference"
+					},
+					"name": "DimFechas",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_fecha as date,",
+				"          num_anio as integer,",
+				"          num_trimestre as integer,",
+				"          num_mes as integer,",
+				"          num_dia as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Fechas",
+				"Fechas sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_fecha as date,",
+				"          num_anio as integer,",
+				"          num_trimestre as integer,",
+				"          num_mes as integer,",
+				"          num_dia as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_fecha,",
+				"          num_anio,",
+				"          num_trimestre,",
+				"          num_mes,",
+				"          num_dia",
+				"     )) ~> DimFechas"
+			]
+		}
+	}
+}

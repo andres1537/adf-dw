@@ -1,0 +1,104 @@
+{
+	"name": "TEST_LOAD_ALL",
+	"properties": {
+		"activities": [
+			{
+				"name": "TEST_FLOW_LOAD_dim_clientes",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_dim_clientes",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_dim_fechas",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_dim_fechas",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_dim_modos_envio",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_dim_modos_envio",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_dim_productos",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_dim_productos",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_dim_regiones",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_dim_regiones",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_fac_targets",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_fac_targets",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_LOAD_fac_compras",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_LOAD_fac_compras",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "tests/load"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-28T07:48:30Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

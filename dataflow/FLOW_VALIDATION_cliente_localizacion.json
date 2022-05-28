@@ -1,0 +1,110 @@
+{
+	"name": "FLOW_VALIDATION_cliente_localizacion",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_lt_customer_localizacion",
+						"type": "DatasetReference"
+					},
+					"name": "StagingClienteLocalizacion"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_lt_customer_localizacion",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationClienteLocalizacion",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Cliente ID} as string,",
+				"          Pais as string,",
+				"          Ciudad as string,",
+				"          Estado as string,",
+				"          {Codigo Postal} as string,",
+				"          Region as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingClienteLocalizacion",
+				"StagingClienteLocalizacion derive({Cliente ID} = toInteger(\r",
+				"    case ( \r",
+				"        (isNull({Cliente ID}) || (upper({Cliente ID}) == 'NULL')), '', {Cliente ID} \r",
+				"    )\r",
+				"),",
+				"          {Codigo Postal} = toInteger(\r",
+				"    case ( \r",
+				"        (isNull({Codigo Postal}) || (upper({Codigo Postal}) == 'NULL')), '', {Codigo Postal} \r",
+				"    )\r",
+				"),",
+				"          Region = toInteger(\r",
+				"    case ( \r",
+				"        (isNull(Region) || (upper(Region) == 'NULL')), '', Region\r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull({Cliente ID})), {Cliente ID} > 0) &&\r",
+				"and(not(isNull({Codigo Postal})), {Codigo Postal} > 0) &&\r",
+				"and(not(isNull(Region)), Region > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Cliente ID}),",
+				"     Pais = first(Pais),",
+				"          Ciudad = first(Ciudad),",
+				"          Estado = first(Estado),",
+				"          {Codigo Postal} = first({Codigo Postal}),",
+				"          Region = first(Region)) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Cliente ID} as integer,",
+				"          Pais as string,",
+				"          Ciudad as string,",
+				"          Estado as string,",
+				"          {Codigo Postal} as integer,",
+				"          Region as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Cliente ID},",
+				"          Pais,",
+				"          Ciudad,",
+				"          Estado,",
+				"          {Codigo Postal},",
+				"          Region",
+				"     )) ~> ValidationClienteLocalizacion"
+			]
+		}
+	}
+}

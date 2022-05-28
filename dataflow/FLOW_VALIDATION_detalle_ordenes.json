@@ -1,0 +1,111 @@
+{
+	"name": "FLOW_VALIDATION_detalle_ordenes",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_LT_detalle_ordenes",
+						"type": "DatasetReference"
+					},
+					"name": "StagingDetalleOrdenes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationDetalleOrdenes",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				},
+				{
+					"name": "ConversionColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Detalle Orden} as integer,",
+				"          {Numero Orden} as string,",
+				"          {Producto ID} as integer,",
+				"          {Linea Total} as double,",
+				"          Cantidad as integer,",
+				"          Descuento as double,",
+				"          {Precio Unitario} as double,",
+				"          Ganancia as double,",
+				"          region_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingDetalleOrdenes",
+				"ConversionColumnas filter(and(not(isNull({Detalle Orden})), {Detalle Orden} > 0) && \r",
+				"({Numero Orden} != '') && \r",
+				"and(not(isNull({Producto ID})), {Producto ID} > 0) && \r",
+				"and(not(isNull(region_id)), region_id > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Numero Orden},",
+				"          {Detalle Orden},",
+				"          {Producto ID},",
+				"          region_id),",
+				"     {Linea Total} = first({Linea Total}),",
+				"          Cantidad = first(Cantidad),",
+				"          Descuento = first(Descuento),",
+				"          {Precio Unitario} = first({Precio Unitario}),",
+				"          Ganancia = first(Ganancia)) ~> RemoverDuplicados",
+				"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
+				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', {Numero Orden} \r",
+				")) ~> ConversionColumnas",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Detalle Orden} as integer,",
+				"          {Numero Orden} as string,",
+				"          {Producto ID} as integer,",
+				"          {Linea Total} as double,",
+				"          Cantidad as integer,",
+				"          Descuento as double,",
+				"          {Precio Unitario} as double,",
+				"          Ganancia as double,",
+				"          region_id as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Detalle Orden},",
+				"          {Numero Orden},",
+				"          {Producto ID},",
+				"          {Linea Total},",
+				"          Cantidad,",
+				"          Descuento,",
+				"          {Precio Unitario},",
+				"          Ganancia,",
+				"          region_id",
+				"     )) ~> ValidationDetalleOrdenes"
+			]
+		}
+	}
+}

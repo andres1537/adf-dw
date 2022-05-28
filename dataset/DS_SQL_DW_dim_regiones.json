@@ -1,0 +1,34 @@
+{
+	"name": "DS_SQL_DW_dim_regiones",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_region",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "desc_region",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_detalle",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_regiones"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

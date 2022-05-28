@@ -1,0 +1,37 @@
+{
+	"name": "DS_SQL_STAGING_LT_customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "2.staging"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Cliente ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Nombre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Apellido",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Segmento",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "staging",
+			"table": "LT_customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

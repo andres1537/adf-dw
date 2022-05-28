@@ -1,0 +1,354 @@
+{
+	"name": "PL_EXTRACT_diario",
+	"properties": {
+		"activities": [
+			{
+				"name": "detalle_ordenes a STAGING",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "maestria.LT_detalle_ordenes"
+					},
+					{
+						"name": "Destination",
+						"value": "staging.LT_detalle_ordenes"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table staging.LT_detalle_ordenes",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"validateDataConsistency": false,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LS_FILESTORAGE_banmarket",
+								"type": "LinkedServiceReference"
+							},
+							"path": "errors"
+						}
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Detalle Orden",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Detalle Orden",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Numero Orden",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Numero Orden",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Producto ID",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Producto ID",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Linea Total",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"name": "Linea Total",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Cantidad",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "Cantidad",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Descuento",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"name": "Descuento",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Precio Unitario",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"name": "Precio Unitario",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "Ganancia",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"name": "Ganancia",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "region_id",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "region_id",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SQL_SOURCE_LT_detalle_ordenes",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQL_STAGING_LT_detalle_ordenes",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "detalle_envios a STAGING",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "maestria.tb_detalle_envios"
+					},
+					{
+						"name": "Destination",
+						"value": "staging.tb_detalle_envios"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table staging.tb_detalle_envios",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LS_FILESTORAGE_banmarket",
+								"type": "LinkedServiceReference"
+							},
+							"path": "errors"
+						}
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "num_order",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "num_order",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "fec_orden",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "fec_orden",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "fec_envio",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "fec_envio",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "modo_envio",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "modo_envio",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "cliente_id",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "cliente_id",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "imp_subtotal",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"name": "imp_subtotal",
+									"type": "Double",
+									"physicalType": "float"
+								}
+							},
+							{
+								"source": {
+									"name": "region_id",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "region_id",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SQL_SOURCE_tb_detalle_envios",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQL_STAGING_tb_detalle_envios",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "1.extract"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-28T12:03:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

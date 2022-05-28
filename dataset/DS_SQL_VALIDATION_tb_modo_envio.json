@@ -1,0 +1,35 @@
+{
+	"name": "DS_SQL_VALIDATION_tb_modo_envio",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_modo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Descripcion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tipo_x0020_ID",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "tb_modo_envio"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

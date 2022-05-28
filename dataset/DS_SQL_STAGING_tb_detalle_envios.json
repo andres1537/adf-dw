@@ -1,0 +1,51 @@
+{
+	"name": "DS_SQL_STAGING_tb_detalle_envios",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "2.staging"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "num_order",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fec_orden",
+				"type": "date"
+			},
+			{
+				"name": "fec_envio",
+				"type": "date"
+			},
+			{
+				"name": "modo_envio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "cliente_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "imp_subtotal",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "region_id",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "staging",
+			"table": "tb_detalle_envios"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

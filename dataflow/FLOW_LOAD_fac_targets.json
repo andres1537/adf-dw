@@ -1,0 +1,72 @@
+{
+	"name": "FLOW_LOAD_fac_targets",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_db_target_region",
+						"type": "DatasetReference"
+					},
+					"name": "Targets"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_fac_targets",
+						"type": "DatasetReference"
+					},
+					"name": "FacTargets",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          fecha as string,",
+				"          anio as string,",
+				"          mes as string,",
+				"          {Region ID} as integer,",
+				"          Target as decimal(12,2)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Targets",
+				"Targets sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_fecha as date,",
+				"          id_region as integer,",
+				"          imp_valor as decimal(12,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_fecha = fecha,",
+				"          id_region = {Region ID},",
+				"          imp_valor = Target",
+				"     )) ~> FacTargets"
+			]
+		}
+	}
+}

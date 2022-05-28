@@ -1,0 +1,50 @@
+{
+	"name": "DS_SQL_DW_dim_productos",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_producto",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "desc_referencia",
+				"type": "nvarchar"
+			},
+			{
+				"name": "id_subcategoria",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_producto",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_subcategoria",
+				"type": "nvarchar"
+			},
+			{
+				"name": "id_categoria",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_categoria",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_productos"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,63 @@
+{
+	"name": "PL_trimestral",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_EXTRACT_trimestral",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_EXTRACT_trimestral",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_LOAD_trimestral",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TRANSFORM_trimestral",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_LOAD_trimestral",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TRANSFORM_trimestral",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_EXTRACT_trimestral",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TRANSFORM_trimestral",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-05-27T12:01:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

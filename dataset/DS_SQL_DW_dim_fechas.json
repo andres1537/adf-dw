@@ -1,0 +1,45 @@
+{
+	"name": "DS_SQL_DW_dim_fechas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_fecha",
+				"type": "date"
+			},
+			{
+				"name": "num_anio",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "num_trimestre",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "num_mes",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "num_dia",
+				"type": "tinyint",
+				"precision": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_fechas"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

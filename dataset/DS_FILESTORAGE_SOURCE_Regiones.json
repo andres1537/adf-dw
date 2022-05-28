@@ -1,0 +1,42 @@
+{
+	"name": "DS_FILESTORAGE_SOURCE_Regiones",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FILESTORAGE_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Regiones.txt",
+				"folderPath": "banmarket",
+				"container": "source-github"
+			},
+			"columnDelimiter": "\t",
+			"encodingName": "ISO-8859-1",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Region ID",
+				"type": "String"
+			},
+			{
+				"name": "Region Desc",
+				"type": "String"
+			},
+			{
+				"name": "Detalle region",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

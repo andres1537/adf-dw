@@ -1,0 +1,84 @@
+{
+	"name": "FLOW_VALIDATION_subcategorias_producto",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "StagingSubcategoriasProducto"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationSubcategoriasProducto",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				},
+				{
+					"name": "ConversionColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Subcategoria Producto ID} as string,",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Subcategoria} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingSubcategoriasProducto",
+				"ConversionColumnas filter({Subcategoria Producto ID} != '') ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Subcategoria Producto ID}),",
+				"     {Categoria Producto ID} = first({Categoria Producto ID}),",
+				"          {Descripcion Subcategoria} = first({Descripcion Subcategoria})) ~> RemoverDuplicados",
+				"StagingSubcategoriasProducto derive({Subcategoria Producto ID} = case ( \r",
+				"    (isNull({Subcategoria Producto ID}) || (upper({Subcategoria Producto ID}) == 'NULL')), '', {Subcategoria Producto ID} \r",
+				")) ~> ConversionColumnas",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Subcategoria Producto ID} as string,",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Subcategoria} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Subcategoria Producto ID},",
+				"          {Categoria Producto ID},",
+				"          {Descripcion Subcategoria}",
+				"     )) ~> ValidationSubcategoriasProducto"
+			]
+		}
+	}
+}

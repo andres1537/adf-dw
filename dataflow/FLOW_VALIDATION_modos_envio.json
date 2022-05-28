@@ -1,0 +1,92 @@
+{
+	"name": "FLOW_VALIDATION_modos_envio",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_tb_modo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "StagingModosEnvio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationModosEnvio",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_modo as string,",
+				"          Descripcion as string,",
+				"          Tipo_x0020_ID as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingModosEnvio",
+				"StagingModosEnvio derive(id_modo = toInteger(\r",
+				"    case ( \r",
+				"        (isNull(id_modo) || (upper(id_modo) == 'NULL')), '', id_modo\r",
+				"    )\r",
+				"),",
+				"          Tipo_x0020_ID = toInteger(\r",
+				"    case ( \r",
+				"        (isNull(Tipo_x0020_ID) || (upper(Tipo_x0020_ID) == 'NULL')), '', Tipo_x0020_ID\r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull(id_modo)), id_modo >= 0) &&\r",
+				"and(not(isNull(Tipo_x0020_ID)), Tipo_x0020_ID > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy(id_modo),",
+				"     Descripcion = first(Descripcion),",
+				"          Tipo_x0020_ID = first(Tipo_x0020_ID)) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_modo as integer,",
+				"          Descripcion as string,",
+				"          Tipo_x0020_ID as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          id_modo,",
+				"          Descripcion,",
+				"          Tipo_x0020_ID",
+				"     )) ~> ValidationModosEnvio"
+			]
+		}
+	}
+}

@@ -1,0 +1,94 @@
+{
+	"name": "FLOW_huerfanos_modos_envio",
+	"properties": {
+		"folder": {
+			"name": "2.transform/huerfanos"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "ModosEnvio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "TiposEnvio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "CrearPadresFicticios"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ListaHuerfanos"
+				},
+				{
+					"name": "ListaIDsHuerfanos"
+				},
+				{
+					"name": "ListaPadresFicticios"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_modo as integer,",
+				"          Descripcion as string,",
+				"          Tipo_x0020_ID as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ModosEnvio",
+				"source(output(",
+				"          id_tipo as integer,",
+				"          Descripcion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> TiposEnvio",
+				"ModosEnvio, TiposEnvio exists(Tipo_x0020_ID == id_tipo,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> ListaHuerfanos",
+				"ListaHuerfanos select(mapColumn(",
+				"          id_tipo_envio = Tipo_x0020_ID",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+				"ListaIDsHuerfanos derive(id_tipo_envio = id_tipo_envio,",
+				"          desc_tipo_envio = \"huérfano de modos_envio\") ~> ListaPadresFicticios",
+				"ListaPadresFicticios sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_tipo as integer,",
+				"          Descripcion as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_tipo = id_tipo_envio,",
+				"          Descripcion = desc_tipo_envio",
+				"     )) ~> CrearPadresFicticios"
+			]
+		}
+	}
+}

@@ -1,0 +1,48 @@
+{
+	"name": "DS_SQL_VALIDATION_lt_customer_localizacion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Cliente ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Pais",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Ciudad",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Estado",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codigo Postal",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Region",
+				"type": "tinyint",
+				"precision": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "lt_customer_localizacion"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

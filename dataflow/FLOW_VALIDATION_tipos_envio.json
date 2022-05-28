@@ -1,0 +1,82 @@
+{
+	"name": "FLOW_VALIDATION_tipos_envio",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_tb_tipo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "StagingTiposEnvio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationTiposEnvio",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_tipo as string,",
+				"          Descripcion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingTiposEnvio",
+				"StagingTiposEnvio derive(id_tipo = toInteger(\r",
+				"    case ( \r",
+				"        (isNull({id_tipo}) || (upper({id_tipo}) == 'NULL')), '', {id_tipo} \r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull(id_tipo)), id_tipo > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy(id_tipo),",
+				"     Descripcion = first(Descripcion)) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_tipo as integer,",
+				"          Descripcion as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          id_tipo,",
+				"          Descripcion",
+				"     )) ~> ValidationTiposEnvio"
+			]
+		}
+	}
+}

@@ -1,0 +1,52 @@
+{
+	"name": "TEST_FLOW_huerfanos_ALL",
+	"properties": {
+		"activities": [
+			{
+				"name": "TEST_FLOW_huerfanos_categorias_producto",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_huerfanos_categorias_producto",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_huerfanos_modos_envio",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_huerfanos_modos_envio",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TEST_FLOW_huerfanos_productos",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TEST_FLOW_huerfanos_productos",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "tests/transform/huerfanos"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-28T02:06:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

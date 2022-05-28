@@ -1,0 +1,48 @@
+{
+	"name": "DS_FILESTORAGE_SOURCE_fechas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FILESTORAGE_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "fechas.csv",
+				"container": "source-utilities"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id_fecha",
+				"type": "String"
+			},
+			{
+				"name": "num_anio",
+				"type": "String"
+			},
+			{
+				"name": "num_trimestre",
+				"type": "String"
+			},
+			{
+				"name": "num_mes",
+				"type": "String"
+			},
+			{
+				"name": "num_dia",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

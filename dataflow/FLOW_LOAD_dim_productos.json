@@ -1,0 +1,122 @@
+{
+	"name": "FLOW_LOAD_dim_productos",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos",
+						"type": "DatasetReference"
+					},
+					"name": "Productos"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "Subcategorias"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "Categorias"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_productos",
+						"type": "DatasetReference"
+					},
+					"name": "DimProductos",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinSubcategorias"
+				},
+				{
+					"name": "JoinCategorias"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Producto ID} as integer,",
+				"          {Numero Producto} as string,",
+				"          {Producto Sub Categoria ID} as string,",
+				"          {Nombre Producto} as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Productos",
+				"source(output(",
+				"          {Subcategoria Producto ID} as string,",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Subcategoria} as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Subcategorias",
+				"source(output(",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Categoria} as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Categorias",
+				"Productos, Subcategorias join({Producto Sub Categoria ID} == {Subcategoria Producto ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinSubcategorias",
+				"JoinSubcategorias, Categorias join(Subcategorias@{Categoria Producto ID} == Categorias@{Categoria Producto ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinCategorias",
+				"JoinCategorias sink(allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_producto as integer,",
+				"          desc_referencia as string,",
+				"          id_subcategoria as string,",
+				"          desc_producto as string,",
+				"          desc_subcategoria as string,",
+				"          id_categoria as string,",
+				"          desc_categoria as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_producto = {Producto ID},",
+				"          desc_referencia = {Numero Producto},",
+				"          id_subcategoria = {Producto Sub Categoria ID},",
+				"          desc_producto = {Nombre Producto},",
+				"          desc_subcategoria = {Descripcion Subcategoria},",
+				"          id_categoria = Categorias@{Categoria Producto ID},",
+				"          desc_categoria = {Descripcion Categoria}",
+				"     )) ~> DimProductos"
+			]
+		}
+	}
+}

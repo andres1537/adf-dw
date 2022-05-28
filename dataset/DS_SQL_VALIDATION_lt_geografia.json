@@ -1,0 +1,33 @@
+{
+	"name": "DS_SQL_VALIDATION_lt_geografia",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Pais",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Estado",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Ciudad",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "lt_geografia"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

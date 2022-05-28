@@ -1,0 +1,90 @@
+{
+	"name": "FLOW_VALIDATION_productos",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_LT_productos",
+						"type": "DatasetReference"
+					},
+					"name": "StagingProductos"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationProductos",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Producto ID} as string,",
+				"          {Numero Producto} as string,",
+				"          {Producto Sub Categoria ID} as string,",
+				"          {Nombre Producto} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingProductos",
+				"StagingProductos derive({Producto ID} = toInteger(\r",
+				"    case ( \r",
+				"        (isNull({Producto ID}) || (upper({Producto ID}) == 'NULL')), '', {Producto ID} \r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull({Producto ID})), {Producto ID} > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Producto ID}),",
+				"     {Numero Producto} = first({Numero Producto}),",
+				"          {Producto Sub Categoria ID} = first({Producto Sub Categoria ID}),",
+				"          {Nombre Producto} = first({Nombre Producto})) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Producto ID} as integer,",
+				"          {Numero Producto} as string,",
+				"          {Producto Sub Categoria ID} as string,",
+				"          {Nombre Producto} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Producto ID},",
+				"          {Numero Producto},",
+				"          {Producto Sub Categoria ID},",
+				"          {Nombre Producto}",
+				"     )) ~> ValidationProductos"
+			]
+		}
+	}
+}

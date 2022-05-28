@@ -1,0 +1,180 @@
+{
+	"name": "FLOW_LOAD_fac_compras",
+	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
+						"type": "DatasetReference"
+					},
+					"name": "DetalleOrdenes"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
+						"type": "DatasetReference"
+					},
+					"name": "DetalleEnvios"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_dim_regiones",
+						"type": "DatasetReference"
+					},
+					"name": "Regiones"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_DW_fac_compras",
+						"type": "DatasetReference"
+					},
+					"name": "FacCompras",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinDetalleEnvios"
+				},
+				{
+					"name": "JoinRegiones"
+				},
+				{
+					"name": "IdCompra"
+				},
+				{
+					"name": "SeleccionarColumnas"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Detalle Orden} as integer,",
+				"          {Numero Orden} as string,",
+				"          {Producto ID} as integer,",
+				"          {Linea Total} as double,",
+				"          Cantidad as integer,",
+				"          Descuento as double,",
+				"          {Precio Unitario} as double,",
+				"          Ganancia as double,",
+				"          region_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DetalleOrdenes",
+				"source(output(",
+				"          num_order as string,",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          modo_envio as string,",
+				"          cliente_id as string,",
+				"          imp_subtotal as double,",
+				"          region_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DetalleEnvios",
+				"source(output(",
+				"          id_region as integer,",
+				"          desc_region as string,",
+				"          desc_detalle as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Regiones",
+				"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
+				"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinDetalleEnvios",
+				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinRegiones",
+				"SeleccionarColumnas keyGenerate(output(id_compra as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> IdCompra",
+				"JoinRegiones select(mapColumn(",
+				"          {Detalle Orden},",
+				"          {Numero Orden},",
+				"          {Producto ID},",
+				"          {Linea Total},",
+				"          Cantidad,",
+				"          Descuento,",
+				"          {Precio Unitario},",
+				"          Ganancia,",
+				"          num_order,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          modo_envio,",
+				"          cliente_id,",
+				"          imp_subtotal,",
+				"          id_region,",
+				"          desc_region,",
+				"          desc_detalle",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
+				"IdCompra sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_compra as long,",
+				"          num_detalle_orden as integer,",
+				"          num_orden as integer,",
+				"          id_producto as integer,",
+				"          id_modo_envio as integer,",
+				"          num_cantidad as integer,",
+				"          imp_subtotal as decimal(12,2),",
+				"          imp_linea_total as decimal(12,2),",
+				"          imp_descuento as decimal(12,2),",
+				"          imp_precio_unitario as decimal(12,2),",
+				"          imp_ganancia as decimal(12,2),",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          id_cliente as integer,",
+				"          id_region as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'allErrors',",
+				"     outputRejectedData: true,",
+				"     rejectedData_container: 'errors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false,",
+				"     mapColumn(",
+				"          id_compra,",
+				"          num_detalle_orden = {Detalle Orden},",
+				"          num_orden = {Numero Orden},",
+				"          id_producto = {Producto ID},",
+				"          id_modo_envio = modo_envio,",
+				"          num_cantidad = Cantidad,",
+				"          imp_subtotal,",
+				"          imp_linea_total = {Linea Total},",
+				"          imp_descuento = Descuento,",
+				"          imp_precio_unitario = {Precio Unitario},",
+				"          imp_ganancia = Ganancia,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          id_cliente = cliente_id,",
+				"          id_region",
+				"     )) ~> FacCompras"
+			]
+		}
+	}
+}

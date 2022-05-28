@@ -1,0 +1,94 @@
+{
+	"name": "FLOW_VALIDATION_fechas",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_fechas",
+						"type": "DatasetReference"
+					},
+					"name": "StagingFechas"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_fechas",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationFechas",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_fecha as string,",
+				"          num_anio as string,",
+				"          num_trimestre as string,",
+				"          num_mes as string,",
+				"          num_dia as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingFechas",
+				"StagingFechas derive(id_fecha = toDate(id_fecha, 'yyyy-MM-dd'),",
+				"          num_anio = toInteger(num_anio),",
+				"          num_trimestre = toInteger(num_trimestre),",
+				"          num_mes = toInteger(num_mes),",
+				"          num_dia = toInteger(num_dia)) ~> ConversionColumnas",
+				"ConversionColumnas filter(not(isNull(id_fecha))) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy(id_fecha),",
+				"     num_anio = first(num_anio),",
+				"          num_trimestre = first(num_trimestre),",
+				"          num_mes = first(num_mes),",
+				"          num_dia = first(num_dia)) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_fecha as date,",
+				"          num_anio as integer,",
+				"          num_trimestre as integer,",
+				"          num_mes as integer,",
+				"          num_dia as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          id_fecha,",
+				"          num_anio,",
+				"          num_trimestre,",
+				"          num_mes,",
+				"          num_dia",
+				"     )) ~> ValidationFechas"
+			]
+		}
+	}
+}

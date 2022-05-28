@@ -1,0 +1,99 @@
+{
+	"name": "DS_SQL_DW_fac_compras",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_compra",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "num_detalle_orden",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "num_orden",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_producto",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "id_modo_envio",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "num_cantidad",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "imp_subtotal",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "imp_linea_total",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "imp_descuento",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "imp_precio_unitario",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "imp_ganancia",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "fec_orden",
+				"type": "date"
+			},
+			{
+				"name": "fec_envio",
+				"type": "date"
+			},
+			{
+				"name": "id_cliente",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_region",
+				"type": "tinyint",
+				"precision": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "fac_compras"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "DS_SQL_VALIDATION_tb_tipo_envio",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_tipo",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Descripcion",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "tb_tipo_envio"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

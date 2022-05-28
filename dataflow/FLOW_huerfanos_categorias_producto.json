@@ -1,0 +1,96 @@
+{
+	"name": "FLOW_huerfanos_categorias_producto",
+	"properties": {
+		"folder": {
+			"name": "2.transform/huerfanos"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "Categorias"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "Subcategorias"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					},
+					"name": "CrearPadresFicticios"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ListaHuerfanos"
+				},
+				{
+					"name": "ListaIDsHuerfanos"
+				},
+				{
+					"name": "ListaPadresFicticios"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Categoria} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Categorias",
+				"source(output(",
+				"          {Subcategoria Producto ID} as string,",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Subcategoria} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Subcategorias",
+				"Categorias, Subcategorias exists(Categorias@{Categoria Producto ID} == Subcategorias@{Categoria Producto ID},",
+				"     negate:true,",
+				"     broadcast: 'auto')~> ListaHuerfanos",
+				"ListaHuerfanos select(mapColumn(",
+				"          id_categoria_producto = {Categoria Producto ID}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+				"ListaIDsHuerfanos derive(id_subcategoria_producto = \" \",",
+				"          id_categoria_producto = id_categoria_producto,",
+				"          desc_subcategoria = \"huérfano de categorias_producto\") ~> ListaPadresFicticios",
+				"ListaPadresFicticios sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Subcategoria Producto ID} as string,",
+				"          {Categoria Producto ID} as string,",
+				"          {Descripcion Subcategoria} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_tipo = id_subcategoria_producto,",
+				"          Descripcion = desc_subcategoria",
+				"     )) ~> CrearPadresFicticios"
+			]
+		}
+	}
+}

@@ -1,0 +1,60 @@
+{
+	"name": "DS_SQL_DW_dim_clientes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "4.dw"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_cliente",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "desc_nombres",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_apellidos",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_segmento",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_pais",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_ciudad",
+				"type": "nvarchar"
+			},
+			{
+				"name": "desc_estado",
+				"type": "nvarchar"
+			},
+			{
+				"name": "num_codigo_postal",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_region",
+				"type": "tinyint",
+				"precision": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_clientes"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

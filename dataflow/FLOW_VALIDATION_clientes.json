@@ -1,0 +1,93 @@
+{
+	"name": "FLOW_VALIDATION_clientes",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_LT_customer",
+						"type": "DatasetReference"
+					},
+					"name": "StagingClientes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_LT_customer",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationClientes",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Cliente ID} as string,",
+				"          Nombre as string,",
+				"          Apellido as string,",
+				"          Segmento as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingClientes",
+				"StagingClientes derive({Cliente ID} = toInteger(\r",
+				"    case ( \r",
+				"\r",
+				"        (isNull({Cliente ID}) || (upper({Cliente ID}) == 'NULL')), '',\r",
+				"        and(not(isNull({Cliente ID}) || (upper({Cliente ID}) == 'NULL')), like({Cliente ID}, '%-%')), split({Cliente ID}, '-')[2],\r",
+				"        {Cliente ID} \r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull({Cliente ID})), {Cliente ID} > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Cliente ID}),",
+				"     Nombre = first({Nombre}),",
+				"          Apellido = first({Apellido}),",
+				"          Segmento = first({Segmento})) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Cliente ID} as integer,",
+				"          Nombre as string,",
+				"          Apellido as string,",
+				"          Segmento as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Cliente ID},",
+				"          Nombre,",
+				"          Apellido,",
+				"          Segmento",
+				"     )) ~> ValidationClientes"
+			]
+		}
+	}
+}

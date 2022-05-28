@@ -1,0 +1,33 @@
+{
+	"name": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQL_TARGET_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "3.validation"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Subcategoria Producto ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Categoria Producto ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Descripcion Subcategoria",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "validation",
+			"table": "LT_productos_sub_categoria"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

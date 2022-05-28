@@ -1,0 +1,86 @@
+{
+	"name": "FLOW_VALIDATION_regiones",
+	"properties": {
+		"folder": {
+			"name": "2.transform/validation"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_STAGING_Regiones",
+						"type": "DatasetReference"
+					},
+					"name": "StagingRegiones"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
+						"type": "DatasetReference"
+					},
+					"name": "ValidationRegiones",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_banmarket",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConversionColumnas"
+				},
+				{
+					"name": "FiltrarInconsistencias"
+				},
+				{
+					"name": "RemoverDuplicados"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Region ID} as string,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> StagingRegiones",
+				"StagingRegiones derive({Region ID} = toInteger(\r",
+				"    case ( \r",
+				"        (isNull({Region ID}) || (upper({Region ID}) == 'NULL')), '', {Region ID} \r",
+				"    )\r",
+				")) ~> ConversionColumnas",
+				"ConversionColumnas filter(and(not(isNull({Region ID})), {Region ID} > 0)) ~> FiltrarInconsistencias",
+				"FiltrarInconsistencias aggregate(groupBy({Region ID}),",
+				"     {Region Desc} = first({Region Desc}),",
+				"          {Detalle region} = first({Detalle region})) ~> RemoverDuplicados",
+				"RemoverDuplicados sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          {Region ID},",
+				"          {Region Desc},",
+				"          {Detalle region}",
+				"     )) ~> ValidationRegiones"
+			]
+		}
+	}
+}
