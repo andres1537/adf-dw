@@ -2,7 +2,7 @@
 	"name": "DS_GITHUB_SOURCE_tb_tipo_envio",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_GITHUB_banmarket",
+			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
