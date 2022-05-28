@@ -894,7 +894,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "customer_localizacion a STAGING",
+						"name": "Copy data1",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -904,41 +904,25 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "source-github/banmarket/lt_customer_localizacion.csv"
-							},
-							{
-								"name": "Destination",
-								"value": "staging.lt_customer_localizacion"
-							}
-						],
+						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "XmlSource",
+								"type": "BinarySource",
 								"storeSettings": {
 									"type": "HttpReadSettings",
 									"requestMethod": "GET"
 								},
 								"formatSettings": {
-									"type": "XmlReadSettings",
-									"validationMode": "none",
-									"namespaces": true,
-									"compressionProperties": {
-										"type": "ZipDeflateReadSettings"
-									}
+									"type": "BinaryReadSettings"
 								}
 							},
 							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "truncate table staging.lt_customer_localizacion",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
 							},
 							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
 							"logSettings": {
 								"enableCopyActivityLog": true,
 								"copyActivityLogSettings": {
@@ -952,83 +936,18 @@
 									},
 									"path": "errors"
 								}
-							},
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Cliente ID",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Cliente ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Pais",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Pais",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Ciudad",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Ciudad",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Estado",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Estado",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Codigo Postal",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Codigo Postal",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Region",
-											"type": "String"
-										},
-										"sink": {
-											"name": "Region",
-											"type": "String"
-										}
-									}
-								]
 							}
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_GITHUB_SOURCE_lt_customer_localizacion",
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_SQL_STAGING_lt_customer_localizacion",
+								"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1046,8 +965,8 @@
 				"lastPublishTime": "2022-05-28T12:03:04Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_lt_customer_localizacion')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_lt_customer_localizacion')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_LT_customer')]",
+				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_LT_customer')]",
 				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
@@ -4891,34 +4810,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_lt_customer_localizacion')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_GITHUB_SOURCE_zip_banmarket",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "1.source"
-				},
-				"annotations": [],
-				"type": "Xml",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": "lt_customer_localizacion.zip?raw=true"
-					},
-					"compression": {
-						"type": "ZipDeflate"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_zip_banmarket')]"
 			]
 		},
 		{

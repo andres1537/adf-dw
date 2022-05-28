@@ -412,34 +412,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_lt_customer_localizacion')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_GITHUB_SOURCE_zip_banmarket",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "1.source"
-				},
-				"annotations": [],
-				"type": "Xml",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": "lt_customer_localizacion.zip?raw=true"
-					},
-					"compression": {
-						"type": "ZipDeflate"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_zip_banmarket')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_lt_geografia')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -573,6 +545,55 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "dim_clientes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_TARGET_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "date"
+					},
+					{
+						"name": "num_anio",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "num_trimestre",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_mes",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_dia",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_fechas"
 				}
 			},
 			"dependsOn": [
