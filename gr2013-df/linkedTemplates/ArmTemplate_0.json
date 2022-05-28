@@ -121,33 +121,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_LT_customer')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "1.source"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "LT_customer.zip",
-						"folderPath": "github",
-						"container": "source"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_fechas')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -236,6 +209,33 @@
 						"Segmento": {
 							"type": "string"
 						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_ZIP_LT_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "LT_customer.zip",
+						"folderPath": "github",
+						"container": "source"
 					}
 				}
 			},
