@@ -26,10 +26,6 @@
 		"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/"
-		},
-		"LS_GITHUB_banmarket_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
 		}
 	},
 	"variables": {
@@ -74,21 +70,6 @@
 				"typeProperties": {
 					"url": "[parameters('LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": false,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_banmarket')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('LS_GITHUB_banmarket_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
 			},
@@ -713,6 +694,49 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "dim_fechas"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_TARGET_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_modos_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_modo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "desc_modo_envio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "id_tipo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "desc_tipo_envio",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_modos_envio"
 				}
 			},
 			"dependsOn": [
