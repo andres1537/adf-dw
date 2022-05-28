@@ -22,6 +22,9 @@
 		},
 		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
 			"value": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url": {
+			"value": "https://github.com/here4data/DWH/blob/main/Sources/lt_customer_localizacion.zip?raw=true"
 		}
 	}
 }

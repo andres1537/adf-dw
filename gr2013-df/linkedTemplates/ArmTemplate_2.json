@@ -13,6 +13,72 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_modo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tipo_x0020_ID",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_modo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_tipo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_customer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1579,6 +1645,66 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "customerLocalizacionZIP a FILESTORAGE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -2165,7 +2291,10 @@
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_modo_envio')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_tipo_envio')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_clientes')]",
@@ -2280,186 +2409,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_lt_customer_localizacion')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_fechas')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_fechas",
-								"type": "DatasetReference"
-							},
-							"name": "Fechas"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_DW_dim_fechas",
-								"type": "DatasetReference"
-							},
-							"name": "DimFechas",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id_fecha as date,",
-						"          num_anio as integer,",
-						"          num_trimestre as integer,",
-						"          num_mes as integer,",
-						"          num_dia as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Fechas",
-						"Fechas sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_fecha as date,",
-						"          num_anio as integer,",
-						"          num_trimestre as integer,",
-						"          num_mes as integer,",
-						"          num_dia as integer",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1,",
-						"     errorHandlingOption: 'allErrors',",
-						"     outputRejectedData: true,",
-						"     rejectedData_container: 'errors',",
-						"     transactionCommit: 'single',",
-						"     reportSuccessOnError: false,",
-						"     mapColumn(",
-						"          id_fecha,",
-						"          num_anio,",
-						"          num_trimestre,",
-						"          num_mes,",
-						"          num_dia",
-						"     )) ~> DimFechas"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_fechas')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_modos_envio')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "ModosEnvio"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "TiposEnvio"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_DW_dim_modos_envio",
-								"type": "DatasetReference"
-							},
-							"name": "DimModosEnvio",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "JoinTiposEnvio"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_modo as integer,",
-						"          Descripcion as string,",
-						"          Tipo_x0020_ID as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> ModosEnvio",
-						"source(output(",
-						"          id_tipo as integer,",
-						"          Descripcion as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> TiposEnvio",
-						"ModosEnvio, TiposEnvio join(Tipo_x0020_ID == id_tipo,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinTiposEnvio",
-						"JoinTiposEnvio sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_modo_envio as integer,",
-						"          desc_modo_envio as string,",
-						"          id_tipo_envio as integer,",
-						"          desc_tipo_envio as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'allErrors',",
-						"     outputRejectedData: true,",
-						"     rejectedData_container: 'errors',",
-						"     transactionCommit: 'single',",
-						"     reportSuccessOnError: false,",
-						"     mapColumn(",
-						"          id_modo_envio = id_modo,",
-						"          desc_modo_envio = ModosEnvio@Descripcion,",
-						"          id_tipo_envio = id_tipo,",
-						"          desc_tipo_envio = TiposEnvio@Descripcion",
-						"     )) ~> DimModosEnvio"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_modo_envio')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_tipo_envio')]"
 			]
 		}
 	]

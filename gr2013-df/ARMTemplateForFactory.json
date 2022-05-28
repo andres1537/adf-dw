@@ -30,6 +30,10 @@
 		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/lt_customer_localizacion.zip?raw=true"
 		}
 	},
 	"variables": {
@@ -1064,6 +1068,66 @@
 						"outputs": [
 							{
 								"referenceName": "DS_SQL_STAGING_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "customerLocalizacionZIP a FILESTORAGE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -4793,6 +4857,30 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_zip_customer_localizacion",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_zip_customer_localizacion')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_productos')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -6719,6 +6807,21 @@
 				"type": "HttpServer",
 				"typeProperties": {
 					"url": "[parameters('LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_zip_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
