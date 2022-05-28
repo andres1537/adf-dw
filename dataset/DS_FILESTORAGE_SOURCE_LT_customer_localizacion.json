@@ -1,0 +1,53 @@
+{
+	"name": "DS_FILESTORAGE_SOURCE_LT_customer_localizacion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "lt_customer_localizacion.zip",
+				"folderPath": "github",
+				"container": "source"
+			},
+			"columnDelimiter": "\t",
+			"compressionCodec": "ZipDeflate",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Cliente ID",
+				"type": "String"
+			},
+			{
+				"name": "Pais",
+				"type": "String"
+			},
+			{
+				"name": "Ciudad",
+				"type": "String"
+			},
+			{
+				"name": "Estado",
+				"type": "String"
+			},
+			{
+				"name": "Codigo Postal",
+				"type": "String"
+			},
+			{
+				"name": "Region",
+				"type": "String"
+			}
+		]
+	}
+}

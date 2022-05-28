@@ -1,0 +1,22 @@
+{
+	"name": "DS_FILESTORAGE_ZIP_LT_customer_localizacion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "lt_customer_localizacion",
+				"folderPath": "github",
+				"container": "source"
+			}
+		}
+	}
+}
