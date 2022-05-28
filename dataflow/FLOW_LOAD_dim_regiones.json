@@ -23,7 +23,7 @@
 					},
 					"name": "DimRegiones",
 					"rejectedDataLinkedService": {
-						"referenceName": "LS_FILESTORAGE_banmarket",
+						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 						"type": "LinkedServiceReference"
 					}
 				}
@@ -56,7 +56,6 @@
 				"     saveOrder: 1,",
 				"     errorHandlingOption: 'allErrors',",
 				"     outputRejectedData: true,",
-				"     rejectedData_container: 'errors',",
 				"     transactionCommit: 'single',",
 				"     reportSuccessOnError: false,",
 				"     mapColumn(",

@@ -1,0 +1,20 @@
+{
+	"name": "DS_GITHUB_SOURCE_tb_tipo_envio",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "tb_tipo_envio.xml"
+			}
+		}
+	}
+}

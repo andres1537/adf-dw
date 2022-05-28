@@ -52,7 +52,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
@@ -163,7 +163,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"

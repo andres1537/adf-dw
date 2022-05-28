@@ -30,7 +30,7 @@
 					},
 					"name": "DimClientes",
 					"rejectedDataLinkedService": {
-						"referenceName": "LS_FILESTORAGE_banmarket",
+						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 						"type": "LinkedServiceReference"
 					}
 				}

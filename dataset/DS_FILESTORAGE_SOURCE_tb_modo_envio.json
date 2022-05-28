@@ -2,7 +2,7 @@
 	"name": "DS_FILESTORAGE_SOURCE_tb_modo_envio",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_FILESTORAGE_banmarket",
+			"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

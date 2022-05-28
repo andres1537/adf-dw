@@ -52,7 +52,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
@@ -156,7 +156,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
@@ -234,9 +234,8 @@
 					"source": {
 						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "XmlReadSettings",
@@ -262,7 +261,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
@@ -295,7 +294,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_FILESTORAGE_SOURCE_tb_tipo_envio",
+						"referenceName": "DS_GITHUB_SOURCE_tb_tipo_envio",
 						"type": "DatasetReference"
 					}
 				],
@@ -356,7 +355,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
@@ -471,7 +470,7 @@
 						},
 						"logLocationSettings": {
 							"linkedServiceName": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							},
 							"path": "errors"
