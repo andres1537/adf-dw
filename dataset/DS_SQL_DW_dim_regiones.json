@@ -23,6 +23,12 @@
 			{
 				"name": "desc_detalle",
 				"type": "nvarchar"
+			},
+			{
+				"name": "fec_modificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {

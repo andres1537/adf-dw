@@ -88,6 +88,12 @@
 				"name": "id_region",
 				"type": "tinyint",
 				"precision": 3
+			},
+			{
+				"name": "fec_modificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {

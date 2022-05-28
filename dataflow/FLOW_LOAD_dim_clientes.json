@@ -81,7 +81,8 @@
 				"          desc_ciudad as string,",
 				"          desc_estado as string,",
 				"          num_codigo_postal as integer,",
-				"          id_region as integer",
+				"          id_region as integer,",
+				"          fec_modificacion as timestamp",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -105,7 +106,8 @@
 				"          desc_ciudad = Ciudad,",
 				"          desc_estado = Estado,",
 				"          num_codigo_postal = {Codigo Postal},",
-				"          id_region = Region",
+				"          id_region = Region,",
+				"          fec_modificacion",
 				"     )) ~> DimClientes"
 			]
 		}

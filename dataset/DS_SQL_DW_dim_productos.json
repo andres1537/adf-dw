@@ -39,6 +39,12 @@
 			{
 				"name": "desc_categoria",
 				"type": "nvarchar"
+			},
+			{
+				"name": "fec_modificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {

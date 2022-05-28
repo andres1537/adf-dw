@@ -28,6 +28,12 @@
 			{
 				"name": "desc_tipo_envio",
 				"type": "nvarchar"
+			},
+			{
+				"name": "fec_modificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
 			}
 		],
 		"typeProperties": {
