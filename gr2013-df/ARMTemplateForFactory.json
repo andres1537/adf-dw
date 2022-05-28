@@ -1362,7 +1362,9 @@
 											"type": "String"
 										}
 									}
-								]
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_modo_envio']['maestria.tb_modo_envio']",
+								"mapComplexValuesToString": false
 							}
 						},
 						"inputs": [
@@ -4976,6 +4978,7 @@
 						"relativeUrl": "Regiones.txt"
 					},
 					"columnDelimiter": "\t",
+					"encodingName": "ISO-8859-1",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""

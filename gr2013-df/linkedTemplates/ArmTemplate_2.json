@@ -1871,7 +1871,9 @@
 											"type": "String"
 										}
 									}
-								]
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_modo_envio']['maestria.tb_modo_envio']",
+								"mapComplexValuesToString": false
 							}
 						},
 						"inputs": [
