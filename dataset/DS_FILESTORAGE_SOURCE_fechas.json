@@ -14,7 +14,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "fechas.csv",
-				"container": "source-utilities"
+				"container": "source"
 			},
 			"columnDelimiter": ";",
 			"escapeChar": "\\",
