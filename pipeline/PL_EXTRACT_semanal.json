@@ -107,12 +107,6 @@
 						]
 					}
 				},
-				"inputs": [
-					{
-						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_customer",
@@ -285,26 +279,11 @@
 							}
 						}
 					},
-					"sink": {
-						"type": "JsonSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "JsonWriteSettings"
-						}
-					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "DS_GITHUB_SOURCE_LT_customer2",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
 						"type": "DatasetReference"
 					}
 				]

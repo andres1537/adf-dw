@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "LT_customer.csv",
 				"container": "source"
 			},
 			"encodingName": "ISO-8859-1"
