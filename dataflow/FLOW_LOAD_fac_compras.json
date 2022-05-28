@@ -178,7 +178,8 @@
 				"          fec_orden,",
 				"          fec_envio,",
 				"          id_cliente = cliente_id,",
-				"          id_region",
+				"          id_region,",
+				"          fec_modificacion",
 				"     )) ~> FacCompras"
 			]
 		}

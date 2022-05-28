@@ -70,7 +70,8 @@
 				"     mapColumn(",
 				"          id_fecha = fecha,",
 				"          id_region = {Region ID},",
-				"          imp_valor = Target",
+				"          imp_valor = Target,",
+				"          fec_modificacion",
 				"     )) ~> FacTargets"
 			]
 		}

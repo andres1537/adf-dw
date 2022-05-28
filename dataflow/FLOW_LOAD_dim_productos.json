@@ -119,7 +119,8 @@
 				"          desc_producto = {Nombre Producto},",
 				"          desc_subcategoria = {Descripcion Subcategoria},",
 				"          id_categoria = Categorias@{Categoria Producto ID},",
-				"          desc_categoria = {Descripcion Categoria}",
+				"          desc_categoria = {Descripcion Categoria},",
+				"          fec_modificacion",
 				"     )) ~> DimProductos"
 			]
 		}

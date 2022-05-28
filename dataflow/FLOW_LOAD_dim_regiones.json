@@ -68,7 +68,8 @@
 				"     mapColumn(",
 				"          id_region = {Region ID},",
 				"          desc_region = {Region Desc},",
-				"          desc_detalle = {Detalle region}",
+				"          desc_detalle = {Detalle region},",
+				"          fec_modificacion",
 				"     )) ~> DimRegiones"
 			]
 		}
