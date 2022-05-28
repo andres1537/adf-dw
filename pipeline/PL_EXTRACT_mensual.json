@@ -25,14 +25,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -94,6 +95,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_LT_productos_sub_categoria",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_productos_sub_categoria",
@@ -124,14 +131,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -183,6 +191,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_LT_productos_categoria",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_productos_categoria",
@@ -213,14 +227,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -292,6 +307,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_LT_productos",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_productos",
@@ -322,14 +343,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -411,6 +433,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_db_target_region",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_db_target_region",

@@ -25,14 +25,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "JsonSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "JsonReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -91,6 +92,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_lt_geografia",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_lt_geografia",
@@ -123,9 +130,8 @@
 					"source": {
 						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "XmlReadSettings",
@@ -189,6 +195,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_tb_modo_envio",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_tb_modo_envio",
@@ -315,14 +327,15 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "XmlSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
 						}
 					},
 					"sink": {
@@ -384,6 +397,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_Regiones",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_Regiones",
