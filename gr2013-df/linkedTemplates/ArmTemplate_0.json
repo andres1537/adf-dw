@@ -23,10 +23,6 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
 		},
-		"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/"
-		},
 		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
@@ -63,21 +59,6 @@
 				"typeProperties": {
 					"url": "[parameters('LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": false,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_zip_banmarket')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
 			},
@@ -566,6 +547,31 @@
 					}
 				},
 				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Xml",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "tb_modo_envio.xml"
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"

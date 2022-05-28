@@ -23,10 +23,6 @@
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
 		},
-		"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/"
-		},
 		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
@@ -73,9 +69,6 @@
 					},
 					"LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url": {
 						"value": "[parameters('LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url')]"
-					},
-					"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
-						"value": "[parameters('LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url')]"
 					},
 					"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
 						"value": "[parameters('LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url')]"
