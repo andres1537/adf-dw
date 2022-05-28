@@ -414,13 +414,13 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANFORM_dim_clientes",
+						"name": "PL_TRANFORM_fac_compras",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_dim_clientes",
+								"referenceName": "PL_TRANFORM_fac_compras",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -454,6 +454,20 @@
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "PL_TRANSFORM_dim_productos",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PL_TRANFORM_fac_targets",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TRANFORM_fac_targets",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -534,6 +548,20 @@
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "PL_TRANFORM_dim_fechas",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PL_TRANFORM_dim_regiones",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TRANFORM_dim_regiones",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,

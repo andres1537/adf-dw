@@ -70,7 +70,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_regiones",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -83,42 +83,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_regiones",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingRegiones": {},
+									"ValidationRegiones": {}
 								}
 							},
 							"staging": {},
@@ -150,7 +120,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_detalle_envios",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -163,12 +133,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_detalle_envios",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
+									"StagingDetalleEnvios": {},
+									"ValidationDetalleEnvios": {}
 								}
 							},
 							"staging": {},
@@ -180,7 +150,7 @@
 						}
 					},
 					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
+						"name": "FLOW_VALIDATION_detalle_ordenes",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -193,12 +163,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
+								"referenceName": "FLOW_VALIDATION_detalle_ordenes",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingDetalleOrdenes": {},
+									"ValidationDetalleOrdenes": {}
 								}
 							},
 							"staging": {},
@@ -230,7 +200,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_target_region",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -243,42 +213,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_target_region",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingTargetRegion": {},
+									"ValidationTargetRegionn": {}
 								}
 							},
 							"staging": {},

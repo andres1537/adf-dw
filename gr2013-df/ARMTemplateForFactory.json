@@ -2195,7 +2195,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_regiones",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -2208,42 +2208,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_regiones",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingRegiones": {},
+									"ValidationRegiones": {}
 								}
 							},
 							"staging": {},
@@ -2266,8 +2236,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_clientes')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_cliente_localizacion')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_regiones')]"
 			]
 		},
 		{
@@ -2278,7 +2247,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_detalle_envios",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -2291,12 +2260,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_detalle_envios",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
+									"StagingDetalleEnvios": {},
+									"ValidationDetalleEnvios": {}
 								}
 							},
 							"staging": {},
@@ -2308,7 +2277,7 @@
 						}
 					},
 					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
+						"name": "FLOW_VALIDATION_detalle_ordenes",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -2321,12 +2290,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
+								"referenceName": "FLOW_VALIDATION_detalle_ordenes",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingDetalleOrdenes": {},
+									"ValidationDetalleOrdenes": {}
 								}
 							},
 							"staging": {},
@@ -2349,8 +2318,8 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_clientes')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_cliente_localizacion')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_detalle_envios')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_detalle_ordenes')]"
 			]
 		},
 		{
@@ -2361,7 +2330,7 @@
 				"description": "\n",
 				"activities": [
 					{
-						"name": "FLOW_VALIDATION_clientes",
+						"name": "FLOW_VALIDATION_target_region",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -2374,42 +2343,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_clientes",
+								"referenceName": "FLOW_VALIDATION_target_region",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"StagingClientes": {},
-									"ValidationClientes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_VALIDATION_cliente_localizacion",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_cliente_localizacion",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingClienteLocalizacion": {},
-									"ValidationClienteLocalizacion": {}
+									"StagingTargetRegion": {},
+									"ValidationTargetRegionn": {}
 								}
 							},
 							"staging": {},
@@ -2432,8 +2371,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_clientes')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_cliente_localizacion')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_target_region')]"
 			]
 		},
 		{
@@ -2443,13 +2381,13 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANFORM_dim_clientes",
+						"name": "PL_TRANFORM_fac_compras",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_dim_clientes",
+								"referenceName": "PL_TRANFORM_fac_compras",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -2468,7 +2406,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_dim_clientes')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_fac_compras')]"
 			]
 		},
 		{
@@ -2820,6 +2758,20 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "PL_TRANFORM_fac_targets",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TRANFORM_fac_targets",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -2833,7 +2785,8 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_dim_productos')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_dim_productos')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_fac_targets')]"
 			]
 		},
 		{
@@ -2904,6 +2857,20 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "PL_TRANFORM_dim_regiones",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TRANFORM_dim_regiones",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -2918,7 +2885,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_dim_modos_envio')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_dim_fechas')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_dim_fechas')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_TRANFORM_dim_regiones')]"
 			]
 		},
 		{
