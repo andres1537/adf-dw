@@ -1901,6 +1901,36 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "FLOW_LOAD_fac_targets",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_targets",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Targets": {},
+									"FacTargets": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -1914,7 +1944,8 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_productos')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_productos')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_targets')]"
 			]
 		},
 		{
@@ -2035,6 +2066,36 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "FLOW_LOAD_dim_regiones",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_dim_regiones",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Regiones": {},
+									"DimRegiones": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -2049,7 +2110,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_modos_envio')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_fechas')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_fechas')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_dim_regiones')]"
 			]
 		},
 		{
