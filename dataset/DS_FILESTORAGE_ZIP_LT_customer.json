@@ -1,5 +1,5 @@
 {
-	"name": "DS_FILESTORAGE_SOURCE_LT_customer",
+	"name": "DS_FILESTORAGE_ZIP_LT_customer",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",

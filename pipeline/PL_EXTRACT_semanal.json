@@ -55,7 +55,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
+						"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
 						"type": "DatasetReference"
 					}
 				]
