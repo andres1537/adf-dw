@@ -27,6 +27,19 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "PL_TRANFORM_dim_regiones",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TRANFORM_dim_regiones",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"folder": {

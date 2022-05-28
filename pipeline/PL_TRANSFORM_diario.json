@@ -3,13 +3,13 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_TRANFORM_dim_clientes",
+				"name": "PL_TRANFORM_fac_compras",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_dim_clientes",
+						"referenceName": "PL_TRANFORM_fac_compras",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
