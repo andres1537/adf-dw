@@ -11,10 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_FILESTORAGE_SOURCE_banmarket'"
 		},
-		"LS_FILESTORAGE_banmarket_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_FILESTORAGE_banmarket'"
-		},
 		"LS_SQL_SOURCE_banmarket_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_SQL_SOURCE_banmarket'"
@@ -49,19 +45,6 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('LS_FILESTORAGE_SOURCE_banmarket_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_FILESTORAGE_banmarket')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_FILESTORAGE_banmarket_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -604,7 +587,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_GITHUB_banmarket",
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -620,7 +603,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
 			]
 		},
 		{
@@ -681,6 +664,55 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "dim_clientes"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQL_TARGET_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "date"
+					},
+					{
+						"name": "num_anio",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "num_trimestre",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_mes",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_dia",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_fechas"
 				}
 			},
 			"dependsOn": [

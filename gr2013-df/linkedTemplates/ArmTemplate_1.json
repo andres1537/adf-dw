@@ -13,53 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_fechas')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "4.dw"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "id_fecha",
-						"type": "date"
-					},
-					{
-						"name": "num_anio",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "num_trimestre",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "num_mes",
-						"type": "tinyint",
-						"precision": 3
-					},
-					{
-						"name": "num_dia",
-						"type": "tinyint",
-						"precision": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "dim_fechas"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_modos_envio')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -949,6 +902,37 @@
 				"typeProperties": {
 					"schema": "staging",
 					"table": "tb_modo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_tipo_envio"
 				}
 			},
 			"dependsOn": []
