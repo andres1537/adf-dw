@@ -1,0 +1,19 @@
+{
+	"name": "DS_GITHUB_SOURCE_LT_customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_zip_customer",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
