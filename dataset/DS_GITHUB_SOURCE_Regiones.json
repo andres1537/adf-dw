@@ -16,6 +16,7 @@
 				"relativeUrl": "Regiones.txt"
 			},
 			"columnDelimiter": "\t",
+			"encodingName": "ISO-8859-1",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
