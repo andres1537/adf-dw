@@ -173,6 +173,64 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "customerLocalizacionZIP a FILESTORAGE",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							},
+							"path": "errors"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_GITHUB_SOURCE_LT_customer",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {
