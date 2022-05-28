@@ -1,0 +1,20 @@
+{
+	"name": "DS_GITHUB_SOURCE_LT_productos_categoria",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "LT_productos_categoria.csv"
+			}
+		}
+	}
+}

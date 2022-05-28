@@ -1,0 +1,20 @@
+{
+	"name": "DS_GITHUB_SOURCE_tb_modo_envio",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "tb_modo_envio.xml"
+			}
+		}
+	}
+}

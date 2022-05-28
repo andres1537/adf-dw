@@ -1,0 +1,23 @@
+{
+	"name": "DS_GITHUB_SOURCE_lt_customer_localizacion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_zip_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "lt_customer_localizacion.zip?raw=true"
+			},
+			"compression": {
+				"type": "ZipDeflate"
+			}
+		}
+	}
+}
