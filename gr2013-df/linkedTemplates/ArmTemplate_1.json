@@ -13,6 +13,283 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "date"
+					},
+					{
+						"name": "num_anio",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "num_trimestre",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_mes",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_dia",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_fechas"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_modos_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_modo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "desc_modo_envio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "id_tipo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "desc_tipo_envio",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_modos_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_productos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_producto",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "desc_referencia",
+						"type": "nvarchar"
+					},
+					{
+						"name": "id_subcategoria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "desc_producto",
+						"type": "nvarchar"
+					},
+					{
+						"name": "desc_subcategoria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "id_categoria",
+						"type": "nvarchar"
+					},
+					{
+						"name": "desc_categoria",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_productos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_dim_regiones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_region",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "desc_region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "desc_detalle",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dim_regiones"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_fac_compras')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "4.dw"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_compra",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "num_detalle_orden",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "num_orden",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_producto",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "id_modo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_cantidad",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "imp_subtotal",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_linea_total",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_descuento",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_precio_unitario",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_ganancia",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "fec_orden",
+						"type": "date"
+					},
+					{
+						"name": "fec_envio",
+						"type": "date"
+					},
+					{
+						"name": "id_cliente",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_region",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "fac_compras"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_SQL_DW_fac_targets')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -672,215 +949,6 @@
 				"typeProperties": {
 					"schema": "staging",
 					"table": "tb_modo_envio"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_tipo_envio')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "2.staging"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "id_tipo",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Descripcion",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "staging",
-					"table": "tb_tipo_envio"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_customer')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "3.validation"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Cliente ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Nombre",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Apellido",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Segmento",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "validation",
-					"table": "LT_customer"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "3.validation"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Detalle Orden",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Numero Orden",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Producto ID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Linea Total",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Cantidad",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Descuento",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Precio Unitario",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Ganancia",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "region_id",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "validation",
-					"table": "LT_detalle_ordenes"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_productos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "3.validation"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Producto ID",
-						"type": "smallint",
-						"precision": 5
-					},
-					{
-						"name": "Numero Producto",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Producto Sub Categoria ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Nombre Producto",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "validation",
-					"table": "LT_productos"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_productos_categoria')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQL_TARGET_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "3.validation"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Categoria Producto ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Descripcion Categoria",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "validation",
-					"table": "LT_productos_categoria"
 				}
 			},
 			"dependsOn": []

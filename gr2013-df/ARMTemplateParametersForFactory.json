@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "gr2013-df"
 		},
+		"LS_FILESTORAGE_SOURCE_banmarket_connectionString": {
+			"value": ""
+		},
 		"LS_FILESTORAGE_banmarket_connectionString": {
 			"value": ""
 		},
@@ -13,6 +16,15 @@
 		},
 		"LS_SQL_TARGET_dw_connectionString": {
 			"value": ""
+		},
+		"LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
+		},
+		"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
+			"value": "https://github.com/here4data/DWH/blob/main/Sources/"
+		},
+		"LS_GITHUB_banmarket_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
 		}
 	}
 }

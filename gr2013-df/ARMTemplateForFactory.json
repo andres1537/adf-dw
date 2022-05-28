@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "gr2013-df"
 		},
+		"LS_FILESTORAGE_SOURCE_banmarket_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_FILESTORAGE_SOURCE_banmarket'"
+		},
 		"LS_FILESTORAGE_banmarket_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_FILESTORAGE_banmarket'"
@@ -18,6 +22,18 @@
 		"LS_SQL_TARGET_dw_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_SQL_TARGET_dw'"
+		},
+		"LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
+		},
+		"LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/"
+		},
+		"LS_GITHUB_banmarket_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
 		}
 	},
 	"variables": {
@@ -75,7 +91,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -259,7 +275,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -391,7 +407,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_detalle_ordenes')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_SOURCE_tb_detalle_envios')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_detalle_envios')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -450,7 +466,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -568,7 +584,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -674,7 +690,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -804,7 +820,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -916,7 +932,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_productos')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_db_target_region')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_db_target_region')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -975,7 +991,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1088,7 +1104,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1208,7 +1224,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_lt_customer_localizacion')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_lt_customer_localizacion')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -1267,7 +1283,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1373,7 +1389,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1453,9 +1469,8 @@
 							"source": {
 								"type": "XmlSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
 								},
 								"formatSettings": {
 									"type": "XmlReadSettings",
@@ -1481,7 +1496,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1514,7 +1529,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_FILESTORAGE_SOURCE_tb_tipo_envio",
+								"referenceName": "DS_GITHUB_SOURCE_tb_tipo_envio",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1577,7 +1592,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1694,7 +1709,7 @@
 								},
 								"logLocationSettings": {
 									"linkedServiceName": {
-										"referenceName": "LS_FILESTORAGE_banmarket",
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 										"type": "LinkedServiceReference"
 									},
 									"path": "errors"
@@ -1802,13 +1817,13 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_lt_geografia')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_tb_modo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_modo_envio')]",
-				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_tb_tipo_envio')]",
+				"[concat(variables('factoryId'), '/datasets/DS_GITHUB_SOURCE_tb_tipo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_tipo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_FILESTORAGE_SOURCE_fechas')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_fechas')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4782,7 +4797,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -4818,7 +4833,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4827,7 +4842,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -4854,7 +4869,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4863,7 +4878,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -4893,7 +4908,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4902,7 +4917,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -4935,7 +4950,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4944,7 +4959,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -4981,7 +4996,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -4990,7 +5005,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5029,7 +5044,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -5038,7 +5053,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5081,7 +5096,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -5090,7 +5105,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5138,7 +5153,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -5147,7 +5162,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5180,7 +5195,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -5189,7 +5204,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5207,7 +5222,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -5216,7 +5231,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_FILESTORAGE_banmarket",
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
@@ -5234,7 +5249,32 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Xml",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "tb_tipo_envio.xml"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_banmarket')]"
 			]
 		},
 		{
@@ -6893,6 +6933,19 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_FILESTORAGE_SOURCE_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_FILESTORAGE_SOURCE_banmarket_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LS_FILESTORAGE_banmarket')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -6901,6 +6954,51 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('LS_FILESTORAGE_banmarket_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_raw_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_zip_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_zip_banmarket_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_banmarket_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -6965,7 +7063,7 @@
 							},
 							"name": "DimClientes",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7045,7 +7143,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_lt_customer_localizacion')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_clientes')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7075,7 +7173,7 @@
 							},
 							"name": "DimFechas",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7128,7 +7226,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_fechas')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_fechas')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7165,7 +7263,7 @@
 							},
 							"name": "DimModosEnvio",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7229,7 +7327,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_modo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_tipo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_modos_envio')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7273,7 +7371,7 @@
 							},
 							"name": "DimProductos",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7360,7 +7458,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos_sub_categoria')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos_categoria')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_productos')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7390,7 +7488,7 @@
 							},
 							"name": "DimRegiones",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7437,7 +7535,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_regiones')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7481,7 +7579,7 @@
 							},
 							"name": "FacCompras",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7626,7 +7724,7 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_dim_regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_fac_compras')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7656,7 +7754,7 @@
 							},
 							"name": "FacTargets",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7705,7 +7803,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_db_target_region')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_fac_targets')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7735,7 +7833,7 @@
 							},
 							"name": "ValidationCategoriasProducto",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7792,7 +7890,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_productos_categoria')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos_categoria')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7822,7 +7920,7 @@
 							},
 							"name": "ValidationClienteLocalizacion",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -7909,7 +8007,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_lt_customer_localizacion')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_lt_customer_localizacion')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -7939,7 +8037,7 @@
 							},
 							"name": "ValidationClientes",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8009,7 +8107,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_customer')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_customer')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8039,7 +8137,7 @@
 							},
 							"name": "ValidationDetalleEnvios",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8125,7 +8223,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_detalle_envios')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8155,7 +8253,7 @@
 							},
 							"name": "ValidationDetalleOrdenes",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8243,7 +8341,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_detalle_ordenes')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8273,7 +8371,7 @@
 							},
 							"name": "ValidationFechas",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8344,7 +8442,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_fechas')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_fechas')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8374,7 +8472,7 @@
 							},
 							"name": "ValidationModosEnvio",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8443,7 +8541,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_modo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_modo_envio')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8473,7 +8571,7 @@
 							},
 							"name": "ValidationProductos",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8540,7 +8638,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_productos')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8570,7 +8668,7 @@
 							},
 							"name": "ValidationRegiones",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8633,7 +8731,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8663,7 +8761,7 @@
 							},
 							"name": "ValidationSubcategoriasProducto",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8724,7 +8822,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_LT_productos_sub_categoria')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos_sub_categoria')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8754,7 +8852,7 @@
 							},
 							"name": "ValidationTargetRegionn",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8837,7 +8935,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_db_target_region')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_db_target_region')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
@@ -8867,7 +8965,7 @@
 							},
 							"name": "ValidationTiposEnvio",
 							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_banmarket",
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
 							}
 						}
@@ -8926,7 +9024,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_tipo_envio')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_tipo_envio')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_banmarket')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
 		{
