@@ -70,8 +70,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "Cliente ID;Nombre;Apellido;Segmento",
-									"type": "String"
+									"name": ""
 								},
 								"sink": {
 									"name": "Cliente ID",
@@ -79,18 +78,27 @@
 								}
 							},
 							{
+								"source": {
+									"name": ""
+								},
 								"sink": {
 									"name": "Nombre",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"name": ""
+								},
 								"sink": {
 									"name": "Apellido",
 									"type": "String"
 								}
 							},
 							{
+								"source": {
+									"name": ""
+								},
 								"sink": {
 									"name": "Segmento",
 									"type": "String"
@@ -288,7 +296,20 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							}
+						}
+					}
 				},
 				"inputs": [
 					{
