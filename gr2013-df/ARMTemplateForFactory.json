@@ -894,7 +894,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "customer a FILESTORAGE",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
