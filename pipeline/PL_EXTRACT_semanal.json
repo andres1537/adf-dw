@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "customer a FILESTORAGE",
+				"name": "customerZIP a FILESTORAGE",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -61,11 +61,11 @@
 				]
 			},
 			{
-				"name": "customer a STAGING",
+				"name": "customerCSV a STAGING",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "customer a FILESTORAGE",
+						"activity": "customerZIP a FILESTORAGE",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -96,8 +96,10 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table staging.LT_customer",
 						"writeBehavior": "insert",
-						"sqlWriterUseTableLock": false
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {

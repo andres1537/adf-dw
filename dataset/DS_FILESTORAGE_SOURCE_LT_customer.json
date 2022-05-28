@@ -25,7 +25,19 @@
 		},
 		"schema": [
 			{
-				"name": "PK\u0003\u0004\u0014\u0000\u0000\u0000\b\u0000H��Tl\u0015\u001eaE�\u0004\u0001�R�\u0003\u000f\u0000\u0000\u0000LT_customer.csv�}���X��_@����\u0019�πzP\u000fТ$��jR��'=�ēb%%&(�d)�6�hc0�`�;q�k\\㠿���]+6IqS�.�5S-&�\u001f\u0011+V������?��\u0017���\u0014T�}k\u0011�_���߃(",
+				"name": "Cliente ID",
+				"type": "String"
+			},
+			{
+				"name": "Nombre",
+				"type": "String"
+			},
+			{
+				"name": "Apellido",
+				"type": "String"
+			},
+			{
+				"name": "Segmento",
 				"type": "String"
 			}
 		]
