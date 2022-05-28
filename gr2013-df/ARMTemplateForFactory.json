@@ -5406,6 +5406,12 @@
 						"name": "id_region",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5455,6 +5461,12 @@
 						"name": "num_dia",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5498,6 +5510,12 @@
 					{
 						"name": "desc_tipo_envio",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5552,6 +5570,12 @@
 					{
 						"name": "desc_categoria",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5590,6 +5614,12 @@
 					{
 						"name": "desc_detalle",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5693,6 +5723,12 @@
 						"name": "id_region",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -5733,6 +5769,12 @@
 						"type": "decimal",
 						"precision": 12,
 						"scale": 2
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -7134,6 +7176,9 @@
 					"transformations": [
 						{
 							"name": "JoinClienteLocalizacion"
+						},
+						{
+							"name": "Auditoria"
 						}
 					],
 					"scriptLines": [
@@ -7162,7 +7207,8 @@
 						"Clientes, ClienteLocalizacion join(Clientes@{Cliente ID} == ClienteLocalizacion@{Cliente ID},",
 						"     joinType:'left',",
 						"     broadcast: 'auto')~> JoinClienteLocalizacion",
-						"JoinClienteLocalizacion sink(allowSchemaDrift: true,",
+						"JoinClienteLocalizacion derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_cliente as integer,",
@@ -7173,7 +7219,8 @@
 						"          desc_ciudad as string,",
 						"          desc_estado as string,",
 						"          num_codigo_postal as integer,",
-						"          id_region as integer",
+						"          id_region as integer,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7197,7 +7244,8 @@
 						"          desc_ciudad = Ciudad,",
 						"          desc_estado = Estado,",
 						"          num_codigo_postal = {Codigo Postal},",
-						"          id_region = Region",
+						"          id_region = Region,",
+						"          fec_modificacion",
 						"     )) ~> DimClientes"
 					]
 				}
@@ -7241,7 +7289,11 @@
 							}
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "Auditoria"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          id_fecha as date,",
@@ -7254,14 +7306,16 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Fechas",
-						"Fechas sink(allowSchemaDrift: true,",
+						"Fechas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_fecha as date,",
 						"          num_anio as integer,",
 						"          num_trimestre as integer,",
 						"          num_mes as integer,",
-						"          num_dia as integer",
+						"          num_dia as integer,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7281,7 +7335,8 @@
 						"          num_anio,",
 						"          num_trimestre,",
 						"          num_mes,",
-						"          num_dia",
+						"          num_dia,",
+						"          fec_modificacion",
 						"     )) ~> DimFechas"
 					]
 				}
@@ -7334,6 +7389,9 @@
 					"transformations": [
 						{
 							"name": "JoinTiposEnvio"
+						},
+						{
+							"name": "Auditoria"
 						}
 					],
 					"scriptLines": [
@@ -7357,13 +7415,15 @@
 						"ModosEnvio, TiposEnvio join(Tipo_x0020_ID == id_tipo,",
 						"     joinType:'left',",
 						"     broadcast: 'auto')~> JoinTiposEnvio",
-						"JoinTiposEnvio sink(allowSchemaDrift: true,",
+						"JoinTiposEnvio derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_modo_envio as integer,",
 						"          desc_modo_envio as string,",
 						"          id_tipo_envio as integer,",
-						"          desc_tipo_envio as string",
+						"          desc_tipo_envio as string,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7381,7 +7441,8 @@
 						"          id_modo_envio = id_modo,",
 						"          desc_modo_envio = ModosEnvio@Descripcion,",
 						"          id_tipo_envio = id_tipo,",
-						"          desc_tipo_envio = TiposEnvio@Descripcion",
+						"          desc_tipo_envio = TiposEnvio@Descripcion,",
+						"          fec_modificacion",
 						"     )) ~> DimModosEnvio"
 					]
 				}
@@ -7445,6 +7506,9 @@
 						},
 						{
 							"name": "JoinCategorias"
+						},
+						{
+							"name": "Auditoria"
 						}
 					],
 					"scriptLines": [
@@ -7481,7 +7545,8 @@
 						"JoinSubcategorias, Categorias join(Subcategorias@{Categoria Producto ID} == Categorias@{Categoria Producto ID},",
 						"     joinType:'left',",
 						"     broadcast: 'auto')~> JoinCategorias",
-						"JoinCategorias sink(allowSchemaDrift: false,",
+						"JoinCategorias derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_producto as integer,",
@@ -7490,7 +7555,8 @@
 						"          desc_producto as string,",
 						"          desc_subcategoria as string,",
 						"          id_categoria as string,",
-						"          desc_categoria as string",
+						"          desc_categoria as string,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7511,7 +7577,8 @@
 						"          desc_producto = {Nombre Producto},",
 						"          desc_subcategoria = {Descripcion Subcategoria},",
 						"          id_categoria = Categorias@{Categoria Producto ID},",
-						"          desc_categoria = {Descripcion Categoria}",
+						"          desc_categoria = {Descripcion Categoria},",
+						"          fec_modificacion",
 						"     )) ~> DimProductos"
 					]
 				}
@@ -7556,7 +7623,11 @@
 							}
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "Auditoria"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          {Region ID} as integer,",
@@ -7567,12 +7638,14 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Regiones",
-						"Regiones sink(allowSchemaDrift: true,",
+						"Regiones derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_region as integer,",
 						"          desc_region as string,",
-						"          desc_detalle as string",
+						"          desc_detalle as string,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7590,7 +7663,8 @@
 						"     mapColumn(",
 						"          id_region = {Region ID},",
 						"          desc_region = {Region Desc},",
-						"          desc_detalle = {Detalle region}",
+						"          desc_detalle = {Detalle region},",
+						"          fec_modificacion",
 						"     )) ~> DimRegiones"
 					]
 				}
@@ -7659,6 +7733,9 @@
 						},
 						{
 							"name": "SeleccionarColumnas"
+						},
+						{
+							"name": "Auditoria"
 						}
 					],
 					"scriptLines": [
@@ -7693,7 +7770,8 @@
 						"source(output(",
 						"          id_region as integer,",
 						"          desc_region as string,",
-						"          desc_detalle as string",
+						"          desc_detalle as string,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -7730,7 +7808,8 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-						"IdCompra sink(allowSchemaDrift: true,",
+						"IdCompra derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_compra as long,",
@@ -7747,7 +7826,8 @@
 						"          fec_orden as date,",
 						"          fec_envio as date,",
 						"          id_cliente as integer,",
-						"          id_region as integer",
+						"          id_region as integer,",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7777,7 +7857,8 @@
 						"          fec_orden,",
 						"          fec_envio,",
 						"          id_cliente = cliente_id,",
-						"          id_region",
+						"          id_region,",
+						"          fec_modificacion",
 						"     )) ~> FacCompras"
 					]
 				}
@@ -7822,7 +7903,11 @@
 							}
 						}
 					],
-					"transformations": [],
+					"transformations": [
+						{
+							"name": "Auditoria"
+						}
+					],
 					"scriptLines": [
 						"source(output(",
 						"          fecha as string,",
@@ -7835,12 +7920,14 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Targets",
-						"Targets sink(allowSchemaDrift: true,",
+						"Targets derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_fecha as date,",
 						"          id_region as integer,",
-						"          imp_valor as decimal(12,2)",
+						"          imp_valor as decimal(12,2),",
+						"          fec_modificacion as timestamp",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -7858,7 +7945,8 @@
 						"     mapColumn(",
 						"          id_fecha = fecha,",
 						"          id_region = {Region ID},",
-						"          imp_valor = Target",
+						"          imp_valor = Target,",
+						"          fec_modificacion",
 						"     )) ~> FacTargets"
 					]
 				}

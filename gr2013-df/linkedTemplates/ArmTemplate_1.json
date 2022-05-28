@@ -88,6 +88,12 @@
 						"name": "id_region",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -135,6 +141,12 @@
 						"name": "num_dia",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -176,6 +188,12 @@
 					{
 						"name": "desc_tipo_envio",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -228,6 +246,12 @@
 					{
 						"name": "desc_categoria",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -264,6 +288,12 @@
 					{
 						"name": "desc_detalle",
 						"type": "nvarchar"
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -365,6 +395,12 @@
 						"name": "id_region",
 						"type": "tinyint",
 						"precision": 3
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
@@ -403,6 +439,12 @@
 						"type": "decimal",
 						"precision": 12,
 						"scale": 2
+					},
+					{
+						"name": "fec_modificacion",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
 					}
 				],
 				"typeProperties": {
