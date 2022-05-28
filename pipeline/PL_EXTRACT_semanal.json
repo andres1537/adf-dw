@@ -32,14 +32,14 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "JsonSource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "JsonReadSettings"
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
@@ -70,7 +70,8 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['Cliente ID']"
+									"name": "Cliente ID;Nombre;Apellido;Segmento",
+									"type": "String"
 								},
 								"sink": {
 									"name": "Cliente ID",
@@ -78,27 +79,18 @@
 								}
 							},
 							{
-								"source": {
-									"path": "$['Nombre']"
-								},
 								"sink": {
 									"name": "Nombre",
 									"type": "String"
 								}
 							},
 							{
-								"source": {
-									"path": "$['Apellido']"
-								},
 								"sink": {
 									"name": "Apellido",
 									"type": "String"
 								}
 							},
 							{
-								"source": {
-									"path": "$['Segmento']"
-								},
 								"sink": {
 									"name": "Segmento",
 									"type": "String"
@@ -107,6 +99,12 @@
 						]
 					}
 				},
+				"inputs": [
+					{
+						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "DS_SQL_STAGING_LT_customer",
@@ -279,11 +277,28 @@
 							}
 						}
 					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "DS_GITHUB_SOURCE_LT_customer2",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
 						"type": "DatasetReference"
 					}
 				]

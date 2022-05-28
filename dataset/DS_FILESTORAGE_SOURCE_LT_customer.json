@@ -14,10 +14,10 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "LT_customer.csv",
-				"folderPath": "github",
+				"folderPath": "github/LT_customer",
 				"container": "source"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": ";",
 			"encodingName": "ISO-8859-1",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
