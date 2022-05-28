@@ -4,7 +4,7 @@
 		"description": "\n",
 		"activities": [
 			{
-				"name": "FLOW_VALIDATION_clientes",
+				"name": "FLOW_VALIDATION_target_region",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -17,31 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_VALIDATION_clientes",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "FLOW_VALIDATION_cliente_localizacion",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "1.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "FLOW_VALIDATION_cliente_localizacion",
+						"referenceName": "FLOW_VALIDATION_target_region",
 						"type": "DataFlowReference"
 					},
 					"compute": {

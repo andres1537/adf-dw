@@ -4,7 +4,7 @@
 		"description": "\n",
 		"activities": [
 			{
-				"name": "FLOW_VALIDATION_clientes",
+				"name": "FLOW_VALIDATION_detalle_envios",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -17,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_VALIDATION_clientes",
+						"referenceName": "FLOW_VALIDATION_detalle_envios",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -28,7 +28,7 @@
 				}
 			},
 			{
-				"name": "FLOW_VALIDATION_cliente_localizacion",
+				"name": "FLOW_VALIDATION_detalle_ordenes",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -41,7 +41,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_VALIDATION_cliente_localizacion",
+						"referenceName": "FLOW_VALIDATION_detalle_ordenes",
 						"type": "DataFlowReference"
 					},
 					"compute": {
