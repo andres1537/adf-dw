@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_categorias_producto",
+						"referenceName": "FLOW_huerfanos_categorias_y_subcategorias",
 						"type": "DataFlowReference"
 					},
 					"compute": {

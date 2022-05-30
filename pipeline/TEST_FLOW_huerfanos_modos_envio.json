@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_modos_envio",
+						"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
 						"type": "DataFlowReference"
 					},
 					"compute": {
