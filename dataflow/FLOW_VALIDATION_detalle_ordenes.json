@@ -37,6 +37,9 @@
 				},
 				{
 					"name": "ConversionColumnas"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -69,9 +72,10 @@
 				"          Ganancia,",
 				"          region_id),",
 				"     t = count(1)) ~> RemoverDuplicados",
-				"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
+				"filter1 derive({Numero Orden} = case ( \r",
 				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
 				")) ~> ConversionColumnas",
+				"StagingDetalleOrdenes filter({Detalle Orden} > 20840000 && {Detalle Orden} < 20880000) ~> filter1",
 				"RemoverDuplicados sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
