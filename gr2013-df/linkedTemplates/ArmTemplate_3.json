@@ -1586,7 +1586,7 @@
 						"    )\r",
 						")) ~> ConversionColumnas",
 						"ConversionColumnas filter(and(not(isNull({Producto ID})), {Producto ID} > 0) &&\r",
-						"not(isNull({Numero Producto}))) ~> FiltrarInconsistencias",
+						"and(not(isNull({Numero Producto})), (upper({Numero Producto}) != 'NULL'))) ~> FiltrarInconsistencias",
 						"FiltrarInconsistencias aggregate(groupBy({Producto ID}),",
 						"     {Numero Producto} = first({Numero Producto}),",
 						"          {Producto Sub Categoria ID} = first({Producto Sub Categoria ID}),",
