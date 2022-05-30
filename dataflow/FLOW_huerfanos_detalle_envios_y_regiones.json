@@ -16,7 +16,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
 						"type": "DatasetReference"
 					},
 					"name": "ModosEnvio"
@@ -25,7 +25,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
 						"type": "DatasetReference"
 					},
 					"name": "CrearPadresFicticios",
@@ -61,31 +61,31 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DetalleEnvios",
 				"source(output(",
-				"          id_modo as integer,",
-				"          Descripcion as string,",
-				"          Tipo_x0020_ID as integer",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ModosEnvio",
-				"DetalleEnvios, ModosEnvio exists(modo_envio == id_modo,",
+				"DetalleEnvios, ModosEnvio exists(region_id == {Region ID},",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
-				"          id_modo_envio = modo_envio",
+				"          id_region = region_id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-				"ListaIDsHuerfanos derive(id_modo_envio = id_modo_envio,",
-				"          desc_modo_envio = \"huérfano de detalle_envios\",",
-				"          id_tipo_envio = 0) ~> ListaPadresFicticios",
+				"ListaIDsHuerfanos derive(id_region = id_region,",
+				"          desc_region = \"huérfano de detalle_envios\",",
+				"          desc_detalle = \"huérfano de detalle_envios\") ~> ListaPadresFicticios",
 				"ListaPadresFicticios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          id_modo as integer,",
-				"          Descripcion as string,",
-				"          Tipo_x0020_ID as integer",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -97,9 +97,9 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     outputRejectedData: true,",
 				"     mapColumn(",
-				"          id_modo = id_modo_envio,",
-				"          Descripcion = desc_modo_envio,",
-				"          Tipo_x0020_ID = id_tipo_envio",
+				"          {Region ID} = id_region,",
+				"          {Region Desc} = desc_region,",
+				"          {Detalle region} = desc_detalle",
 				"     )) ~> CrearPadresFicticios"
 			]
 		}
