@@ -1,5 +1,5 @@
 {
-	"name": "FLOW_huerfanos_detalle_envios_y_modo_envio",
+	"name": "FLOW_huerfanos_detalle_envios_y_clientes",
 	"properties": {
 		"folder": {
 			"name": "2.transform/huerfanos"
