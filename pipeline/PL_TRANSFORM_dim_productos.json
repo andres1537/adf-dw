@@ -75,7 +75,7 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_productos",
+				"name": "FLOW_huerfanos_productos_y_subcategorias",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -107,7 +107,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_productos",
+						"referenceName": "FLOW_huerfanos_productos_y_subcategorias",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -118,11 +118,11 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_categorias_producto",
+				"name": "FLOW_huerfanos_categorias_y_subcategorias",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "FLOW_huerfanos_productos",
+						"activity": "FLOW_huerfanos_productos_y_subcategorias",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -138,7 +138,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_categorias_producto",
+						"referenceName": "FLOW_huerfanos_categorias_y_subcategorias",
 						"type": "DataFlowReference"
 					},
 					"compute": {
