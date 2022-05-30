@@ -27,7 +27,31 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_modos_envio",
+				"name": "FLOW_VALIDATION_tipos_envio",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "FLOW_VALIDATION_tipos_envio",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "FLOW_huerfanos_modos_envio_y_tipos_envio",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -53,31 +77,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_modos_envio",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "FLOW_VALIDATION_tipos_envio",
-				"type": "ExecuteDataFlow",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "1.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"dataflow": {
-						"referenceName": "FLOW_VALIDATION_tipos_envio",
+						"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
 						"type": "DataFlowReference"
 					},
 					"compute": {
