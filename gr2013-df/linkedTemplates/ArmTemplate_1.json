@@ -379,6 +379,30 @@
 						"scale": 2
 					},
 					{
+						"name": "imp_ganancia_neta",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_impuestos",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_valor_logistica",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_valor_provision_covid",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
 						"name": "fec_orden",
 						"type": "date"
 					},

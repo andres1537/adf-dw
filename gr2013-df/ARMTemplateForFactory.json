@@ -5707,6 +5707,30 @@
 						"scale": 2
 					},
 					{
+						"name": "imp_ganancia_neta",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_impuestos",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_valor_logistica",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
+						"name": "imp_valor_provision_covid",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					},
+					{
 						"name": "fec_orden",
 						"type": "date"
 					},
@@ -7830,6 +7854,10 @@
 						"          imp_descuento as decimal(12,2),",
 						"          imp_precio_unitario as decimal(12,2),",
 						"          imp_ganancia as decimal(12,2),",
+						"          imp_ganancia_neta as decimal(12,2),",
+						"          imp_impuestos as decimal(12,2),",
+						"          imp_valor_logistica as decimal(12,2),",
+						"          imp_valor_provision_covid as decimal(12,2),",
 						"          fec_orden as date,",
 						"          fec_envio as date,",
 						"          id_cliente as integer,",
@@ -7861,6 +7889,10 @@
 						"          imp_descuento = Descuento,",
 						"          imp_precio_unitario = {Precio Unitario},",
 						"          imp_ganancia = Ganancia,",
+						"          imp_ganancia_neta = ganancia_neta,",
+						"          imp_impuestos = impuestos,",
+						"          imp_valor_logistica = valor_logistica,",
+						"          imp_valor_provision_covid = valor_provision_covid,",
 						"          fec_orden,",
 						"          fec_envio,",
 						"          id_cliente = cliente_id,",
