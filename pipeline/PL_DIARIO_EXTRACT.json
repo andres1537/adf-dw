@@ -1,5 +1,5 @@
 {
-	"name": "PL_EXTRACT_diario",
+	"name": "PL_DIARIO_EXTRACT",
 	"properties": {
 		"activities": [
 			{
