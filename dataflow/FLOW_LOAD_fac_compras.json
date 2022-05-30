@@ -62,7 +62,7 @@
 					"name": "Metricas"
 				},
 				{
-					"name": "Filtrar"
+					"name": "FiltrarInconsistencias"
 				}
 			],
 			"scriptLines": [
@@ -111,7 +111,7 @@
 				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinRegiones",
-				"Filtrar keyGenerate(output(id_compra as long),",
+				"FiltrarInconsistencias keyGenerate(output(id_compra as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> GenerarIdCompra",
 				"JoinRegiones select(mapColumn(",
@@ -142,7 +142,7 @@
 				"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
 				"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
 				"SeleccionarColumnas filter((fec_orden < fec_envio) &&",
-				"(Cantidad > 0)) ~> Filtrar",
+				"(Cantidad > 0)) ~> FiltrarInconsistencias",
 				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
