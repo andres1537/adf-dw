@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_EXTRACT_semanal",
+				"name": "PL_SEMANAL_EXTRACT",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,11 +16,11 @@
 				}
 			},
 			{
-				"name": "PL_TRANSFORM_semanal",
+				"name": "PL_SEMANAL_TRANSFORM",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "PL_EXTRACT_semanal",
+						"activity": "PL_SEMANAL_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -36,11 +36,11 @@
 				}
 			},
 			{
-				"name": "PL_LOAD_semanal",
+				"name": "PL_SEMANAL_LOAD",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "PL_TRANSFORM_semanal",
+						"activity": "PL_SEMANAL_TRANSFORM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_LOAD_semanal",
+						"referenceName": "PL_SEMANAL_LOAD",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
