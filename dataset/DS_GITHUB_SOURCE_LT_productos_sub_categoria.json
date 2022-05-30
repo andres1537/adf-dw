@@ -1,0 +1,25 @@
+{
+	"name": "DS_GITHUB_SOURCE_LT_productos_sub_categoria",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "1.source"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "LT_productos_sub_categoria.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

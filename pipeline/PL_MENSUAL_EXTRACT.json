@@ -16,7 +16,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/LT_productos_sub_categoria.csv"
+						"value": "LT_productos_sub_categoria.csv"
 					},
 					{
 						"name": "Destination",
@@ -25,15 +25,13 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "XmlSource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "XmlReadSettings",
-							"validationMode": "none",
-							"namespaces": true
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
@@ -58,41 +56,6 @@
 							},
 							"path": "errors"
 						}
-					},
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Subcategoria Producto ID",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Subcategoria Producto ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Categoria Producto ID",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Categoria Producto ID",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Descripcion Subcategoria",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Descripcion Subcategoria",
-									"type": "String"
-								}
-							}
-						]
 					}
 				},
 				"inputs": [
@@ -122,7 +85,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/LT_productos_categoria.csv"
+						"value": "LT_productos_categoria.csv"
 					},
 					{
 						"name": "Destination",
@@ -218,7 +181,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/LT_productos.csv"
+						"value": "LT_productos.csv"
 					},
 					{
 						"name": "Destination",
@@ -334,7 +297,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/db_target_region.csv"
+						"value": "db_target_region.csv"
 					},
 					{
 						"name": "Destination",

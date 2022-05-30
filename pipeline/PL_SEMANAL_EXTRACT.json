@@ -78,7 +78,16 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "source/github/LT_customer.zip"
+					},
+					{
+						"name": "Destination",
+						"value": "staging.LT_customer"
+					}
+				],
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
@@ -264,7 +273,16 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "source/github/lt_customer_localizacion.zip"
+					},
+					{
+						"name": "Destination",
+						"value": "staging.lt_customer_localizacion"
+					}
+				],
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",

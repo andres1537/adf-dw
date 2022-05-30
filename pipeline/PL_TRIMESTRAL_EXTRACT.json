@@ -16,7 +16,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/lt_geografia.json"
+						"value": "lt_geografia.json"
 					},
 					{
 						"name": "Destination",
@@ -117,7 +117,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/tb_modo_envio.xml"
+						"value": "tb_modo_envio.xml"
 					},
 					{
 						"name": "Destination",
@@ -222,7 +222,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/tb_tipo_envio.xml"
+						"value": "tb_tipo_envio.xml"
 					},
 					{
 						"name": "Destination",
@@ -318,7 +318,7 @@
 				"userProperties": [
 					{
 						"name": "Source",
-						"value": "source-github/banmarket/Regiones.txt"
+						"value": "Regiones.txt"
 					},
 					{
 						"name": "Destination",
