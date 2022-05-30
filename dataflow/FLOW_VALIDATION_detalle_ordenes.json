@@ -67,7 +67,6 @@
 				"          region_id),",
 				"     {Linea Total} = first({Linea Total}),",
 				"          Descuento = first(Descuento),",
-				"          {Precio Unitario} = first({Precio Unitario}),",
 				"          Ganancia = first(Ganancia)) ~> RemoverDuplicados",
 				"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
 				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
