@@ -13,6 +13,120 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_clientes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2.transform/huerfanos"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_LT_customer",
+								"type": "DatasetReference"
+							},
+							"name": "Customer"
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_lt_customer_localizacion",
+								"type": "DatasetReference"
+							},
+							"name": "CustomerLocalizacion"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_lt_customer_localizacion",
+								"type": "DatasetReference"
+							},
+							"name": "CrearPadresFicticios"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ListaHuerfanos"
+						},
+						{
+							"name": "ListaIDsHuerfanos"
+						},
+						{
+							"name": "ListaPadresFicticios"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          {Cliente ID} as integer,",
+						"          Nombre as string,",
+						"          Apellido as string,",
+						"          Segmento as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Customer",
+						"source(output(",
+						"          {Cliente ID} as integer,",
+						"          Pais as string,",
+						"          Ciudad as string,",
+						"          Estado as string,",
+						"          {Codigo Postal} as integer,",
+						"          Region as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> CustomerLocalizacion",
+						"Customer, CustomerLocalizacion exists(Customer@{Cliente ID} == CustomerLocalizacion@{Cliente ID},",
+						"     negate:true,",
+						"     broadcast: 'auto')~> ListaHuerfanos",
+						"ListaHuerfanos select(mapColumn(",
+						"          id_cliente = {Cliente ID}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+						"ListaIDsHuerfanos derive({Cliente ID} = id_cliente,",
+						"          Pais = \"huérfano de customer\",",
+						"          Ciudad = \"huérfano de customer\",",
+						"          Estado = \"huérfano de customer\",",
+						"          {Codigo Postal} = 0,",
+						"          Region = 0) ~> ListaPadresFicticios",
+						"ListaPadresFicticios sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Cliente ID} as integer,",
+						"          Pais as string,",
+						"          Ciudad as string,",
+						"          Estado as string,",
+						"          {Codigo Postal} as integer,",
+						"          Region as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          {Cliente ID},",
+						"          Pais,",
+						"          Ciudad,",
+						"          Estado,",
+						"          {Codigo Postal},",
+						"          Region",
+						"     )) ~> CrearPadresFicticios"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_modos_envio')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1433,55 +1547,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T07:34:40Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_LOAD_fac_targets')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_LOAD_fac_targets",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_targets",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Targets": {},
-									"FacTargets": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "tests/load"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T07:46:57Z"
 			},
 			"dependsOn": []
 		}
