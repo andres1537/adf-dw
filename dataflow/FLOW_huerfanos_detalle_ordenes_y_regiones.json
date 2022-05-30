@@ -1,5 +1,5 @@
 {
-	"name": "FLOW_huerfanos_detalle_ordenes_y_productos",
+	"name": "FLOW_huerfanos_detalle_ordenes_y_regiones",
 	"properties": {
 		"folder": {
 			"name": "2.transform/huerfanos"
@@ -16,16 +16,16 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_LT_productos",
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
 						"type": "DatasetReference"
 					},
-					"name": "Productos"
+					"name": "Regiones"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_LT_productos",
+						"referenceName": "DS_SQL_VALIDATION_Regiones",
 						"type": "DatasetReference"
 					},
 					"name": "CrearPadresFicticios",
@@ -63,34 +63,31 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DetalleOrdenes",
 				"source(output(",
-				"          {Producto ID} as integer,",
-				"          {Numero Producto} as string,",
-				"          {Producto Sub Categoria ID} as string,",
-				"          {Nombre Producto} as string",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> Productos",
-				"DetalleOrdenes, Productos exists(DetalleOrdenes@{Producto ID} == Productos@{Producto ID},",
+				"     format: 'table') ~> Regiones",
+				"DetalleOrdenes, Regiones exists(region_id == {Region ID},",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
-				"          id_producto = {Producto ID}",
+				"          id_region = region_id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-				"ListaIDsHuerfanos derive(id_producto = id_producto,",
-				"          desc_referencia = \"huérfano de detalle_ordenes\",",
-				"          id_subcategoria_producto = \"huérfano de detalle_ordenes\",",
-				"          desc_nombre = \"huérfano de detalle_ordenes\") ~> ListaPadresFicticios",
+				"ListaIDsHuerfanos derive(id_region = id_region,",
+				"          desc_region = \"huérfano de detalle_ordenes\",",
+				"          desc_detalle = \"huérfano de detalle_ordenes\") ~> ListaPadresFicticios",
 				"ListaPadresFicticios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          {Producto ID} as integer,",
-				"          {Numero Producto} as string,",
-				"          {Producto Sub Categoria ID} as string,",
-				"          {Nombre Producto} as string",
+				"          {Region ID} as integer,",
+				"          {Region Desc} as string,",
+				"          {Detalle region} as string",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -102,10 +99,9 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     outputRejectedData: true,",
 				"     mapColumn(",
-				"          {Producto ID} = id_producto,",
-				"          {Numero Producto} = desc_referencia,",
-				"          {Producto Sub Categoria ID} = id_subcategoria_producto,",
-				"          {Nombre Producto} = desc_nombre",
+				"          {Region ID} = id_region,",
+				"          {Region Desc} = desc_region,",
+				"          {Detalle region} = desc_detalle",
 				"     )) ~> CrearPadresFicticios"
 			]
 		}

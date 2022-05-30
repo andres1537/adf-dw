@@ -78,7 +78,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_detalle_ordenes",
+						"referenceName": "FLOW_huerfanos_detalle_ordenes_y_productos",
 						"type": "DataFlowReference"
 					},
 					"compute": {
