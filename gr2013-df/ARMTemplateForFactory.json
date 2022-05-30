@@ -7736,6 +7736,9 @@
 						},
 						{
 							"name": "Auditoria"
+						},
+						{
+							"name": "Metricas"
 						}
 					],
 					"scriptLines": [
@@ -7808,7 +7811,11 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-						"IdCompra derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"IdCompra derive(ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
+						"          impuestos = Ganancia * 19 / 100,",
+						"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
+						"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
 						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
