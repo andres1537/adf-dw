@@ -2065,9 +2065,9 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-						"ListaIDsHuerfanos derive(id_subcategoria_producto = \" \",",
+						"ListaIDsHuerfanos derive(id_subcategoria_producto = \"huérfano de categorias_producto\",",
 						"          id_categoria_producto = id_categoria_producto,",
-						"          desc_subcategoria = \"huérfano de categorias_producto\") ~> ListaPadresFicticios",
+						"          desc_categoria = \"huérfano de categorias_producto\") ~> ListaPadresFicticios",
 						"ListaPadresFicticios sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -2084,8 +2084,9 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          id_tipo = id_subcategoria_producto,",
-						"          Descripcion = desc_subcategoria",
+						"          {Subcategoria Producto ID} = id_subcategoria_producto,",
+						"          {Categoria Producto ID} = id_categoria_producto,",
+						"          {Descripcion Subcategoria} = desc_categoria",
 						"     )) ~> CrearPadresFicticios"
 					]
 				}
