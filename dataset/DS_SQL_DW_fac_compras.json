@@ -66,6 +66,12 @@
 				"scale": 2
 			},
 			{
+				"name": "imp_precio_total",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
 				"name": "imp_ganancia",
 				"type": "decimal",
 				"precision": 12,
