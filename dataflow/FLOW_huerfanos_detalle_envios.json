@@ -25,10 +25,14 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
 						"type": "DatasetReference"
 					},
-					"name": "CrearPadresFicticios"
+					"name": "CrearPadresFicticios",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -69,17 +73,19 @@
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
-				"          id_tipo_envio = Tipo_x0020_ID",
+				"          id_modo_envio = modo_envio",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-				"ListaIDsHuerfanos derive(id_tipo_envio = id_tipo_envio,",
-				"          desc_tipo_envio = \"huérfano de modos_envio\") ~> ListaPadresFicticios",
+				"ListaIDsHuerfanos derive(id_modo_envio = id_modo_envio,",
+				"          desc_modo_envio = \"huérfano de detalle_envios\",",
+				"          id_tipo_envio = 0) ~> ListaPadresFicticios",
 				"ListaPadresFicticios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          id_tipo as integer,",
-				"          Descripcion as string",
+				"          id_modo as integer,",
+				"          Descripcion as string,",
+				"          Tipo_x0020_ID as integer",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -89,9 +95,11 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
 				"     mapColumn(",
-				"          id_tipo = id_tipo_envio,",
-				"          Descripcion = desc_tipo_envio",
+				"          id_modo = id_modo_envio,",
+				"          Descripcion = desc_modo_envio,",
+				"          Tipo_x0020_ID = id_tipo_envio",
 				"     )) ~> CrearPadresFicticios"
 			]
 		}
