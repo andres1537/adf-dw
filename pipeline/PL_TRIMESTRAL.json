@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_EXTRACT_trimestral",
+				"name": "PL_TRIMESTRAL_EXTRACT",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,31 +16,11 @@
 				}
 			},
 			{
-				"name": "PL_LOAD_trimestral",
+				"name": "PL_TRIMESTRAL_TRANSFORM",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "PL_TRANSFORM_trimestral",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PL_LOAD_trimestral",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
-				"name": "PL_TRANSFORM_trimestral",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "PL_EXTRACT_trimestral",
+						"activity": "PL_TRIMESTRAL_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,6 +30,26 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "PL_TRIMESTRAL_TRANSFORM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TRIMESTRAL_LOAD",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TRIMESTRAL_TRANSFORM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TRIMESTRAL_LOAD",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
