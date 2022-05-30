@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_TRANFORM_fac_compras",
+				"name": "PL_DIARIO_TRANFORM_fac_compras",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
