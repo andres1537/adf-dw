@@ -9,26 +9,30 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
 						"type": "DatasetReference"
 					},
-					"name": "ModosEnvio"
+					"name": "DetalleOrdenes"
 				},
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"referenceName": "DS_SQL_VALIDATION_LT_productos",
 						"type": "DatasetReference"
 					},
-					"name": "TiposEnvio"
+					"name": "Productos"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
+						"referenceName": "DS_SQL_VALIDATION_LT_productos",
 						"type": "DatasetReference"
 					},
-					"name": "CrearPadresFicticios"
+					"name": "CrearPadresFicticios",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -44,37 +48,49 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          id_modo as integer,",
-				"          Descripcion as string,",
-				"          Tipo_x0020_ID as integer",
+				"          {Detalle Orden} as integer,",
+				"          {Numero Orden} as string,",
+				"          {Producto ID} as integer,",
+				"          {Linea Total} as double,",
+				"          Cantidad as integer,",
+				"          Descuento as double,",
+				"          {Precio Unitario} as double,",
+				"          Ganancia as double,",
+				"          region_id as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> ModosEnvio",
+				"     format: 'table') ~> DetalleOrdenes",
 				"source(output(",
-				"          id_tipo as integer,",
-				"          Descripcion as string",
+				"          {Producto ID} as integer,",
+				"          {Numero Producto} as string,",
+				"          {Producto Sub Categoria ID} as string,",
+				"          {Nombre Producto} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TiposEnvio",
-				"ModosEnvio, TiposEnvio exists(Tipo_x0020_ID == id_tipo,",
+				"     format: 'table') ~> Productos",
+				"DetalleOrdenes, Productos exists(DetalleOrdenes@{Producto ID} == Productos@{Producto ID},",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
-				"          id_tipo_envio = Tipo_x0020_ID",
+				"          id_producto = {Producto ID}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-				"ListaIDsHuerfanos derive(id_tipo_envio = id_tipo_envio,",
-				"          desc_tipo_envio = \"huérfano de modos_envio\") ~> ListaPadresFicticios",
+				"ListaIDsHuerfanos derive(id_producto = id_producto,",
+				"          desc_referencia = \"huérfano de detalle_ordenes\",",
+				"          id_subcategoria_producto = \"huérfano de detalle_ordenes\",",
+				"          desc_nombre = \"huérfano de detalle_ordenes\") ~> ListaPadresFicticios",
 				"ListaPadresFicticios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          id_tipo as integer,",
-				"          Descripcion as string",
+				"          {Producto ID} as integer,",
+				"          {Numero Producto} as string,",
+				"          {Producto Sub Categoria ID} as string,",
+				"          {Nombre Producto} as string",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -84,9 +100,12 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
 				"     mapColumn(",
-				"          id_tipo = id_tipo_envio,",
-				"          Descripcion = desc_tipo_envio",
+				"          {Producto ID} = id_producto,",
+				"          {Numero Producto} = desc_referencia,",
+				"          {Producto Sub Categoria ID} = id_subcategoria_producto,",
+				"          {Nombre Producto} = desc_nombre",
 				"     )) ~> CrearPadresFicticios"
 			]
 		}
