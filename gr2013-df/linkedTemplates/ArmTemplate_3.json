@@ -1175,12 +1175,13 @@
 						"     format: 'table') ~> StagingDetalleEnvios",
 						"ConversionColumnas filter(num_order != '' && not(isNull(modo_envio)) && not(isNull(cliente_id))) ~> FiltrarInconsistencias",
 						"FiltrarInconsistencias aggregate(groupBy(num_order,",
-						"          region_id,",
 						"          fec_orden,",
-						"          cliente_id),",
-						"     fec_envio = first(fec_envio),",
-						"          modo_envio = first(modo_envio),",
-						"          imp_subtotal = first(imp_subtotal)) ~> RemoverDuplicados",
+						"          fec_envio,",
+						"          modo_envio,",
+						"          cliente_id,",
+						"          imp_subtotal,",
+						"          region_id),",
+						"     t = count(1)) ~> RemoverDuplicados",
 						"StagingDetalleEnvios derive(num_order = case ( \r",
 						"    (isNull(num_order) || (upper(num_order) == 'NULL')), '', trim(num_order)\r",
 						"),",
@@ -1273,9 +1274,6 @@
 						},
 						{
 							"name": "ConversionColumnas"
-						},
-						{
-							"name": "filter1"
 						}
 					],
 					"scriptLines": [
@@ -1308,10 +1306,9 @@
 						"          Ganancia,",
 						"          region_id),",
 						"     t = count(1)) ~> RemoverDuplicados",
-						"filter1 derive({Numero Orden} = case ( \r",
+						"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
 						"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
 						")) ~> ConversionColumnas",
-						"StagingDetalleOrdenes filter({Detalle Orden} > 20840000 && {Detalle Orden} < 20880000) ~> filter1",
 						"RemoverDuplicados sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
