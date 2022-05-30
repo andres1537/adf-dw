@@ -16,16 +16,16 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"referenceName": "DS_SQL_VALIDATION_LT_customer",
 						"type": "DatasetReference"
 					},
-					"name": "ModosEnvio"
+					"name": "Clientes"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
+						"referenceName": "DS_SQL_VALIDATION_LT_customer",
 						"type": "DatasetReference"
 					},
 					"name": "CrearPadresFicticios",
@@ -61,31 +61,34 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DetalleEnvios",
 				"source(output(",
-				"          id_modo as integer,",
-				"          Descripcion as string,",
-				"          Tipo_x0020_ID as integer",
+				"          {Cliente ID} as integer,",
+				"          Nombre as string,",
+				"          Apellido as string,",
+				"          Segmento as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> ModosEnvio",
-				"DetalleEnvios, ModosEnvio exists(modo_envio == id_modo,",
+				"     format: 'table') ~> Clientes",
+				"DetalleEnvios, Clientes exists(cliente_id == {Cliente ID},",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
-				"          id_modo_envio = modo_envio",
+				"          id_cliente = cliente_id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-				"ListaIDsHuerfanos derive(id_modo_envio = id_modo_envio,",
-				"          desc_modo_envio = \"huérfano de detalle_envios\",",
-				"          id_tipo_envio = 0) ~> ListaPadresFicticios",
+				"ListaIDsHuerfanos derive(id_cliente = id_cliente,",
+				"          desc_nombres = \"huérfano de detalle_envios\",",
+				"          desc_apellidos = \"huérfano de detalle_envios\",",
+				"          desc_segmento = \"huérfano de detalle_envios\") ~> ListaPadresFicticios",
 				"ListaPadresFicticios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          id_modo as integer,",
-				"          Descripcion as string,",
-				"          Tipo_x0020_ID as integer",
+				"          {Cliente ID} as integer,",
+				"          Nombre as string,",
+				"          Apellido as string,",
+				"          Segmento as string",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -97,9 +100,10 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     outputRejectedData: true,",
 				"     mapColumn(",
-				"          id_modo = id_modo_envio,",
-				"          Descripcion = desc_modo_envio,",
-				"          Tipo_x0020_ID = id_tipo_envio",
+				"          {Cliente ID} = id_cliente,",
+				"          Nombre = desc_nombres,",
+				"          Apellido = desc_apellidos,",
+				"          Segmento = desc_segmento",
 				"     )) ~> CrearPadresFicticios"
 			]
 		}

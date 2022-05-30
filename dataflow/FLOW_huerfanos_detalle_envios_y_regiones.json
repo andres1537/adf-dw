@@ -19,7 +19,7 @@
 						"referenceName": "DS_SQL_VALIDATION_Regiones",
 						"type": "DatasetReference"
 					},
-					"name": "ModosEnvio"
+					"name": "Regiones"
 				}
 			],
 			"sinks": [
@@ -68,8 +68,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> ModosEnvio",
-				"DetalleEnvios, ModosEnvio exists(region_id == {Region ID},",
+				"     format: 'table') ~> Regiones",
+				"DetalleEnvios, Regiones exists(region_id == {Region ID},",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",
