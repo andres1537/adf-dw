@@ -105,7 +105,7 @@
 				"          fec_envio,",
 				"          modo_envio,",
 				"          cliente_id,",
-				"          imp_subtotal = t,",
+				"          imp_subtotal,",
 				"          region_id",
 				"     )) ~> ValidationDetalleEnvios"
 			]
