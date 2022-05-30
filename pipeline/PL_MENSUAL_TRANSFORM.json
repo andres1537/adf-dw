@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_TRANSFORM_dim_productos",
+				"name": "PL_MENSUAL_TRANSFORM_dim_productos",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,7 +16,7 @@
 				}
 			},
 			{
-				"name": "PL_TRANFORM_fac_targets",
+				"name": "PL_MENSUAL_TRANFORM_fac_targets",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
