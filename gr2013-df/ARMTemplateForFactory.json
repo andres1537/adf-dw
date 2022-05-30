@@ -5099,6 +5099,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_VALIDATION_detalle_ordenes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_VALIDATION_detalle_ordenes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"StagingDetalleOrdenes": {},
+									"ValidationDetalleOrdenes": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_detalle_ordenes')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_LT_customer')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -8885,6 +8932,9 @@
 						},
 						{
 							"name": "ConversionColumnas"
+						},
+						{
+							"name": "filter1"
 						}
 					],
 					"scriptLines": [
@@ -8917,9 +8967,10 @@
 						"          Ganancia,",
 						"          region_id),",
 						"     t = count(1)) ~> RemoverDuplicados",
-						"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
+						"filter1 derive({Numero Orden} = case ( \r",
 						"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
 						")) ~> ConversionColumnas",
+						"StagingDetalleOrdenes filter({Detalle Orden} > 20840000 && {Detalle Orden} < 20880000) ~> filter1",
 						"RemoverDuplicados sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
