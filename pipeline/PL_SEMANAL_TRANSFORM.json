@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_TRANFORM_dim_clientes",
+				"name": "PL_SEMANAL_TRANFORM_dim_clientes",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
