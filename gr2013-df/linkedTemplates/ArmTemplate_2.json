@@ -685,7 +685,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_EXTRACT_diario')]",
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_EXTRACT')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1051,7 +1051,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_EXTRACT_mensual')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_EXTRACT')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1522,7 +1522,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_EXTRACT_semanal')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL_EXTRACT')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1945,7 +1945,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_EXTRACT_trimestral')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_EXTRACT')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {

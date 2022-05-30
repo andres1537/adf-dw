@@ -32,7 +32,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_productos",
+								"referenceName": "FLOW_huerfanos_productos_y_subcategorias",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -63,19 +63,19 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_diario')]",
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_TRANSFORM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANFORM_fac_compras",
+						"name": "PL_DIARIO_TRANFORM_fac_compras",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_fac_compras",
+								"referenceName": "PL_DIARIO_TRANFORM_fac_compras",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -96,19 +96,19 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_mensual')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_TRANSFORM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANSFORM_dim_productos",
+						"name": "PL_MENSUAL_TRANSFORM_dim_productos",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_dim_productos",
+								"referenceName": "PL_MENSUAL_TRANSFORM_dim_productos",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -116,13 +116,13 @@
 						}
 					},
 					{
-						"name": "PL_TRANFORM_fac_targets",
+						"name": "PL_MENSUAL_TRANFORM_fac_targets",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_fac_targets",
+								"referenceName": "PL_MENSUAL_TRANFORM_fac_targets",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -143,19 +143,19 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_semanal')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL_TRANSFORM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANFORM_dim_clientes",
+						"name": "PL_SEMANAL_TRANFORM_dim_clientes",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_dim_clientes",
+								"referenceName": "PL_SEMANAL_TRANFORM_dim_clientes",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -176,19 +176,19 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_trimestral')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANSFORM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_TRANSFORM_dim_modos_envio",
+						"name": "PL_TRIMESTRAL_TRANSFORM_dim_modos_envio",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_dim_modos_envio",
+								"referenceName": "PL_TRIMESTRAL_TRANSFORM_dim_modos_envio",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -196,13 +196,13 @@
 						}
 					},
 					{
-						"name": "PL_TRANFORM_dim_fechas",
+						"name": "PL_TRIMESTRAL_TRANFORM_dim_fechas",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_dim_fechas",
+								"referenceName": "PL_TRIMESTRAL_TRANFORM_dim_fechas",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -210,13 +210,13 @@
 						}
 					},
 					{
-						"name": "PL_TRANFORM_dim_regiones",
+						"name": "PL_TRIMESTRAL_TRANFORM_dim_regiones",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANFORM_dim_regiones",
+								"referenceName": "PL_TRIMESTRAL_TRANFORM_dim_regiones",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -604,19 +604,19 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_diario')]",
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_EXTRACT_diario",
+						"name": "PL_DIARIO_EXTRACT",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_EXTRACT_diario",
+								"referenceName": "PL_DIARIO_EXTRACT",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -624,11 +624,11 @@
 						}
 					},
 					{
-						"name": "PL_TRANSFORM_diario",
+						"name": "PL_DIARIO_TRANSFORM",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_EXTRACT_diario",
+								"activity": "PL_DIARIO_EXTRACT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -637,7 +637,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_diario",
+								"referenceName": "PL_DIARIO_TRANSFORM",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -645,11 +645,11 @@
 						}
 					},
 					{
-						"name": "PL_LOAD_diario",
+						"name": "PL_DIARIO_LOAD",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_TRANSFORM_diario",
+								"activity": "PL_DIARIO_TRANSFORM",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -658,7 +658,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_LOAD_diario",
+								"referenceName": "PL_DIARIO_LOAD",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -674,23 +674,23 @@
 				"lastPublishTime": "2022-05-27T12:01:41Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_diario')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_DIARIO_TRANSFORM')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_mensual')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_EXTRACT_mensual",
+						"name": "PL_MENSUAL_EXTRACT",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_EXTRACT_mensual",
+								"referenceName": "PL_MENSUAL_EXTRACT",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -698,11 +698,11 @@
 						}
 					},
 					{
-						"name": "PL_TRANSFORM_mensual",
+						"name": "PL_MENSUAL_TRANSFORM",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_EXTRACT_mensual",
+								"activity": "PL_MENSUAL_EXTRACT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -711,7 +711,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_mensual",
+								"referenceName": "PL_MENSUAL_TRANSFORM",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -719,11 +719,11 @@
 						}
 					},
 					{
-						"name": "PL_LOAD_mensual",
+						"name": "PL_MENSUAL_LOAD",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_TRANSFORM_mensual",
+								"activity": "PL_MENSUAL_TRANSFORM",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -732,7 +732,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_LOAD_mensual",
+								"referenceName": "PL_MENSUAL_LOAD",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -748,23 +748,23 @@
 				"lastPublishTime": "2022-05-27T12:01:43Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_mensual')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_MENSUAL_TRANSFORM')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_semanal')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_EXTRACT_semanal",
+						"name": "PL_SEMANAL_EXTRACT",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_EXTRACT_semanal",
+								"referenceName": "PL_SEMANAL_EXTRACT",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -772,11 +772,11 @@
 						}
 					},
 					{
-						"name": "PL_TRANSFORM_semanal",
+						"name": "PL_SEMANAL_TRANSFORM",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_EXTRACT_semanal",
+								"activity": "PL_SEMANAL_EXTRACT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -785,7 +785,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_semanal",
+								"referenceName": "PL_SEMANAL_TRANSFORM",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -793,11 +793,11 @@
 						}
 					},
 					{
-						"name": "PL_LOAD_semanal",
+						"name": "PL_SEMANAL_LOAD",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_TRANSFORM_semanal",
+								"activity": "PL_SEMANAL_TRANSFORM",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -806,7 +806,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_LOAD_semanal",
+								"referenceName": "PL_SEMANAL_LOAD",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -822,23 +822,23 @@
 				"lastPublishTime": "2022-05-27T12:01:42Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_semanal')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_SEMANAL_TRANSFORM')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_trimestral')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_EXTRACT_trimestral",
+						"name": "PL_TRIMESTRAL_EXTRACT",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_EXTRACT_trimestral",
+								"referenceName": "PL_TRIMESTRAL_EXTRACT",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -846,11 +846,11 @@
 						}
 					},
 					{
-						"name": "PL_LOAD_trimestral",
+						"name": "PL_TRIMESTRAL_TRANSFORM",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_TRANSFORM_trimestral",
+								"activity": "PL_TRIMESTRAL_EXTRACT",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -859,7 +859,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_LOAD_trimestral",
+								"referenceName": "PL_TRIMESTRAL_TRANSFORM",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -867,11 +867,11 @@
 						}
 					},
 					{
-						"name": "PL_TRANSFORM_trimestral",
+						"name": "PL_TRIMESTRAL_LOAD",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "PL_EXTRACT_trimestral",
+								"activity": "PL_TRIMESTRAL_TRANSFORM",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -880,7 +880,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "PL_TRANSFORM_trimestral",
+								"referenceName": "PL_TRIMESTRAL_LOAD",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -896,7 +896,7 @@
 				"lastPublishTime": "2022-05-27T12:01:42Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_TRANSFORM_trimestral')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_TRIMESTRAL_TRANSFORM')]"
 			]
 		}
 	]

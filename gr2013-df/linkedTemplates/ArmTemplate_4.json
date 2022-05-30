@@ -13,7 +13,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_clientes')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_clientes_y_localizacion')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -689,7 +689,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_modos_envio')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_modos_envio_y_tipos_envio')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -786,7 +786,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_productos')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_productos_y_subcategorias')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -888,7 +888,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_LOAD_diario')]",
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_LOAD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -939,7 +939,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_LOAD_mensual')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_LOAD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1020,7 +1020,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_LOAD_semanal')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL_LOAD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1070,7 +1070,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_LOAD_trimestral')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_LOAD')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1180,7 +1180,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANFORM_dim_clientes')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL_TRANFORM_dim_clientes')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1247,7 +1247,7 @@
 						}
 					},
 					{
-						"name": "FLOW_huerfanos_clientes",
+						"name": "FLOW_huerfanos_clientes_y_localizacion",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -1273,7 +1273,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_clientes",
+								"referenceName": "FLOW_huerfanos_clientes_y_localizacion",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -1302,11 +1302,11 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_clientes')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_clientes_y_localizacion')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANFORM_dim_fechas')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANFORM_dim_fechas')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1356,7 +1356,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANFORM_dim_regiones')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANFORM_dim_regiones')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1406,7 +1406,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANFORM_fac_compras')]",
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_TRANFORM_fac_compras')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1688,7 +1688,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANFORM_fac_targets')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_TRANFORM_fac_targets')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1738,7 +1738,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_dim_modos_envio')]",
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANSFORM_dim_modos_envio')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1763,50 +1763,6 @@
 								"datasetParameters": {
 									"StagingModosEnvio": {},
 									"ValidationModosEnvio": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_huerfanos_modos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_VALIDATION_modos_envio",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "FLOW_VALIDATION_tipos_envio",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_huerfanos_modos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ModosEnvio": {},
-									"TiposEnvio": {},
-									"CrearPadresFicticios": {}
 								}
 							},
 							"staging": {},
@@ -1846,6 +1802,50 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "FLOW_huerfanos_modos_envio_y_tipos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_VALIDATION_modos_envio",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "FLOW_VALIDATION_tipos_envio",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ModosEnvio": {},
+									"TiposEnvio": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -1859,11 +1859,11 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_modos_envio')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_modos_envio_y_tipos_envio')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRANSFORM_dim_productos')]",
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_TRANSFORM_dim_productos')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1959,7 +1959,7 @@
 						}
 					},
 					{
-						"name": "FLOW_huerfanos_productos",
+						"name": "FLOW_huerfanos_productos_y_subcategorias",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -1991,7 +1991,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_productos",
+								"referenceName": "FLOW_huerfanos_productos_y_subcategorias",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -2009,11 +2009,11 @@
 						}
 					},
 					{
-						"name": "FLOW_huerfanos_categorias_producto",
+						"name": "FLOW_huerfanos_categorias_y_subcategorias",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "FLOW_huerfanos_productos",
+								"activity": "FLOW_huerfanos_productos_y_subcategorias",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2029,7 +2029,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_categorias_producto",
+								"referenceName": "FLOW_huerfanos_categorias_y_subcategorias",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -2058,7 +2058,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_productos')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_productos_y_subcategorias')]"
 			]
 		},
 		{
