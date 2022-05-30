@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANSFORM_dim_productos",
+						"referenceName": "PL_MENSUAL_TRANSFORM_dim_productos",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -22,7 +22,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_fac_targets",
+						"referenceName": "PL_MENSUAL_TRANFORM_fac_targets",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

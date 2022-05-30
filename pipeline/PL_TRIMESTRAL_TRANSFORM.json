@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANSFORM_dim_modos_envio",
+						"referenceName": "PL_TRIMESTRAL_TRANSFORM_dim_modos_envio",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -22,7 +22,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_dim_fechas",
+						"referenceName": "PL_TRIMESTRAL_TRANFORM_dim_fechas",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -35,7 +35,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_dim_regiones",
+						"referenceName": "PL_TRIMESTRAL_TRANFORM_dim_regiones",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

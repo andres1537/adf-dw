@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_fac_compras",
+						"referenceName": "PL_DIARIO_TRANFORM_fac_compras",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

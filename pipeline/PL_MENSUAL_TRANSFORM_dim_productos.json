@@ -1,5 +1,5 @@
 {
-	"name": "PL_TRANSFORM_dim_productos",
+	"name": "PL_MENSUAL_TRANSFORM_dim_productos",
 	"properties": {
 		"activities": [
 			{

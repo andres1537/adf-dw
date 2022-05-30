@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_TRANFORM_dim_clientes",
+						"referenceName": "PL_SEMANAL_TRANFORM_dim_clientes",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
