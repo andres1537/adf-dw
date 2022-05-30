@@ -68,7 +68,7 @@
 				"          {Precio Unitario},",
 				"          Ganancia,",
 				"          region_id),",
-				"     {Numero Orden} = count(1)) ~> RemoverDuplicados",
+				"     t = count(1)) ~> RemoverDuplicados",
 				"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
 				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
 				")) ~> ConversionColumnas",
