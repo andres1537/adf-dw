@@ -52,7 +52,7 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_clientes",
+				"name": "FLOW_huerfanos_clientes_y_localizacion",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -78,7 +78,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_clientes",
+						"referenceName": "FLOW_huerfanos_clientes_y_localizacion",
 						"type": "DataFlowReference"
 					},
 					"compute": {
