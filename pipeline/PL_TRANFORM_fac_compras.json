@@ -52,7 +52,7 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_detalle_ordenes",
+				"name": "FLOW_huerfanos_detalle_ordenes_y_productos",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -89,11 +89,11 @@
 				}
 			},
 			{
-				"name": "FLOW_huerfanos_detalle_envios",
+				"name": "FLOW_huerfanos_detalle_ordenes_y_regiones",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "FLOW_huerfanos_detalle_ordenes",
+						"activity": "FLOW_huerfanos_detalle_ordenes_y_productos",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -109,7 +109,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_huerfanos_detalle_envios",
+						"referenceName": "FLOW_huerfanos_detalle_ordenes_y_regiones",
 						"type": "DataFlowReference"
 					},
 					"compute": {
