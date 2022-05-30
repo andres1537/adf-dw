@@ -63,6 +63,7 @@
 				"          {Detalle Orden},",
 				"          {Producto ID},",
 				"          Cantidad,",
+				"          {Precio Unitario},",
 				"          region_id),",
 				"     {Linea Total} = first({Linea Total}),",
 				"          Descuento = first(Descuento),",
