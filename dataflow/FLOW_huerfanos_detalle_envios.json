@@ -9,17 +9,17 @@
 			"sources": [
 				{
 					"dataset": {
+						"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
+						"type": "DatasetReference"
+					},
+					"name": "DetalleEnvios"
+				},
+				{
+					"dataset": {
 						"referenceName": "DS_SQL_VALIDATION_tb_modo_envio",
 						"type": "DatasetReference"
 					},
 					"name": "ModosEnvio"
-				},
-				{
-					"dataset": {
-						"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
-						"type": "DatasetReference"
-					},
-					"name": "TiposEnvio"
 				}
 			],
 			"sinks": [
@@ -44,6 +44,19 @@
 			],
 			"scriptLines": [
 				"source(output(",
+				"          num_order as string,",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          modo_envio as integer,",
+				"          cliente_id as string,",
+				"          imp_subtotal as double,",
+				"          region_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DetalleEnvios",
+				"source(output(",
 				"          id_modo as integer,",
 				"          Descripcion as string,",
 				"          Tipo_x0020_ID as integer",
@@ -52,15 +65,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ModosEnvio",
-				"source(output(",
-				"          id_tipo as integer,",
-				"          Descripcion as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TiposEnvio",
-				"ModosEnvio, TiposEnvio exists(Tipo_x0020_ID == id_tipo,",
+				"DetalleEnvios, ModosEnvio exists(modo_envio == id_modo,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> ListaHuerfanos",
 				"ListaHuerfanos select(mapColumn(",

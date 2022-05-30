@@ -25,7 +25,8 @@
 			},
 			{
 				"name": "modo_envio",
-				"type": "nvarchar"
+				"type": "tinyint",
+				"precision": 3
 			},
 			{
 				"name": "cliente_id",
