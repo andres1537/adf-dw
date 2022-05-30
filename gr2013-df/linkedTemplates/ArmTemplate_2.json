@@ -594,7 +594,8 @@
 					},
 					{
 						"name": "cliente_id",
-						"type": "nvarchar"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "imp_subtotal",

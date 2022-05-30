@@ -2509,7 +2509,7 @@
 						}
 					},
 					{
-						"name": "FLOW_huerfanos_detalle_ordenes",
+						"name": "FLOW_huerfanos_detalle_ordenes_y_productos",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -2535,7 +2535,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_detalle_ordenes",
+								"referenceName": "FLOW_huerfanos_detalle_ordenes_y_productos",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -2553,11 +2553,11 @@
 						}
 					},
 					{
-						"name": "FLOW_huerfanos_detalle_envios",
+						"name": "FLOW_huerfanos_detalle_ordenes_y_regiones",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "FLOW_huerfanos_detalle_ordenes",
+								"activity": "FLOW_huerfanos_detalle_ordenes_y_productos",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -2573,12 +2573,126 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_huerfanos_detalle_envios",
+								"referenceName": "FLOW_huerfanos_detalle_ordenes_y_regiones",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"Regiones": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_huerfanos_detalle_envios_y_modo_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_huerfanos_detalle_ordenes_y_regiones",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_detalle_envios_y_modo_envio",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"DetalleEnvios": {},
 									"ModosEnvio": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_huerfanos_detalle_envios_y_regiones",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_huerfanos_detalle_envios_y_clientes",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_detalle_envios_y_regiones",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_huerfanos_detalle_envios_y_clientes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_huerfanos_detalle_envios_y_modo_envio",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_detalle_envios_y_clientes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleEnvios": {},
+									"Clientes": {},
 									"CrearPadresFicticios": {}
 								}
 							},
@@ -2604,8 +2718,11 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_detalle_envios')]",
 				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_detalle_ordenes')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_ordenes')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_envios')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_ordenes_y_productos')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_ordenes_y_regiones')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_envios_y_modo_envio')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_envios_y_regiones')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_detalle_envios_y_clientes')]"
 			]
 		},
 		{
@@ -7162,7 +7279,8 @@
 					},
 					{
 						"name": "cliente_id",
-						"type": "nvarchar"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "imp_subtotal",
@@ -7972,7 +8090,7 @@
 						"          fec_orden as date,",
 						"          fec_envio as date,",
 						"          modo_envio as integer,",
-						"          cliente_id as string,",
+						"          cliente_id as integer,",
 						"          imp_subtotal as double,",
 						"          region_id as integer",
 						"     ),",
@@ -8548,7 +8666,7 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> StagingDetalleEnvios",
-						"ConversionColumnas filter(num_order != '' && not(isNull(modo_envio)) && cliente_id != '') ~> FiltrarInconsistencias",
+						"ConversionColumnas filter(num_order != '' && not(isNull(modo_envio)) && not(isNull(cliente_id))) ~> FiltrarInconsistencias",
 						"FiltrarInconsistencias aggregate(groupBy(num_order),",
 						"     fec_orden = first(fec_orden),",
 						"          fec_envio = first(fec_envio),",
@@ -8564,12 +8682,14 @@
 						"        (isNull(modo_envio) || (upper(modo_envio) == 'NULL')), '', trim(modo_envio)\r",
 						"    )\r",
 						"),",
-						"          cliente_id = case ( \r",
+						"          cliente_id = toInteger(\r",
+						"     case ( \r",
 						"\r",
-						"        (isNull(cliente_id) || (upper(cliente_id) == 'NULL')), '',\r",
-						"        and(not(isNull(cliente_id) || (upper(cliente_id) == 'NULL')), like(cliente_id, '%-%')), split(cliente_id, '-')[2],\r",
-						"        trim(cliente_id)\r",
-						"    )) ~> ConversionColumnas",
+						"          (isNull(cliente_id) || (upper(cliente_id) == 'NULL')), '',\r",
+						"          and(not(isNull(cliente_id) || (upper(cliente_id) == 'NULL')), like(cliente_id, '%-%')), split(cliente_id, '-')[2],\r",
+						"          trim(cliente_id)\r",
+						"          )\r",
+						")) ~> ConversionColumnas",
 						"RemoverDuplicados sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -8577,7 +8697,7 @@
 						"          fec_orden as date,",
 						"          fec_envio as date,",
 						"          modo_envio as integer,",
-						"          cliente_id as string,",
+						"          cliente_id as integer,",
 						"          imp_subtotal as double,",
 						"          region_id as integer",
 						"     ),",
@@ -9636,7 +9756,125 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_envios')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_envios_y_clientes')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2.transform/huerfanos"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
+								"type": "DatasetReference"
+							},
+							"name": "DetalleEnvios"
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_LT_customer",
+								"type": "DatasetReference"
+							},
+							"name": "Clientes"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_LT_customer",
+								"type": "DatasetReference"
+							},
+							"name": "CrearPadresFicticios",
+							"rejectedDataLinkedService": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "ListaHuerfanos"
+						},
+						{
+							"name": "ListaIDsHuerfanos"
+						},
+						{
+							"name": "ListaPadresFicticios"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          num_order as string,",
+						"          fec_orden as date,",
+						"          fec_envio as date,",
+						"          modo_envio as integer,",
+						"          cliente_id as integer,",
+						"          imp_subtotal as double,",
+						"          region_id as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DetalleEnvios",
+						"source(output(",
+						"          {Cliente ID} as integer,",
+						"          Nombre as string,",
+						"          Apellido as string,",
+						"          Segmento as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Clientes",
+						"DetalleEnvios, Clientes exists(cliente_id == {Cliente ID},",
+						"     negate:true,",
+						"     broadcast: 'auto')~> ListaHuerfanos",
+						"ListaHuerfanos select(mapColumn(",
+						"          id_cliente = cliente_id",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+						"ListaIDsHuerfanos derive(id_cliente = id_cliente,",
+						"          desc_nombres = \"huérfano de detalle_envios\",",
+						"          desc_apellidos = \"huérfano de detalle_envios\",",
+						"          desc_segmento = \"huérfano de detalle_envios\") ~> ListaPadresFicticios",
+						"ListaPadresFicticios sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Cliente ID} as integer,",
+						"          Nombre as string,",
+						"          Apellido as string,",
+						"          Segmento as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     outputRejectedData: true,",
+						"     mapColumn(",
+						"          {Cliente ID} = id_cliente,",
+						"          Nombre = desc_nombres,",
+						"          Apellido = desc_apellidos,",
+						"          Segmento = desc_segmento",
+						"     )) ~> CrearPadresFicticios"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_customer')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_envios_y_modo_envio')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -9691,7 +9929,7 @@
 						"          fec_orden as date,",
 						"          fec_envio as date,",
 						"          modo_envio as integer,",
-						"          cliente_id as string,",
+						"          cliente_id as integer,",
 						"          imp_subtotal as double,",
 						"          region_id as integer",
 						"     ),",
@@ -9750,7 +9988,121 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_ordenes')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_envios_y_regiones')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2.transform/huerfanos"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
+								"type": "DatasetReference"
+							},
+							"name": "DetalleEnvios"
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_Regiones",
+								"type": "DatasetReference"
+							},
+							"name": "Regiones"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_Regiones",
+								"type": "DatasetReference"
+							},
+							"name": "CrearPadresFicticios",
+							"rejectedDataLinkedService": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "ListaHuerfanos"
+						},
+						{
+							"name": "ListaIDsHuerfanos"
+						},
+						{
+							"name": "ListaPadresFicticios"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          num_order as string,",
+						"          fec_orden as date,",
+						"          fec_envio as date,",
+						"          modo_envio as integer,",
+						"          cliente_id as integer,",
+						"          imp_subtotal as double,",
+						"          region_id as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DetalleEnvios",
+						"source(output(",
+						"          {Region ID} as integer,",
+						"          {Region Desc} as string,",
+						"          {Detalle region} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Regiones",
+						"DetalleEnvios, Regiones exists(region_id == {Region ID},",
+						"     negate:true,",
+						"     broadcast: 'auto')~> ListaHuerfanos",
+						"ListaHuerfanos select(mapColumn(",
+						"          id_region = region_id",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+						"ListaIDsHuerfanos derive(id_region = id_region,",
+						"          desc_region = \"huérfano de detalle_envios\",",
+						"          desc_detalle = \"huérfano de detalle_envios\") ~> ListaPadresFicticios",
+						"ListaPadresFicticios sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Region ID} as integer,",
+						"          {Region Desc} as string,",
+						"          {Detalle region} as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     outputRejectedData: true,",
+						"     mapColumn(",
+						"          {Region ID} = id_region,",
+						"          {Region Desc} = desc_region,",
+						"          {Detalle region} = desc_detalle",
+						"     )) ~> CrearPadresFicticios"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_ordenes_y_productos')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -9866,6 +10218,122 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos')]",
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_detalle_ordenes_y_regiones')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "2.transform/huerfanos"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
+								"type": "DatasetReference"
+							},
+							"name": "DetalleOrdenes"
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_Regiones",
+								"type": "DatasetReference"
+							},
+							"name": "Regiones"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_VALIDATION_Regiones",
+								"type": "DatasetReference"
+							},
+							"name": "CrearPadresFicticios",
+							"rejectedDataLinkedService": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "ListaHuerfanos"
+						},
+						{
+							"name": "ListaIDsHuerfanos"
+						},
+						{
+							"name": "ListaPadresFicticios"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          {Detalle Orden} as integer,",
+						"          {Numero Orden} as string,",
+						"          {Producto ID} as integer,",
+						"          {Linea Total} as double,",
+						"          Cantidad as integer,",
+						"          Descuento as double,",
+						"          {Precio Unitario} as double,",
+						"          Ganancia as double,",
+						"          region_id as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DetalleOrdenes",
+						"source(output(",
+						"          {Region ID} as integer,",
+						"          {Region Desc} as string,",
+						"          {Detalle region} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> Regiones",
+						"DetalleOrdenes, Regiones exists(region_id == {Region ID},",
+						"     negate:true,",
+						"     broadcast: 'auto')~> ListaHuerfanos",
+						"ListaHuerfanos select(mapColumn(",
+						"          id_region = region_id",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
+						"ListaIDsHuerfanos derive(id_region = id_region,",
+						"          desc_region = \"huérfano de detalle_ordenes\",",
+						"          desc_detalle = \"huérfano de detalle_ordenes\") ~> ListaPadresFicticios",
+						"ListaPadresFicticios sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Region ID} as integer,",
+						"          {Region Desc} as string,",
+						"          {Detalle region} as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     outputRejectedData: true,",
+						"     mapColumn(",
+						"          {Region ID} = id_region,",
+						"          {Region Desc} = desc_region,",
+						"          {Detalle region} = desc_detalle",
+						"     )) ~> CrearPadresFicticios"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
 				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
 		},
