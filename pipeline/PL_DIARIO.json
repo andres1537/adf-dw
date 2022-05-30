@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_EXTRACT_diario",
+				"name": "PL_DIARIO_EXTRACT",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,11 +16,11 @@
 				}
 			},
 			{
-				"name": "PL_TRANSFORM_diario",
+				"name": "PL_DIARIO_TRANSFORM",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "PL_EXTRACT_diario",
+						"activity": "PL_DIARIO_EXTRACT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -36,11 +36,11 @@
 				}
 			},
 			{
-				"name": "PL_LOAD_diario",
+				"name": "PL_DIARIO_LOAD",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "PL_TRANSFORM_diario",
+						"activity": "PL_DIARIO_TRANSFORM",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -49,7 +49,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PL_LOAD_diario",
+						"referenceName": "PL_DIARIO_LOAD",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
