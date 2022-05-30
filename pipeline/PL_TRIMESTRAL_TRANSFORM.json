@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_TRANSFORM_dim_modos_envio",
+				"name": "PL_TRIMESTRAL_TRANSFORM_dim_modos_envio",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -16,7 +16,7 @@
 				}
 			},
 			{
-				"name": "PL_TRANFORM_dim_fechas",
+				"name": "PL_TRIMESTRAL_TRANFORM_dim_fechas",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -29,7 +29,7 @@
 				}
 			},
 			{
-				"name": "PL_TRANFORM_dim_regiones",
+				"name": "PL_TRIMESTRAL_TRANFORM_dim_regiones",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
