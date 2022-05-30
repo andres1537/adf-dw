@@ -52,7 +52,7 @@
 				"FiltrarInconsistencias aggregate(groupBy({Categoria Producto ID}),",
 				"     {Descripcion Categoria} = first({Descripcion Categoria})) ~> RemoverDuplicados",
 				"StagingCategoriasProducto derive({Categoria Producto ID} = case ( \r",
-				"    (isNull({Categoria Producto ID}) || (upper({Categoria Producto ID}) == 'NULL')), '', {Categoria Producto ID} \r",
+				"    (isNull({Categoria Producto ID}) || (upper({Categoria Producto ID}) == 'NULL')), '', trim({Categoria Producto ID})\r",
 				")) ~> ConversionColumnas",
 				"RemoverDuplicados sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

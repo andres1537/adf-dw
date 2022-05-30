@@ -50,7 +50,7 @@
 				"     format: 'table') ~> StagingTiposEnvio",
 				"StagingTiposEnvio derive(id_tipo = toInteger(\r",
 				"    case ( \r",
-				"        (isNull({id_tipo}) || (upper({id_tipo}) == 'NULL')), '', {id_tipo} \r",
+				"        (isNull({id_tipo}) || (upper({id_tipo}) == 'NULL')), '', trim({id_tipo})\r",
 				"    )\r",
 				")) ~> ConversionColumnas",
 				"ConversionColumnas filter(and(not(isNull(id_tipo)), id_tipo > 0)) ~> FiltrarInconsistencias",

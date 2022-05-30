@@ -69,7 +69,7 @@
 				"          {Precio Unitario} = first({Precio Unitario}),",
 				"          Ganancia = first(Ganancia)) ~> RemoverDuplicados",
 				"StagingDetalleOrdenes derive({Numero Orden} = case ( \r",
-				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', {Numero Orden} \r",
+				"    (isNull({Numero Orden}) || (upper({Numero Orden}) == 'NULL')), '', trim({Numero Orden})\r",
 				")) ~> ConversionColumnas",
 				"RemoverDuplicados sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

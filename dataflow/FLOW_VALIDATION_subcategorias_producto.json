@@ -54,7 +54,7 @@
 				"     {Categoria Producto ID} = first({Categoria Producto ID}),",
 				"          {Descripcion Subcategoria} = first({Descripcion Subcategoria})) ~> RemoverDuplicados",
 				"StagingSubcategoriasProducto derive({Subcategoria Producto ID} = case ( \r",
-				"    (isNull({Subcategoria Producto ID}) || (upper({Subcategoria Producto ID}) == 'NULL')), '', {Subcategoria Producto ID} \r",
+				"    (isNull({Subcategoria Producto ID}) || (upper({Subcategoria Producto ID}) == 'NULL')), '', trim({Subcategoria Producto ID})\r",
 				")) ~> ConversionColumnas",
 				"RemoverDuplicados sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

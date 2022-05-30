@@ -55,7 +55,7 @@
 				"\r",
 				"        (isNull({Cliente ID}) || (upper({Cliente ID}) == 'NULL')), '',\r",
 				"        and(not(isNull({Cliente ID}) || (upper({Cliente ID}) == 'NULL')), like({Cliente ID}, '%-%')), split({Cliente ID}, '-')[2],\r",
-				"        {Cliente ID} \r",
+				"        trim({Cliente ID})\r",
 				"    )\r",
 				")) ~> ConversionColumnas",
 				"ConversionColumnas filter(and(not(isNull({Cliente ID})), {Cliente ID} > 0)) ~> FiltrarInconsistencias",
