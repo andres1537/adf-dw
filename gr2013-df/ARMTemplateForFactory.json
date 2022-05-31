@@ -508,7 +508,6 @@
 								"datasetParameters": {
 									"DetalleOrdenes": {},
 									"DetalleEnvios": {},
-									"Regiones": {},
 									"FacCompras": {}
 								}
 							},
@@ -3862,7 +3861,6 @@
 								"datasetParameters": {
 									"DetalleOrdenes": {},
 									"DetalleEnvios": {},
-									"Regiones": {},
 									"FacCompras": {}
 								}
 							},
@@ -8139,13 +8137,6 @@
 								"type": "DatasetReference"
 							},
 							"name": "DetalleEnvios"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_Regiones",
-								"type": "DatasetReference"
-							},
-							"name": "Regiones"
 						}
 					],
 					"sinks": [
@@ -8164,9 +8155,6 @@
 					"transformations": [
 						{
 							"name": "JoinDetalleEnvios"
-						},
-						{
-							"name": "JoinRegiones"
 						},
 						{
 							"name": "SeleccionarColumnas"
@@ -8207,23 +8195,11 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> DetalleEnvios",
-						"source(output(",
-						"          {Region ID} as integer,",
-						"          {Region Desc} as string,",
-						"          {Detalle region} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Regiones",
 						"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
 						"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
 						"     joinType:'left',",
 						"     broadcast: 'auto')~> JoinDetalleEnvios",
-						"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == {Region ID},",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinRegiones",
-						"JoinRegiones select(mapColumn(",
+						"JoinDetalleEnvios select(mapColumn(",
 						"          {Detalle Orden},",
 						"          {Numero Orden},",
 						"          {Producto ID},",
@@ -8232,16 +8208,13 @@
 						"          Descuento,",
 						"          {Precio Unitario},",
 						"          Ganancia,",
+						"          region_id = DetalleOrdenes@region_id,",
 						"          num_order,",
 						"          fec_orden,",
 						"          fec_envio,",
 						"          modo_envio,",
 						"          cliente_id,",
-						"          imp_subtotal,",
-						"          region_id = DetalleOrdenes@region_id,",
-						"          {Region ID},",
-						"          {Region Desc},",
-						"          {Detalle region}",
+						"          imp_subtotal",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
@@ -8313,7 +8286,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_fac_compras')]",
 				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
 			]
