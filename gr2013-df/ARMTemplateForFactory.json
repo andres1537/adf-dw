@@ -489,17 +489,113 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "TEST_FLOW_LOAD_fac_compras",
-						"type": "ExecutePipeline",
+						"name": "FLOW_LOAD_fac_compras_0_4",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "TEST_FLOW_LOAD_fac_compras",
-								"type": "PipelineReference"
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_0_4",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_LOAD_fac_compras_5_7",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_LOAD_fac_compras_0_4",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_5_7",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_LOAD_fac_compras_8_21",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_LOAD_fac_compras_5_7",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
 						}
 					}
 				],
@@ -514,7 +610,9 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/TEST_FLOW_LOAD_fac_compras')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_0_4')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_5_7')]",
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_8_21')]"
 			]
 		},
 		{

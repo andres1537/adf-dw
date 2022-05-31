@@ -1186,6 +1186,135 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_LOAD')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_LOAD_fac_compras_0_4",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_0_4",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_LOAD_fac_compras_5_7",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_LOAD_fac_compras_0_4",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_5_7",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_LOAD_fac_compras_8_21",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_LOAD_fac_compras_5_7",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DetalleOrdenes": {},
+									"DetalleEnvios": {},
+									"Regiones": {},
+									"FacCompras": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "3.load"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_TRANFORM_fac_compras')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2113,56 +2242,6 @@
 								"datasetParameters": {
 									"StagingFechas": {},
 									"ValidationFechas": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "2.transform/preprocessing"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T12:03:05Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANFORM_dim_regiones')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "\n",
-				"activities": [
-					{
-						"name": "FLOW_VALIDATION_regiones",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_regiones",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingRegiones": {},
-									"ValidationRegiones": {}
 								}
 							},
 							"staging": {},
