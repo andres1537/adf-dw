@@ -1,8 +1,8 @@
 {
-	"name": "FLOW_LOAD_fac_compras_0_4",
+	"name": "FLOW_LOAD_fac_compras",
 	"properties": {
 		"folder": {
-			"name": "3.load/compras"
+			"name": "3.load"
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -44,14 +44,7 @@
 			],
 			"transformations": [
 				{
-					"name": "ProcesarRegiones",
-					"flowlet": {
-						"referenceName": "FLOWLET_LOAD_fac_compras",
-						"type": "DataFlowReference"
-					}
-				},
-				{
-					"name": "FiltrarRegiones"
+					"name": "JoinDetalleEnvios"
 				}
 			],
 			"scriptLines": [
@@ -92,32 +85,11 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Regiones",
-				"FiltrarRegiones, DetalleEnvios, Regiones compose(mapColumn(",
-				"          {Detalle Orden},",
-				"          {Numero Orden},",
-				"          {Producto ID},",
-				"          {Linea Total},",
-				"          Cantidad,",
-				"          Descuento,",
-				"          {Precio Unitario},",
-				"          Ganancia,",
-				"          region_id = DetalleOrdenes@region_id",
-				"     ),mapColumn(",
-				"          num_order,",
-				"          fec_orden,",
-				"          fec_envio,",
-				"          modo_envio,",
-				"          cliente_id,",
-				"          imp_subtotal,",
-				"          region_id = DetalleEnvios@region_id",
-				"     ),mapColumn(",
-				"          id_region = {Region ID},",
-				"          desc_region = {Region Desc},",
-				"          desc_detalle = {Detalle region}",
-				"     ),",
-				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
-				"DetalleOrdenes filter(region_id <= 4) ~> FiltrarRegiones",
-				"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
+				"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
+				"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinDetalleEnvios",
+				"JoinDetalleEnvios sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",
