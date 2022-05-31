@@ -49,6 +49,9 @@
 						"referenceName": "FLOWLET_LOAD_fac_compras",
 						"type": "DataFlowReference"
 					}
+				},
+				{
+					"name": "FiltrarRegiones"
 				}
 			],
 			"scriptLines": [
@@ -89,7 +92,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Regiones",
-				"DetalleOrdenes, DetalleEnvios, Regiones compose(mapColumn(",
+				"FiltrarRegiones, DetalleEnvios, Regiones compose(mapColumn(",
 				"          {Detalle Orden},",
 				"          {Numero Orden},",
 				"          {Producto ID},",
@@ -98,7 +101,7 @@
 				"          Descuento,",
 				"          {Precio Unitario},",
 				"          Ganancia,",
-				"          region_id = {Detalle Orden}",
+				"          region_id = DetalleOrdenes@region_id",
 				"     ),mapColumn(",
 				"          num_order,",
 				"          fec_orden,",
@@ -113,6 +116,7 @@
 				"          desc_detalle = {Detalle region}",
 				"     ),",
 				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
+				"DetalleOrdenes filter(ERROR_FUNCTION('')) ~> FiltrarRegiones",
 				"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
