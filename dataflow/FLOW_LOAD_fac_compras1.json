@@ -1,0 +1,111 @@
+{
+	"name": "FLOW_LOAD_fac_compras1",
+	"properties": {
+		"type": "Flowlet",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "JoinDetalleEnvios"
+				},
+				{
+					"name": "JoinRegiones"
+				},
+				{
+					"name": "GenerarIdCompra"
+				},
+				{
+					"name": "SeleccionarColumnas"
+				},
+				{
+					"name": "Auditoria"
+				},
+				{
+					"name": "Metricas"
+				},
+				{
+					"name": "DetalleOrdenes"
+				},
+				{
+					"name": "DetalleEnvios"
+				},
+				{
+					"name": "Regiones"
+				},
+				{
+					"name": "FacCompras"
+				}
+			],
+			"scriptLines": [
+				"input(output(",
+				"          {Detalle Orden} as integer,",
+				"          {Numero Orden} as string,",
+				"          {Producto ID} as integer,",
+				"          {Linea Total} as double,",
+				"          Cantidad as integer,",
+				"          Descuento as double,",
+				"          {Precio Unitario} as double,",
+				"          Ganancia as double,",
+				"          region_id as integer",
+				"     ),",
+				"     order: 0) ~> DetalleOrdenes",
+				"input(output(",
+				"          num_order as string,",
+				"          fec_orden as date,",
+				"          fec_envio as date,",
+				"          modo_envio as integer,",
+				"          cliente_id as integer,",
+				"          imp_subtotal as double,",
+				"          region_id as integer",
+				"     ),",
+				"     order: 1) ~> DetalleEnvios",
+				"input(output(",
+				"          id_region as integer,",
+				"          desc_region as string,",
+				"          desc_detalle as string,",
+				"          fec_modificacion as timestamp",
+				"     ),",
+				"     order: 2) ~> Regiones",
+				"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
+				"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinDetalleEnvios",
+				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinRegiones",
+				"SeleccionarColumnas keyGenerate(output(id_compra as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> GenerarIdCompra",
+				"JoinRegiones select(mapColumn(",
+				"          {Detalle Orden},",
+				"          {Numero Orden},",
+				"          {Producto ID},",
+				"          {Linea Total},",
+				"          Cantidad,",
+				"          Descuento,",
+				"          {Precio Unitario},",
+				"          Ganancia,",
+				"          num_order,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          modo_envio,",
+				"          cliente_id,",
+				"          imp_subtotal,",
+				"          id_region,",
+				"          desc_region,",
+				"          desc_detalle",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
+				"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"GenerarIdCompra derive(precio_total = {Precio Unitario} * Cantidad,",
+				"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
+				"          impuestos = Ganancia * 19 / 100,",
+				"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
+				"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
+				"Auditoria output() ~> FacCompras"
+			]
+		}
+	}
+}
