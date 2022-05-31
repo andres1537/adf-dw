@@ -35,14 +35,14 @@
 					"name": "SplitRegiones"
 				},
 				{
-					"name": "ProcesarRegionMenor",
+					"name": "ProcesarRegionDesde0a6",
 					"flowlet": {
 						"referenceName": "FLOWLET_LOAD_fac_compras",
 						"type": "DataFlowReference"
 					}
 				},
 				{
-					"name": "ProcesarRegionMayor",
+					"name": "ProcesarRegionDesde7a21",
 					"flowlet": {
 						"referenceName": "FLOWLET_LOAD_fac_compras",
 						"type": "DataFlowReference"
@@ -101,19 +101,19 @@
 				"          Ganancia,",
 				"          region_id = {Detalle Orden}",
 				"     ),mapColumn(",
-				"          num_order = {Detalle Orden},",
-				"          fec_orden = {Detalle Orden},",
-				"          fec_envio = {Detalle Orden},",
-				"          modo_envio = {Detalle Orden},",
-				"          cliente_id = {Detalle Orden},",
-				"          imp_subtotal = {Detalle Orden},",
-				"          region_id = {Detalle Orden}",
+				"          num_order,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          modo_envio,",
+				"          cliente_id,",
+				"          imp_subtotal,",
+				"          region_id = DetalleEnvios@region_id",
 				"     ),mapColumn(",
-				"          id_region = {Detalle Orden},",
-				"          desc_region = {Detalle Orden},",
-				"          desc_detalle = {Detalle Orden}",
+				"          id_region = {Region ID},",
+				"          desc_region = {Region Desc},",
+				"          desc_detalle = {Detalle region}",
 				"     ),",
-				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionMenor@(FacCompras)",
+				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde0a6@(FacCompras)",
 				"SplitRegiones@RegionDesde7a21, DetalleEnvios, Regiones compose(mapColumn(",
 				"          {Detalle Orden},",
 				"          {Numero Orden},",
@@ -137,7 +137,7 @@
 				"          desc_region = {Region Desc},",
 				"          desc_detalle = {Detalle region}",
 				"     ),",
-				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionMayor@(FacCompras)"
+				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)"
 			]
 		}
 	}
