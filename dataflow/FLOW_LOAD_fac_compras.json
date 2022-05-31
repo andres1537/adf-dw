@@ -51,6 +51,12 @@
 				},
 				{
 					"name": "SeleccionarColumnas"
+				},
+				{
+					"name": "Metricas"
+				},
+				{
+					"name": "Auditoria"
 				}
 			],
 			"scriptLines": [
@@ -120,7 +126,13 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-				"SeleccionarColumnas sink(allowSchemaDrift: true,",
+				"SeleccionarColumnas derive(precio_total = {Precio Unitario} * Cantidad,",
+				"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
+				"          impuestos = Ganancia * 19 / 100,",
+				"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
+				"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
+				"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+				"Auditoria sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",
