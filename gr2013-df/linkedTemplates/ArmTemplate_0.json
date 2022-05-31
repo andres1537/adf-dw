@@ -140,9 +140,6 @@
 							"name": "JoinRegiones"
 						},
 						{
-							"name": "GenerarIdCompra"
-						},
-						{
 							"name": "SeleccionarColumnas"
 						},
 						{
@@ -200,9 +197,6 @@
 						"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
 						"     joinType:'left',",
 						"     broadcast: 'auto')~> JoinRegiones",
-						"SeleccionarColumnas keyGenerate(output(id_compra as long),",
-						"     startAt: 1L,",
-						"     stepValue: 1L) ~> GenerarIdCompra",
 						"JoinRegiones select(mapColumn(",
 						"          {Detalle Orden},",
 						"          {Numero Orden},",
@@ -225,7 +219,7 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
 						"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
-						"GenerarIdCompra derive(precio_total = {Precio Unitario} * Cantidad,",
+						"SeleccionarColumnas derive(precio_total = {Precio Unitario} * Cantidad,",
 						"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
 						"          impuestos = Ganancia * 19 / 100,",
 						"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
@@ -248,7 +242,6 @@
 						"          id_region,",
 						"          desc_region,",
 						"          desc_detalle,",
-						"          id_compra,",
 						"          precio_total,",
 						"          ganancia_neta,",
 						"          impuestos,",
