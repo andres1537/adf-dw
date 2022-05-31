@@ -8245,7 +8245,7 @@
 						"          Descuento,",
 						"          {Precio Unitario},",
 						"          Ganancia,",
-						"          region_id = {Detalle Orden}",
+						"          region_id = SplitRegiones@RegionDesde0a6@region_id",
 						"     ),mapColumn(",
 						"          num_order,",
 						"          fec_orden,",
