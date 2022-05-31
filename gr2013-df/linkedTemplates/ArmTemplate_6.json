@@ -139,8 +139,7 @@
 									"DetalleOrdenes": {},
 									"DetalleEnvios": {},
 									"Regiones": {},
-									"FacCompras1": {},
-									"FacCompras2": {}
+									"FacCompras": {}
 								}
 							},
 							"staging": {},
