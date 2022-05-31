@@ -116,7 +116,7 @@
 				"          desc_detalle = {Detalle region}",
 				"     ),",
 				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
-				"DetalleOrdenes filter(ERROR_FUNCTION('')) ~> FiltrarRegiones",
+				"DetalleOrdenes filter(region_id <= 4) ~> FiltrarRegiones",
 				"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
