@@ -1,6 +1,9 @@
 {
-	"name": "FLOW_LOAD_fac_compras1",
+	"name": "FLOWLET_LOAD_fac_compras",
 	"properties": {
+		"folder": {
+			"name": "3.load"
+		},
 		"type": "Flowlet",
 		"typeProperties": {
 			"sources": [],
