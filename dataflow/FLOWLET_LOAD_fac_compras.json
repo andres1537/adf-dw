@@ -2,7 +2,7 @@
 	"name": "FLOWLET_LOAD_fac_compras",
 	"properties": {
 		"folder": {
-			"name": "3.load"
+			"name": "3.load/compras"
 		},
 		"type": "Flowlet",
 		"typeProperties": {
