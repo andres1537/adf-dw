@@ -45,6 +45,9 @@
 			"transformations": [
 				{
 					"name": "JoinDetalleEnvios"
+				},
+				{
+					"name": "JoinRegiones"
 				}
 			],
 			"scriptLines": [
@@ -89,7 +92,10 @@
 				"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinDetalleEnvios",
-				"JoinDetalleEnvios sink(allowSchemaDrift: true,",
+				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == {Region ID},",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinRegiones",
+				"JoinRegiones sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",

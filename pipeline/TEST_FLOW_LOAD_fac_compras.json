@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "FLOW_LOAD_fac_compras_0_4",
+						"referenceName": "FLOW_LOAD_fac_compras",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -46,10 +46,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "FLOW_LOAD_fac_compras_5_7",
-						"type": "DataFlowReference"
-					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
@@ -77,10 +73,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "FLOW_LOAD_fac_compras_8_21",
-						"type": "DataFlowReference"
-					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
