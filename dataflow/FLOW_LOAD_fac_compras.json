@@ -46,7 +46,11 @@
 						"referenceName": "DS_SQL_DW_fac_compras",
 						"type": "DatasetReference"
 					},
-					"name": "FacCompras2"
+					"name": "FacCompras2",
+					"rejectedDataLinkedService": {
+						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -246,7 +250,31 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> FacCompras2"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     outputRejectedData: true,",
+				"     mapColumn(",
+				"          id_compra,",
+				"          num_detalle_orden = {Detalle Orden},",
+				"          num_orden = {Numero Orden},",
+				"          id_producto = {Producto ID},",
+				"          id_modo_envio = modo_envio,",
+				"          num_cantidad = Cantidad,",
+				"          imp_subtotal,",
+				"          imp_linea_total = {Linea Total},",
+				"          imp_descuento = Descuento,",
+				"          imp_precio_unitario = {Precio Unitario},",
+				"          imp_precio_total = precio_total,",
+				"          imp_ganancia = Ganancia,",
+				"          imp_ganancia_neta = ganancia_neta,",
+				"          imp_impuestos = impuestos,",
+				"          imp_valor_logistica = valor_logistica,",
+				"          imp_valor_provision_covid = valor_provision_covid,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          id_cliente = cliente_id,",
+				"          id_region,",
+				"          fec_modificacion",
+				"     )) ~> FacCompras2"
 			]
 		}
 	}
