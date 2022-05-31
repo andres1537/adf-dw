@@ -8415,8 +8415,8 @@
 						"          desc_detalle = {Detalle region}",
 						"     ),",
 						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)",
-						"DetalleOrdenes split(region_id < 7,",
-						"     region_id >= 7,",
+						"DetalleOrdenes split(region_id == 0,",
+						"     region_id == 20,",
 						"     disjoint: false) ~> SplitRegiones@(RegionDesde0a6, RegionDesde7a21)",
 						"ProcesarRegionDesde0a6@FacCompras sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -10870,6 +10870,19 @@
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_productos_sub_categoria')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
