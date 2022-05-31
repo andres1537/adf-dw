@@ -16,9 +16,6 @@
 					"name": "JoinRegiones"
 				},
 				{
-					"name": "GenerarIdCompra"
-				},
-				{
 					"name": "SeleccionarColumnas"
 				},
 				{
@@ -26,9 +23,6 @@
 				},
 				{
 					"name": "Metricas"
-				},
-				{
-					"name": "surrogateKey1"
 				},
 				{
 					"name": "DetalleOrdenes"
@@ -79,9 +73,6 @@
 				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinRegiones",
-				"surrogateKey1 keyGenerate(output(id_compra as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> GenerarIdCompra",
 				"JoinRegiones select(mapColumn(",
 				"          {Detalle Orden},",
 				"          {Numero Orden},",
@@ -104,14 +95,11 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
 				"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
-				"GenerarIdCompra derive(precio_total = {Precio Unitario} * Cantidad,",
+				"SeleccionarColumnas derive(precio_total = {Precio Unitario} * Cantidad,",
 				"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
 				"          impuestos = Ganancia * 19 / 100,",
 				"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
 				"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
-				"SeleccionarColumnas keyGenerate(output({undefined} as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1",
 				"Auditoria output(mapColumn(",
 				"          {Detalle Orden},",
 				"          {Numero Orden},",
@@ -130,7 +118,6 @@
 				"          id_region,",
 				"          desc_region,",
 				"          desc_detalle,",
-				"          id_compra,",
 				"          precio_total,",
 				"          ganancia_neta,",
 				"          impuestos,",
