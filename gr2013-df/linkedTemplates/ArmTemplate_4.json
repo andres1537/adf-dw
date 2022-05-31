@@ -13,304 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_VALIDATION_target_region')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2.transform/validation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_STAGING_db_target_region",
-								"type": "DatasetReference"
-							},
-							"name": "StagingTargetRegion"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_db_target_region",
-								"type": "DatasetReference"
-							},
-							"name": "ValidationTargetRegionn",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "FiltrarInconsistencias"
-						},
-						{
-							"name": "ConversionColumnas"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          fecha as string,",
-						"          anio as string,",
-						"          mes as string,",
-						"          {Region ID} as string,",
-						"          Target as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> StagingTargetRegion",
-						"ConversionColumnas filter(not(isNull(fecha)) &&\r",
-						"and(not(isNull(anio)), anio > 0) &&\r",
-						"and(not(isNull(mes)), mes > 0) &&\r",
-						"and(not(isNull({Region ID})), {Region ID} > 0) &&\r",
-						"and(not(isNull(Target)), Target > 0)) ~> FiltrarInconsistencias",
-						"StagingTargetRegion derive(fecha = toDate(\r",
-						"    case ( \r",
-						"        (isNull(fecha) || (upper(fecha) == 'NULL')), '', fecha\r",
-						"    ), 'yyyyMM'\r",
-						"),",
-						"          anio = toInteger(\r",
-						"    case ( \r",
-						"        (isNull(anio) || (upper(anio) == 'NULL')), '', trim(anio)\r",
-						"    )\r",
-						"),",
-						"          mes = toInteger(\r",
-						"    case ( \r",
-						"        (isNull(mes) || (upper(mes) == 'NULL')), '', trim(mes)\r",
-						"    )\r",
-						"),",
-						"          {Region ID} = toInteger(    \r",
-						"    case (         \r",
-						"        (isNull({Region ID}) || (upper({Region ID}) == 'NULL')), '', trim({Region ID})     \r",
-						"    )\r",
-						"),",
-						"          Target = toDecimal(\r",
-						"    case ( \r",
-						"        (isNull(Target) || (upper(Target) == 'NULL')), '', replace(trim(Target), ',', '')\r",
-						"    ), 12, 2\r",
-						")) ~> ConversionColumnas",
-						"FiltrarInconsistencias sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          fecha as date,",
-						"          anio as integer,",
-						"          mes as integer,",
-						"          {Region ID} as integer,",
-						"          Target as decimal(12,2)",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     outputRejectedData: true,",
-						"     mapColumn(",
-						"          fecha,",
-						"          anio,",
-						"          mes,",
-						"          {Region ID},",
-						"          Target",
-						"     )) ~> ValidationTargetRegionn"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_VALIDATION_tipos_envio')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2.transform/validation"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_STAGING_tb_tipo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "StagingTiposEnvio"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_tipo_envio",
-								"type": "DatasetReference"
-							},
-							"name": "ValidationTiposEnvio",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "ConversionColumnas"
-						},
-						{
-							"name": "FiltrarInconsistencias"
-						},
-						{
-							"name": "RemoverDuplicados"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_tipo as string,",
-						"          Descripcion as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> StagingTiposEnvio",
-						"StagingTiposEnvio derive(id_tipo = toInteger(\r",
-						"    case ( \r",
-						"        (isNull({id_tipo}) || (upper({id_tipo}) == 'NULL')), '', trim({id_tipo})\r",
-						"    )\r",
-						")) ~> ConversionColumnas",
-						"ConversionColumnas filter(and(not(isNull(id_tipo)), id_tipo > 0)) ~> FiltrarInconsistencias",
-						"FiltrarInconsistencias aggregate(groupBy(id_tipo),",
-						"     Descripcion = first(Descripcion)) ~> RemoverDuplicados",
-						"RemoverDuplicados sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_tipo as integer,",
-						"          Descripcion as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     truncate:true,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     outputRejectedData: true,",
-						"     mapColumn(",
-						"          id_tipo,",
-						"          Descripcion",
-						"     )) ~> ValidationTiposEnvio"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_categorias_y_subcategorias')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2.transform/huerfanos"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "Categorias"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "Subcategorias"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "CrearPadresFicticios"
-						}
-					],
-					"transformations": [
-						{
-							"name": "ListaHuerfanos"
-						},
-						{
-							"name": "ListaIDsHuerfanos"
-						},
-						{
-							"name": "ListaPadresFicticios"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Categoria} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Categorias",
-						"source(output(",
-						"          {Subcategoria Producto ID} as string,",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Subcategoria} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Subcategorias",
-						"Categorias, Subcategorias exists(Categorias@{Categoria Producto ID} == Subcategorias@{Categoria Producto ID},",
-						"     negate:true,",
-						"     broadcast: 'auto')~> ListaHuerfanos",
-						"ListaHuerfanos select(mapColumn(",
-						"          id_categoria_producto = {Categoria Producto ID}",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-						"ListaIDsHuerfanos derive(id_subcategoria_producto = \"huérfano de categorias_producto\",",
-						"          id_categoria_producto = id_categoria_producto,",
-						"          desc_categoria = \"huérfano de categorias_producto\") ~> ListaPadresFicticios",
-						"ListaPadresFicticios sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          {Subcategoria Producto ID} as string,",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Subcategoria} as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          {Subcategoria Producto ID} = id_subcategoria_producto,",
-						"          {Categoria Producto ID} = id_categoria_producto,",
-						"          {Descripcion Subcategoria} = desc_categoria",
-						"     )) ~> CrearPadresFicticios"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_clientes_y_localizacion')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1192,7 +894,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "FLOW_LOAD_fac_compras_0_4",
+						"name": "FLOW_LOAD_fac_compras",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -1205,85 +907,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_0_4",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_5_7",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_0_4",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_5_7",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_8_21",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_5_7",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"referenceName": "FLOW_LOAD_fac_compras",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -1725,9 +1349,7 @@
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_VALIDATION_target_region')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_TRANSFORM_dim_productos')]",
@@ -1925,8 +1547,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_productos_y_subcategorias')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_categorias_y_subcategorias')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_productos_y_subcategorias')]"
 			]
 		},
 		{
@@ -2262,6 +1883,231 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANFORM_dim_regiones')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "\n",
+				"activities": [
+					{
+						"name": "FLOW_VALIDATION_regiones",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_VALIDATION_regiones",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"StagingRegiones": {},
+									"ValidationRegiones": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2.transform/preprocessing"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANSFORM_dim_modos_envio')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_VALIDATION_modos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_VALIDATION_modos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"StagingModosEnvio": {},
+									"ValidationModosEnvio": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_VALIDATION_tipos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_VALIDATION_tipos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"StagingTiposEnvio": {},
+									"ValidationTiposEnvio": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "FLOW_huerfanos_modos_envio_y_tipos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "FLOW_VALIDATION_modos_envio",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "FLOW_VALIDATION_tipos_envio",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ModosEnvio": {},
+									"TiposEnvio": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "2.transform/preprocessing"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/FLOW_huerfanos_modos_envio_y_tipos_envio')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_LOAD_dim_clientes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_LOAD_dim_clientes",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_LOAD_dim_clientes",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Clientes": {},
+									"ClienteLocalizacion": {},
+									"DimClientes": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "tests/load"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T07:06:31Z"
 			},
 			"dependsOn": []
 		}

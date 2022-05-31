@@ -489,7 +489,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "FLOW_LOAD_fac_compras_0_4",
+						"name": "FLOW_LOAD_fac_compras",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -502,85 +502,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_0_4",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_5_7",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_0_4",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_5_7",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_8_21",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_5_7",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"referenceName": "FLOW_LOAD_fac_compras",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -610,9 +532,7 @@
 				"lastPublishTime": "2022-05-28T12:03:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_0_4')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_5_7')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_8_21')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras')]"
 			]
 		},
 		{
@@ -3923,7 +3843,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "FLOW_LOAD_fac_compras_0_4",
+						"name": "FLOW_LOAD_fac_compras",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -3936,85 +3856,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_0_4",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_5_7",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_0_4",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_5_7",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_8_21",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_5_7",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"referenceName": "FLOW_LOAD_fac_compras",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -4044,9 +3886,7 @@
 				"lastPublishTime": "2022-05-28T07:34:40Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_0_4')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_5_7')]",
-				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras_8_21')]"
+				"[concat(variables('factoryId'), '/dataflows/FLOW_LOAD_fac_compras')]"
 			]
 		},
 		{
@@ -7735,140 +7575,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOWLET_LOAD_fac_compras')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load/compras"
-				},
-				"type": "Flowlet",
-				"typeProperties": {
-					"sources": [],
-					"sinks": [],
-					"transformations": [
-						{
-							"name": "JoinDetalleEnvios"
-						},
-						{
-							"name": "JoinRegiones"
-						},
-						{
-							"name": "SeleccionarColumnas"
-						},
-						{
-							"name": "Auditoria"
-						},
-						{
-							"name": "Metricas"
-						},
-						{
-							"name": "DetalleOrdenes"
-						},
-						{
-							"name": "DetalleEnvios"
-						},
-						{
-							"name": "Regiones"
-						},
-						{
-							"name": "FacCompras"
-						}
-					],
-					"scriptLines": [
-						"input(output(",
-						"          {Detalle Orden} as integer,",
-						"          {Numero Orden} as string,",
-						"          {Producto ID} as integer,",
-						"          {Linea Total} as double,",
-						"          Cantidad as integer,",
-						"          Descuento as double,",
-						"          {Precio Unitario} as double,",
-						"          Ganancia as double,",
-						"          region_id as integer",
-						"     ),",
-						"     order: 0) ~> DetalleOrdenes",
-						"input(output(",
-						"          num_order as string,",
-						"          fec_orden as date,",
-						"          fec_envio as date,",
-						"          modo_envio as integer,",
-						"          cliente_id as integer,",
-						"          imp_subtotal as double,",
-						"          region_id as integer",
-						"     ),",
-						"     order: 1) ~> DetalleEnvios",
-						"input(output(",
-						"          id_region as integer,",
-						"          desc_region as string,",
-						"          desc_detalle as string",
-						"     ),",
-						"     order: 2) ~> Regiones",
-						"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
-						"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinDetalleEnvios",
-						"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinRegiones",
-						"JoinRegiones select(mapColumn(",
-						"          {Detalle Orden},",
-						"          {Numero Orden},",
-						"          {Producto ID},",
-						"          {Linea Total},",
-						"          Cantidad,",
-						"          Descuento,",
-						"          {Precio Unitario},",
-						"          Ganancia,",
-						"          num_order,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          modo_envio,",
-						"          cliente_id,",
-						"          imp_subtotal,",
-						"          id_region,",
-						"          desc_region,",
-						"          desc_detalle",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-						"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
-						"SeleccionarColumnas derive(precio_total = {Precio Unitario} * Cantidad,",
-						"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
-						"          impuestos = Ganancia * 19 / 100,",
-						"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
-						"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
-						"Auditoria output(mapColumn(",
-						"          {Detalle Orden},",
-						"          {Numero Orden},",
-						"          {Producto ID},",
-						"          {Linea Total},",
-						"          Cantidad,",
-						"          Descuento,",
-						"          {Precio Unitario},",
-						"          Ganancia,",
-						"          num_order,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          modo_envio,",
-						"          cliente_id,",
-						"          imp_subtotal,",
-						"          id_region,",
-						"          desc_region,",
-						"          desc_detalle,",
-						"          precio_total,",
-						"          ganancia_neta,",
-						"          impuestos,",
-						"          valor_logistica,",
-						"          valor_provision_covid,",
-						"          fec_modificacion",
-						"     )) ~> FacCompras"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_clientes')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -8410,12 +8116,12 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_fac_compras_0_4')]",
+			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_fac_compras')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"folder": {
-					"name": "3.load/compras"
+					"name": "3.load"
 				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
@@ -8457,15 +8163,19 @@
 					],
 					"transformations": [
 						{
-							"name": "ProcesarRegiones",
-							"flowlet": {
-								"referenceName": "FLOWLET_LOAD_fac_compras",
-								"type": "DataFlowReference",
-								"parameters": {}
-							}
+							"name": "JoinDetalleEnvios"
 						},
 						{
-							"name": "FiltrarRegiones"
+							"name": "JoinRegiones"
+						},
+						{
+							"name": "SeleccionarColumnas"
+						},
+						{
+							"name": "Metricas"
+						},
+						{
+							"name": "Auditoria"
 						}
 					],
 					"scriptLines": [
@@ -8506,7 +8216,14 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Regiones",
-						"FiltrarRegiones, DetalleEnvios, Regiones compose(mapColumn(",
+						"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
+						"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
+						"     joinType:'left',",
+						"     broadcast: 'auto')~> JoinDetalleEnvios",
+						"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == {Region ID},",
+						"     joinType:'left',",
+						"     broadcast: 'auto')~> JoinRegiones",
+						"JoinRegiones select(mapColumn(",
 						"          {Detalle Orden},",
 						"          {Numero Orden},",
 						"          {Producto ID},",
@@ -8515,23 +8232,26 @@
 						"          Descuento,",
 						"          {Precio Unitario},",
 						"          Ganancia,",
-						"          region_id = DetalleOrdenes@region_id",
-						"     ),mapColumn(",
 						"          num_order,",
 						"          fec_orden,",
 						"          fec_envio,",
 						"          modo_envio,",
 						"          cliente_id,",
 						"          imp_subtotal,",
-						"          region_id = DetalleEnvios@region_id",
-						"     ),mapColumn(",
-						"          id_region = {Region ID},",
-						"          desc_region = {Region Desc},",
-						"          desc_detalle = {Detalle region}",
+						"          region_id = DetalleOrdenes@region_id,",
+						"          {Region ID},",
+						"          {Region Desc},",
+						"          {Detalle region}",
 						"     ),",
-						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
-						"DetalleOrdenes filter(region_id <= 4) ~> FiltrarRegiones",
-						"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
+						"SeleccionarColumnas derive(precio_total = {Precio Unitario} * Cantidad,",
+						"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
+						"          impuestos = Ganancia * 19 / 100,",
+						"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
+						"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
+						"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
+						"Auditoria sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_compra as long,",
@@ -8584,394 +8304,13 @@
 						"          fec_orden,",
 						"          fec_envio,",
 						"          id_cliente = cliente_id,",
-						"          id_region,",
+						"          id_region = region_id,",
 						"          fec_modificacion",
 						"     )) ~> FacCompras"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOWLET_LOAD_fac_compras')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_fac_compras')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_fac_compras_5_7')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load/compras"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
-								"type": "DatasetReference"
-							},
-							"name": "DetalleOrdenes"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
-								"type": "DatasetReference"
-							},
-							"name": "DetalleEnvios"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_Regiones",
-								"type": "DatasetReference"
-							},
-							"name": "Regiones"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_DW_fac_compras",
-								"type": "DatasetReference"
-							},
-							"name": "FacCompras",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "ProcesarRegiones",
-							"flowlet": {
-								"referenceName": "FLOWLET_LOAD_fac_compras",
-								"type": "DataFlowReference",
-								"parameters": {}
-							}
-						},
-						{
-							"name": "FiltrarRegiones"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          {Detalle Orden} as integer,",
-						"          {Numero Orden} as string,",
-						"          {Producto ID} as integer,",
-						"          {Linea Total} as double,",
-						"          Cantidad as integer,",
-						"          Descuento as double,",
-						"          {Precio Unitario} as double,",
-						"          Ganancia as double,",
-						"          region_id as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DetalleOrdenes",
-						"source(output(",
-						"          num_order as string,",
-						"          fec_orden as date,",
-						"          fec_envio as date,",
-						"          modo_envio as integer,",
-						"          cliente_id as integer,",
-						"          imp_subtotal as double,",
-						"          region_id as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DetalleEnvios",
-						"source(output(",
-						"          {Region ID} as integer,",
-						"          {Region Desc} as string,",
-						"          {Detalle region} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Regiones",
-						"FiltrarRegiones, DetalleEnvios, Regiones compose(mapColumn(",
-						"          {Detalle Orden},",
-						"          {Numero Orden},",
-						"          {Producto ID},",
-						"          {Linea Total},",
-						"          Cantidad,",
-						"          Descuento,",
-						"          {Precio Unitario},",
-						"          Ganancia,",
-						"          region_id = DetalleOrdenes@region_id",
-						"     ),mapColumn(",
-						"          num_order,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          modo_envio,",
-						"          cliente_id,",
-						"          imp_subtotal,",
-						"          region_id = DetalleEnvios@region_id",
-						"     ),mapColumn(",
-						"          id_region = {Region ID},",
-						"          desc_region = {Region Desc},",
-						"          desc_detalle = {Detalle region}",
-						"     ),",
-						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
-						"DetalleOrdenes filter(region_id > 4 && region_id <= 7) ~> FiltrarRegiones",
-						"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_compra as long,",
-						"          num_detalle_orden as integer,",
-						"          num_orden as integer,",
-						"          id_producto as integer,",
-						"          id_modo_envio as integer,",
-						"          num_cantidad as integer,",
-						"          imp_subtotal as decimal(12,2),",
-						"          imp_linea_total as decimal(12,2),",
-						"          imp_descuento as decimal(12,2),",
-						"          imp_precio_unitario as decimal(12,2),",
-						"          imp_precio_total as decimal(12,2),",
-						"          imp_ganancia as decimal(12,2),",
-						"          imp_ganancia_neta as decimal(12,2),",
-						"          imp_impuestos as decimal(12,2),",
-						"          imp_valor_logistica as decimal(12,2),",
-						"          imp_valor_provision_covid as decimal(12,2),",
-						"          fec_orden as date,",
-						"          fec_envio as date,",
-						"          id_cliente as integer,",
-						"          id_region as integer,",
-						"          fec_modificacion as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     outputRejectedData: true,",
-						"     mapColumn(",
-						"          num_detalle_orden = {Detalle Orden},",
-						"          num_orden = {Numero Orden},",
-						"          id_producto = {Producto ID},",
-						"          id_modo_envio = modo_envio,",
-						"          num_cantidad = Cantidad,",
-						"          imp_subtotal,",
-						"          imp_linea_total = {Linea Total},",
-						"          imp_descuento = Descuento,",
-						"          imp_precio_unitario = {Precio Unitario},",
-						"          imp_precio_total = precio_total,",
-						"          imp_ganancia = Ganancia,",
-						"          imp_ganancia_neta = ganancia_neta,",
-						"          imp_impuestos = impuestos,",
-						"          imp_valor_logistica = valor_logistica,",
-						"          imp_valor_provision_covid = valor_provision_covid,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          id_cliente = cliente_id,",
-						"          id_region,",
-						"          fec_modificacion",
-						"     )) ~> FacCompras"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOWLET_LOAD_fac_compras')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_DW_fac_compras')]",
-				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_fac_compras_8_21')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "3.load/compras"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_detalle_ordenes",
-								"type": "DatasetReference"
-							},
-							"name": "DetalleOrdenes"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_tb_detalle_envios",
-								"type": "DatasetReference"
-							},
-							"name": "DetalleEnvios"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_Regiones",
-								"type": "DatasetReference"
-							},
-							"name": "Regiones"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_DW_fac_compras",
-								"type": "DatasetReference"
-							},
-							"name": "FacCompras",
-							"rejectedDataLinkedService": {
-								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "ProcesarRegiones",
-							"flowlet": {
-								"referenceName": "FLOWLET_LOAD_fac_compras",
-								"type": "DataFlowReference",
-								"parameters": {}
-							}
-						},
-						{
-							"name": "FiltrarRegiones"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          {Detalle Orden} as integer,",
-						"          {Numero Orden} as string,",
-						"          {Producto ID} as integer,",
-						"          {Linea Total} as double,",
-						"          Cantidad as integer,",
-						"          Descuento as double,",
-						"          {Precio Unitario} as double,",
-						"          Ganancia as double,",
-						"          region_id as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DetalleOrdenes",
-						"source(output(",
-						"          num_order as string,",
-						"          fec_orden as date,",
-						"          fec_envio as date,",
-						"          modo_envio as integer,",
-						"          cliente_id as integer,",
-						"          imp_subtotal as double,",
-						"          region_id as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DetalleEnvios",
-						"source(output(",
-						"          {Region ID} as integer,",
-						"          {Region Desc} as string,",
-						"          {Detalle region} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Regiones",
-						"FiltrarRegiones, DetalleEnvios, Regiones compose(mapColumn(",
-						"          {Detalle Orden},",
-						"          {Numero Orden},",
-						"          {Producto ID},",
-						"          {Linea Total},",
-						"          Cantidad,",
-						"          Descuento,",
-						"          {Precio Unitario},",
-						"          Ganancia,",
-						"          region_id = DetalleOrdenes@region_id",
-						"     ),mapColumn(",
-						"          num_order,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          modo_envio,",
-						"          cliente_id,",
-						"          imp_subtotal,",
-						"          region_id = DetalleEnvios@region_id",
-						"     ),mapColumn(",
-						"          id_region = {Region ID},",
-						"          desc_region = {Region Desc},",
-						"          desc_detalle = {Detalle region}",
-						"     ),",
-						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
-						"DetalleOrdenes filter(region_id > 7) ~> FiltrarRegiones",
-						"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_compra as long,",
-						"          num_detalle_orden as integer,",
-						"          num_orden as integer,",
-						"          id_producto as integer,",
-						"          id_modo_envio as integer,",
-						"          num_cantidad as integer,",
-						"          imp_subtotal as decimal(12,2),",
-						"          imp_linea_total as decimal(12,2),",
-						"          imp_descuento as decimal(12,2),",
-						"          imp_precio_unitario as decimal(12,2),",
-						"          imp_precio_total as decimal(12,2),",
-						"          imp_ganancia as decimal(12,2),",
-						"          imp_ganancia_neta as decimal(12,2),",
-						"          imp_impuestos as decimal(12,2),",
-						"          imp_valor_logistica as decimal(12,2),",
-						"          imp_valor_provision_covid as decimal(12,2),",
-						"          fec_orden as date,",
-						"          fec_envio as date,",
-						"          id_cliente as integer,",
-						"          id_region as integer,",
-						"          fec_modificacion as timestamp",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     outputRejectedData: true,",
-						"     mapColumn(",
-						"          num_detalle_orden = {Detalle Orden},",
-						"          num_orden = {Numero Orden},",
-						"          id_producto = {Producto ID},",
-						"          id_modo_envio = modo_envio,",
-						"          num_cantidad = Cantidad,",
-						"          imp_subtotal,",
-						"          imp_linea_total = {Linea Total},",
-						"          imp_descuento = Descuento,",
-						"          imp_precio_unitario = {Precio Unitario},",
-						"          imp_precio_total = precio_total,",
-						"          imp_ganancia = Ganancia,",
-						"          imp_ganancia_neta = ganancia_neta,",
-						"          imp_impuestos = impuestos,",
-						"          imp_valor_logistica = valor_logistica,",
-						"          imp_valor_provision_covid = valor_provision_covid,",
-						"          fec_orden,",
-						"          fec_envio,",
-						"          id_cliente = cliente_id,",
-						"          id_region,",
-						"          fec_modificacion",
-						"     )) ~> FacCompras"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/FLOWLET_LOAD_fac_compras')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_tb_detalle_envios')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_VALIDATION_Regiones')]",

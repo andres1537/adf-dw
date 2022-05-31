@@ -13,155 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_VALIDATION_tipos_envio')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_VALIDATION_tipos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_tipos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingTiposEnvio": {},
-									"ValidationTiposEnvio": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "tests/transform/validation"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T01:26:10Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_categorias_producto')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_huerfanos_categorias_producto",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_huerfanos_categorias_y_subcategorias",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Categorias": {},
-									"Subcategorias": {},
-									"CrearPadresFicticios": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "tests/transform/huerfanos"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T02:06:18Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_modos_envio')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_huerfanos_modos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ModosEnvio": {},
-									"TiposEnvio": {},
-									"CrearPadresFicticios": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "tests/transform/huerfanos"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T02:06:18Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_productos')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -570,9 +421,7 @@
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T01:26:30Z"
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/TEST_FLOW_VALIDATION_tipos_envio')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_ALL')]",
@@ -634,8 +483,6 @@
 				"lastPublishTime": "2022-05-28T02:06:18Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/TEST_FLOW_huerfanos_categorias_producto')]",
-				"[concat(variables('factoryId'), '/pipelines/TEST_FLOW_huerfanos_modos_envio')]",
 				"[concat(variables('factoryId'), '/pipelines/TEST_FLOW_huerfanos_productos')]"
 			]
 		},

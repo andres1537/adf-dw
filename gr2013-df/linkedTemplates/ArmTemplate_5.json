@@ -13,229 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANFORM_dim_regiones')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "\n",
-				"activities": [
-					{
-						"name": "FLOW_VALIDATION_regiones",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_regiones",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingRegiones": {},
-									"ValidationRegiones": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "2.transform/preprocessing"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T12:03:05Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_TRANSFORM_dim_modos_envio')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_VALIDATION_modos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_modos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingModosEnvio": {},
-									"ValidationModosEnvio": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_VALIDATION_tipos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_VALIDATION_tipos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"StagingTiposEnvio": {},
-									"ValidationTiposEnvio": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_huerfanos_modos_envio_y_tipos_envio",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_VALIDATION_modos_envio",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "FLOW_VALIDATION_tipos_envio",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ModosEnvio": {},
-									"TiposEnvio": {},
-									"CrearPadresFicticios": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "2.transform/preprocessing"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T12:03:05Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_LOAD_dim_clientes')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FLOW_LOAD_dim_clientes",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_dim_clientes",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"Clientes": {},
-									"ClienteLocalizacion": {},
-									"DimClientes": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "tests/load"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-05-28T07:06:31Z"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_LOAD_dim_fechas')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -441,7 +218,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "FLOW_LOAD_fac_compras_0_4",
+						"name": "FLOW_LOAD_fac_compras",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -454,85 +231,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_0_4",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_5_7",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_0_4",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_5_7",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DetalleOrdenes": {},
-									"DetalleEnvios": {},
-									"Regiones": {},
-									"FacCompras": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "FLOW_LOAD_fac_compras_8_21",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "FLOW_LOAD_fac_compras_5_7",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "FLOW_LOAD_fac_compras_8_21",
+								"referenceName": "FLOW_LOAD_fac_compras",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -1148,6 +847,155 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-05-28T01:26:10Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_VALIDATION_tipos_envio')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_VALIDATION_tipos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_VALIDATION_tipos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"StagingTiposEnvio": {},
+									"ValidationTiposEnvio": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "tests/transform/validation"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T01:26:10Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_categorias_producto')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_huerfanos_categorias_producto",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_categorias_y_subcategorias",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Categorias": {},
+									"Subcategorias": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "tests/transform/huerfanos"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T02:06:18Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TEST_FLOW_huerfanos_modos_envio')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FLOW_huerfanos_modos_envio",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "FLOW_huerfanos_modos_envio_y_tipos_envio",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ModosEnvio": {},
+									"TiposEnvio": {},
+									"CrearPadresFicticios": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "tests/transform/huerfanos"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T02:06:18Z"
 			},
 			"dependsOn": []
 		}
