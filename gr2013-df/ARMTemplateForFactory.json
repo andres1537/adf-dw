@@ -8466,7 +8466,7 @@
 						"     ),",
 						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)",
 						"DetalleOrdenes split(region_id < 7,",
-						"     region_id >= 20,",
+						"     region_id >= 7,",
 						"     disjoint: false) ~> SplitRegiones@(RegionDesde0a6, RegionDesde7a21)",
 						"ProcesarRegionDesde0a6@FacCompras sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
