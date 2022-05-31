@@ -44,7 +44,7 @@
 			],
 			"transformations": [
 				{
-					"name": "ProcesarRegionDesde7a21",
+					"name": "ProcesarRegiones",
 					"flowlet": {
 						"referenceName": "FLOWLET_LOAD_fac_compras",
 						"type": "DataFlowReference"
@@ -112,8 +112,8 @@
 				"          desc_region = {Region Desc},",
 				"          desc_detalle = {Detalle region}",
 				"     ),",
-				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)",
-				"ProcesarRegionDesde7a21@FacCompras sink(allowSchemaDrift: true,",
+				"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegiones@(FacCompras)",
+				"ProcesarRegiones@FacCompras sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",
