@@ -3,16 +3,89 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "TEST_FLOW_LOAD_fac_compras",
-				"type": "ExecutePipeline",
+				"name": "FLOW_LOAD_fac_compras_0_4",
+				"type": "ExecuteDataFlow",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "TEST_FLOW_LOAD_fac_compras",
-						"type": "PipelineReference"
+					"dataflow": {
+						"referenceName": "FLOW_LOAD_fac_compras_0_4",
+						"type": "DataFlowReference"
 					},
-					"waitOnCompletion": true
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "FLOW_LOAD_fac_compras_5_7",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "FLOW_LOAD_fac_compras_0_4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "FLOW_LOAD_fac_compras_5_7",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "FLOW_LOAD_fac_compras_8_21",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "FLOW_LOAD_fac_compras_5_7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "FLOW_LOAD_fac_compras_8_21",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
