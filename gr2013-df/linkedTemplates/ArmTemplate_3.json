@@ -1162,9 +1162,6 @@
 					],
 					"transformations": [
 						{
-							"name": "SplitRegiones"
-						},
-						{
 							"name": "ProcesarRegionDesde0a6",
 							"flowlet": {
 								"referenceName": "FLOWLET_LOAD_fac_compras",
@@ -1179,6 +1176,9 @@
 								"type": "DataFlowReference",
 								"parameters": {}
 							}
+						},
+						{
+							"name": "SplitRegiones"
 						}
 					],
 					"scriptLines": [
@@ -1219,9 +1219,6 @@
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Regiones",
-						"DetalleOrdenes split(region_id < 7,",
-						"     region_id >= 7,",
-						"     disjoint: false) ~> SplitRegiones@(RegionDesde0a6, RegionDesde7a21)",
 						"SplitRegiones@RegionDesde0a6, DetalleEnvios, Regiones compose(mapColumn(",
 						"          {Detalle Orden},",
 						"          {Numero Orden},",
@@ -1270,6 +1267,9 @@
 						"          desc_detalle = {Detalle region}",
 						"     ),",
 						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)",
+						"DetalleOrdenes split(region_id < 7,",
+						"     region_id >= 7,",
+						"     disjoint: false) ~> SplitRegiones@(RegionDesde0a6, RegionDesde7a21)",
 						"ProcesarRegionDesde0a6@FacCompras sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
