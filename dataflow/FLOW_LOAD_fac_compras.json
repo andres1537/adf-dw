@@ -48,6 +48,9 @@
 				},
 				{
 					"name": "JoinRegiones"
+				},
+				{
+					"name": "SeleccionarColumnas"
 				}
 			],
 			"scriptLines": [
@@ -95,7 +98,29 @@
 				"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == {Region ID},",
 				"     joinType:'left',",
 				"     broadcast: 'auto')~> JoinRegiones",
-				"JoinRegiones sink(allowSchemaDrift: true,",
+				"JoinRegiones select(mapColumn(",
+				"          {Detalle Orden},",
+				"          {Numero Orden},",
+				"          {Producto ID},",
+				"          {Linea Total},",
+				"          Cantidad,",
+				"          Descuento,",
+				"          {Precio Unitario},",
+				"          Ganancia,",
+				"          num_order,",
+				"          fec_orden,",
+				"          fec_envio,",
+				"          modo_envio,",
+				"          cliente_id,",
+				"          imp_subtotal,",
+				"          region_id = DetalleOrdenes@region_id,",
+				"          {Region ID},",
+				"          {Region Desc},",
+				"          {Detalle region}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
+				"SeleccionarColumnas sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id_compra as long,",
