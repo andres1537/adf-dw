@@ -13,6 +13,580 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_EXTRACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "geografia a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "lt_geografia.json"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.lt_geografia"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.lt_geografia",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['Pais']"
+										},
+										"sink": {
+											"name": "Pais",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Estado']"
+										},
+										"sink": {
+											"name": "Estado",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Ciudad']"
+										},
+										"sink": {
+											"name": "Ciudad",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_lt_geografia",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_lt_geografia",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "modo_envio a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "tb_modo_envio.xml"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.tb_modo_envio"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.tb_modo_envio",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['@id_modo']"
+										},
+										"sink": {
+											"name": "id_modo",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Descripcion']"
+										},
+										"sink": {
+											"name": "Descripcion",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Tipo_x0020_ID']"
+										},
+										"sink": {
+											"name": "Tipo_x0020_ID",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_modo_envio']['maestria.tb_modo_envio']",
+								"mapComplexValuesToString": false
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_tb_modo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_tb_modo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "tipo_envio a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "tb_tipo_envio.xml"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.tb_tipo_envio"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"detectDataType": true,
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.tb_tipo_envio",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['@id_tipo']"
+										},
+										"sink": {
+											"name": "id_tipo",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Descripción']"
+										},
+										"sink": {
+											"name": "Descripcion",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_tipo_envio']['maestria.tb_tipo_envio']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_tb_tipo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_tb_tipo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "regiones a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "Regiones.txt"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.Regiones"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.Regiones",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Region ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Region ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Region Desc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Region Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Detalle region",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Detalle region",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_Regiones",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_Regiones",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "fechas a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "source-utilities//fechas.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.fechas"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.fechas",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id_fecha",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id_fecha",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_anio",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_anio",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_trimestre",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_trimestre",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_mes",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_mes",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_dia",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_dia",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_SOURCE_fechas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_fechas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1.extract"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FLOW_LOAD_dim_clientes')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -556,7 +1130,7 @@
 						},
 						{
 							"dataset": {
-								"referenceName": "DS_SQL_DW_dim_regiones",
+								"referenceName": "DS_SQL_VALIDATION_Regiones",
 								"type": "DatasetReference"
 							},
 							"name": "Regiones"
@@ -568,7 +1142,18 @@
 								"referenceName": "DS_SQL_DW_fac_compras",
 								"type": "DatasetReference"
 							},
-							"name": "FacCompras",
+							"name": "FacCompras1",
+							"rejectedDataLinkedService": {
+								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"dataset": {
+								"referenceName": "DS_SQL_DW_fac_compras",
+								"type": "DatasetReference"
+							},
+							"name": "FacCompras2",
 							"rejectedDataLinkedService": {
 								"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
 								"type": "LinkedServiceReference"
@@ -577,22 +1162,23 @@
 					],
 					"transformations": [
 						{
-							"name": "JoinDetalleEnvios"
+							"name": "SplitRegiones"
 						},
 						{
-							"name": "JoinRegiones"
+							"name": "ProcesarRegionDesde0a6",
+							"flowlet": {
+								"referenceName": "FLOWLET_LOAD_fac_compras",
+								"type": "DataFlowReference",
+								"parameters": {}
+							}
 						},
 						{
-							"name": "GenerarIdCompra"
-						},
-						{
-							"name": "SeleccionarColumnas"
-						},
-						{
-							"name": "Auditoria"
-						},
-						{
-							"name": "Metricas"
+							"name": "ProcesarRegionDesde7a21",
+							"flowlet": {
+								"referenceName": "FLOWLET_LOAD_fac_compras",
+								"type": "DataFlowReference",
+								"parameters": {}
+							}
 						}
 					],
 					"scriptLines": [
@@ -625,26 +1211,18 @@
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> DetalleEnvios",
 						"source(output(",
-						"          id_region as integer,",
-						"          desc_region as string,",
-						"          desc_detalle as string,",
-						"          fec_modificacion as timestamp",
+						"          {Region ID} as integer,",
+						"          {Region Desc} as string,",
+						"          {Detalle region} as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Regiones",
-						"DetalleOrdenes, DetalleEnvios join({Numero Orden} == num_order",
-						"     && DetalleOrdenes@region_id == DetalleEnvios@region_id,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinDetalleEnvios",
-						"JoinDetalleEnvios, Regiones join(DetalleOrdenes@region_id == id_region,",
-						"     joinType:'left',",
-						"     broadcast: 'auto')~> JoinRegiones",
-						"SeleccionarColumnas keyGenerate(output(id_compra as long),",
-						"     startAt: 1L,",
-						"     stepValue: 1L) ~> GenerarIdCompra",
-						"JoinRegiones select(mapColumn(",
+						"DetalleOrdenes split(region_id < 7,",
+						"     region_id >= 7,",
+						"     disjoint: false) ~> SplitRegiones@(RegionDesde0a6, RegionDesde7a21)",
+						"SplitRegiones@RegionDesde0a6, DetalleEnvios, Regiones compose(mapColumn(",
 						"          {Detalle Orden},",
 						"          {Numero Orden},",
 						"          {Producto ID},",
@@ -653,25 +1231,46 @@
 						"          Descuento,",
 						"          {Precio Unitario},",
 						"          Ganancia,",
+						"          region_id = {Detalle Orden}",
+						"     ),mapColumn(",
 						"          num_order,",
 						"          fec_orden,",
 						"          fec_envio,",
 						"          modo_envio,",
 						"          cliente_id,",
 						"          imp_subtotal,",
-						"          id_region,",
-						"          desc_region,",
-						"          desc_detalle",
+						"          region_id = DetalleEnvios@region_id",
+						"     ),mapColumn(",
+						"          id_region = {Region ID},",
+						"          desc_region = {Region Desc},",
+						"          desc_detalle = {Detalle region}",
 						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> SeleccionarColumnas",
-						"Metricas derive(fec_modificacion = fromUTC(currentUTC(), 'America/Bogota')) ~> Auditoria",
-						"GenerarIdCompra derive(precio_total = {Precio Unitario} * Cantidad,",
-						"          ganancia_neta = Ganancia - (({Precio Unitario} * 12 / 100) * Cantidad) - (({Precio Unitario} * 3 / 100) * Cantidad),",
-						"          impuestos = Ganancia * 19 / 100,",
-						"          valor_logistica = ({Precio Unitario} * 12 / 100) * Cantidad,",
-						"          valor_provision_covid = ({Precio Unitario} * 3 / 100) * Cantidad) ~> Metricas",
-						"Auditoria sink(allowSchemaDrift: true,",
+						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde0a6@(FacCompras)",
+						"SplitRegiones@RegionDesde7a21, DetalleEnvios, Regiones compose(mapColumn(",
+						"          {Detalle Orden},",
+						"          {Numero Orden},",
+						"          {Producto ID},",
+						"          {Linea Total},",
+						"          Cantidad,",
+						"          Descuento,",
+						"          {Precio Unitario},",
+						"          Ganancia,",
+						"          region_id = SplitRegiones@RegionDesde7a21@region_id",
+						"     ),mapColumn(",
+						"          num_order,",
+						"          fec_orden,",
+						"          fec_envio,",
+						"          modo_envio,",
+						"          cliente_id,",
+						"          imp_subtotal,",
+						"          region_id = DetalleEnvios@region_id",
+						"     ),mapColumn(",
+						"          id_region = {Region ID},",
+						"          desc_region = {Region Desc},",
+						"          desc_detalle = {Detalle region}",
+						"     ),",
+						"     composition: 'FLOWLET_LOAD_fac_compras') ~> ProcesarRegionDesde7a21@(FacCompras)",
+						"ProcesarRegionDesde0a6@FacCompras sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id_compra as long,",
@@ -703,12 +1302,8 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1,",
-						"     errorHandlingOption: 'allErrors',",
+						"     errorHandlingOption: 'stopOnFirstError',",
 						"     outputRejectedData: true,",
-						"     rejectedData_container: 'errors',",
-						"     transactionCommit: 'single',",
-						"     reportSuccessOnError: false,",
 						"     mapColumn(",
 						"          id_compra,",
 						"          num_detalle_orden = {Detalle Orden},",
@@ -731,7 +1326,64 @@
 						"          id_cliente = cliente_id,",
 						"          id_region,",
 						"          fec_modificacion",
-						"     )) ~> FacCompras"
+						"     )) ~> FacCompras1",
+						"ProcesarRegionDesde7a21@FacCompras sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_compra as long,",
+						"          num_detalle_orden as integer,",
+						"          num_orden as integer,",
+						"          id_producto as integer,",
+						"          id_modo_envio as integer,",
+						"          num_cantidad as integer,",
+						"          imp_subtotal as decimal(12,2),",
+						"          imp_linea_total as decimal(12,2),",
+						"          imp_descuento as decimal(12,2),",
+						"          imp_precio_unitario as decimal(12,2),",
+						"          imp_precio_total as decimal(12,2),",
+						"          imp_ganancia as decimal(12,2),",
+						"          imp_ganancia_neta as decimal(12,2),",
+						"          imp_impuestos as decimal(12,2),",
+						"          imp_valor_logistica as decimal(12,2),",
+						"          imp_valor_provision_covid as decimal(12,2),",
+						"          fec_orden as date,",
+						"          fec_envio as date,",
+						"          id_cliente as integer,",
+						"          id_region as integer,",
+						"          fec_modificacion as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     outputRejectedData: true,",
+						"     mapColumn(",
+						"          id_compra,",
+						"          num_detalle_orden = {Detalle Orden},",
+						"          num_orden = {Numero Orden},",
+						"          id_producto = {Producto ID},",
+						"          id_modo_envio = modo_envio,",
+						"          num_cantidad = Cantidad,",
+						"          imp_subtotal,",
+						"          imp_linea_total = {Linea Total},",
+						"          imp_descuento = Descuento,",
+						"          imp_precio_unitario = {Precio Unitario},",
+						"          imp_precio_total = precio_total,",
+						"          imp_ganancia = Ganancia,",
+						"          imp_ganancia_neta = ganancia_neta,",
+						"          imp_impuestos = impuestos,",
+						"          imp_valor_logistica = valor_logistica,",
+						"          imp_valor_provision_covid = valor_provision_covid,",
+						"          fec_orden,",
+						"          fec_envio,",
+						"          id_cliente = cliente_id,",
+						"          id_region,",
+						"          fec_modificacion",
+						"     )) ~> FacCompras2"
 					]
 				}
 			},
@@ -2002,106 +2654,6 @@
 						"          id_tipo,",
 						"          Descripcion",
 						"     )) ~> ValidationTiposEnvio"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLOW_huerfanos_categorias_y_subcategorias')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "2.transform/huerfanos"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "Categorias"
-						},
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "Subcategorias"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
-								"type": "DatasetReference"
-							},
-							"name": "CrearPadresFicticios"
-						}
-					],
-					"transformations": [
-						{
-							"name": "ListaHuerfanos"
-						},
-						{
-							"name": "ListaIDsHuerfanos"
-						},
-						{
-							"name": "ListaPadresFicticios"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Categoria} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Categorias",
-						"source(output(",
-						"          {Subcategoria Producto ID} as string,",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Subcategoria} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> Subcategorias",
-						"Categorias, Subcategorias exists(Categorias@{Categoria Producto ID} == Subcategorias@{Categoria Producto ID},",
-						"     negate:true,",
-						"     broadcast: 'auto')~> ListaHuerfanos",
-						"ListaHuerfanos select(mapColumn(",
-						"          id_categoria_producto = {Categoria Producto ID}",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> ListaIDsHuerfanos",
-						"ListaIDsHuerfanos derive(id_subcategoria_producto = \"huérfano de categorias_producto\",",
-						"          id_categoria_producto = id_categoria_producto,",
-						"          desc_categoria = \"huérfano de categorias_producto\") ~> ListaPadresFicticios",
-						"ListaPadresFicticios sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          {Subcategoria Producto ID} as string,",
-						"          {Categoria Producto ID} as string,",
-						"          {Descripcion Subcategoria} as string",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError',",
-						"     mapColumn(",
-						"          {Subcategoria Producto ID} = id_subcategoria_producto,",
-						"          {Categoria Producto ID} = id_categoria_producto,",
-						"          {Descripcion Subcategoria} = desc_categoria",
-						"     )) ~> CrearPadresFicticios"
 					]
 				}
 			},
