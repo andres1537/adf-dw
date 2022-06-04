@@ -28,11 +28,7 @@
 						"referenceName": "DS_SQL_VALIDATION_LT_productos_sub_categoria",
 						"type": "DatasetReference"
 					},
-					"name": "CrearPadresFicticios",
-					"rejectedDataLinkedService": {
-						"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
-						"type": "LinkedServiceReference"
-					}
+					"name": "CrearPadresFicticios"
 				}
 			],
 			"transformations": [
