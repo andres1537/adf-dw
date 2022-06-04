@@ -1,0 +1,9 @@
+{
+	"name": "gr2013-df2",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "18c7568d-8a10-4064-965d-f8b6e9d1f2bd",
+		"tenantId": "c06fb559-1b68-4b84-a14f-47d0d837a5ab"
+	}
+}
