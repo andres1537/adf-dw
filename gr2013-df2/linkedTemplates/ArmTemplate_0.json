@@ -1,0 +1,601 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "gr2013-df2"
+		},
+		"LS_FILESTORAGE_SOURCE_banmarket_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_FILESTORAGE_SOURCE_banmarket\""
+		},
+		"LS_SQL_SOURCE_banmarket_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_SQL_SOURCE_banmarket\""
+		},
+		"LS_SQL_TARGET_dw_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"LS_SQL_TARGET_dw\""
+		},
+		"LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com/here4data/DWH/blob/main/Sources/lt_customer_localizacion.zip?raw=true"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_FILESTORAGE_SOURCE_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_FILESTORAGE_SOURCE_banmarket_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_raw_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": false,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_zip_customer')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_GITHUB_SOURCE_zip_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SQL_SOURCE_banmarket')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_SQL_SOURCE_banmarket_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SQL_TARGET_dw')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_SQL_TARGET_dw_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_LT_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "LT_customer.zip",
+						"folderPath": "github",
+						"container": "source"
+					},
+					"columnDelimiter": ";",
+					"compressionCodec": "ZipDeflate",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Cliente ID",
+						"type": "String"
+					},
+					{
+						"name": "Nombre",
+						"type": "String"
+					},
+					{
+						"name": "Apellido",
+						"type": "String"
+					},
+					{
+						"name": "Segmento",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "lt_customer_localizacion.zip",
+						"folderPath": "github",
+						"container": "source"
+					},
+					"columnDelimiter": "\t",
+					"compressionCodec": "ZipDeflate",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Cliente ID",
+						"type": "String"
+					},
+					{
+						"name": "Pais",
+						"type": "String"
+					},
+					{
+						"name": "Ciudad",
+						"type": "String"
+					},
+					{
+						"name": "Estado",
+						"type": "String"
+					},
+					{
+						"name": "Codigo Postal",
+						"type": "String"
+					},
+					{
+						"name": "Region",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_SOURCE_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "fechas.csv",
+						"container": "source"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "String"
+					},
+					{
+						"name": "num_anio",
+						"type": "String"
+					},
+					{
+						"name": "num_trimestre",
+						"type": "String"
+					},
+					{
+						"name": "num_mes",
+						"type": "String"
+					},
+					{
+						"name": "num_dia",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_ZIP_LT_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "LT_customer.zip",
+						"folderPath": "github",
+						"container": "source"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_FILESTORAGE_ZIP_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "lt_customer_localizacion",
+						"folderPath": "github",
+						"container": "source"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_FILESTORAGE_SOURCE_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_zip_customer",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_zip_customer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_zip_customer_localizacion",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_zip_customer_localizacion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_productos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "LT_productos.csv"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_productos_categoria')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "LT_productos_categoria.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_LT_productos_sub_categoria')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "LT_productos_sub_categoria.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_Regiones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "Regiones.txt"
+					},
+					"columnDelimiter": "\t",
+					"encodingName": "ISO-8859-1",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Region ID",
+						"type": "String"
+					},
+					{
+						"name": "Region Desc",
+						"type": "String"
+					},
+					{
+						"name": "Detalle region",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_db_target_region')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "db_target_region.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_lt_geografia')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "lt_geografia.json"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_GITHUB_SOURCE_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_GITHUB_SOURCE_raw_banmarket",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "1.source"
+				},
+				"annotations": [],
+				"type": "Xml",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "tb_modo_envio.xml"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_GITHUB_SOURCE_raw_banmarket')]"
+			]
+		}
+	]
+}

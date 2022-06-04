@@ -1,0 +1,2506 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "gr2013-df2"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_detalle_envios')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "num_order",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fec_orden",
+						"type": "date"
+					},
+					{
+						"name": "fec_envio",
+						"type": "date"
+					},
+					{
+						"name": "modo_envio",
+						"type": "nvarchar"
+					},
+					{
+						"name": "cliente_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "imp_subtotal",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "region_id",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_detalle_envios"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_modo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tipo_x0020_ID",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_modo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_STAGING_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "2.staging"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "staging",
+					"table": "tb_tipo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_customer')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cliente ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Nombre",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Apellido",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Segmento",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "LT_customer"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_detalle_ordenes')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Detalle Orden",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Numero Orden",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Producto ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Linea Total",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Cantidad",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Descuento",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Precio Unitario",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Ganancia",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "region_id",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "LT_detalle_ordenes"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_productos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Producto ID",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Numero Producto",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Producto Sub Categoria ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Nombre Producto",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "LT_productos"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_productos_categoria')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Categoria Producto ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion Categoria",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "LT_productos_categoria"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_LT_productos_sub_categoria')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Subcategoria Producto ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Categoria Producto ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Descripcion Subcategoria",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "LT_productos_sub_categoria"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_Regiones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Region ID",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "Region Desc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Detalle region",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "Regiones"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_db_target_region')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fecha",
+						"type": "date"
+					},
+					{
+						"name": "anio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "mes",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Region ID",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "Target",
+						"type": "decimal",
+						"precision": 12,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "db_target_region"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_fechas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_fecha",
+						"type": "date"
+					},
+					{
+						"name": "num_anio",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "num_trimestre",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_mes",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "num_dia",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "fechas"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_lt_customer_localizacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Cliente ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Pais",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Ciudad",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Estado",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Codigo Postal",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Region",
+						"type": "tinyint",
+						"precision": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "lt_customer_localizacion"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_lt_geografia')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Pais",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Estado",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Ciudad",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "lt_geografia"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_tb_detalle_envios')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "num_order",
+						"type": "nvarchar"
+					},
+					{
+						"name": "fec_orden",
+						"type": "date"
+					},
+					{
+						"name": "fec_envio",
+						"type": "date"
+					},
+					{
+						"name": "modo_envio",
+						"type": "tinyint",
+						"precision": 3
+					},
+					{
+						"name": "cliente_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "imp_subtotal",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "region_id",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "tb_detalle_envios"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_tb_modo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_modo",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tipo_x0020_ID",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "tb_modo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_VALIDATION_tb_tipo_envio')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQL_TARGET_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "3.validation"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Descripcion",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "validation",
+					"table": "tb_tipo_envio"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DIARIO_EXTRACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "detalle_ordenes a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "maestria.LT_detalle_ordenes"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.LT_detalle_ordenes"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.LT_detalle_ordenes",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"validateDataConsistency": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Detalle Orden",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Detalle Orden",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Numero Orden",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Numero Orden",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Producto ID",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Producto ID",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Linea Total",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Linea Total",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "Cantidad",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Cantidad",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Descuento",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Descuento",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "Precio Unitario",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Precio Unitario",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "Ganancia",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "Ganancia",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "region_id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "region_id",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SQL_SOURCE_LT_detalle_ordenes",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_LT_detalle_ordenes",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "detalle_envios a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "maestria.tb_detalle_envios"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.tb_detalle_envios"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.tb_detalle_envios",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "num_order",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "num_order",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "fec_orden",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "fec_orden",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "fec_envio",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "fec_envio",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "modo_envio",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "modo_envio",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "cliente_id",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "cliente_id",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "imp_subtotal",
+											"type": "Double",
+											"physicalType": "float"
+										},
+										"sink": {
+											"name": "imp_subtotal",
+											"type": "Double",
+											"physicalType": "float"
+										}
+									},
+									{
+										"source": {
+											"name": "region_id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "region_id",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SQL_SOURCE_tb_detalle_envios",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_tb_detalle_envios",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1.extract"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_detalle_envios')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_MENSUAL_EXTRACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "productos_sub_categoria a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "LT_productos_sub_categoria.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.LT_productos_sub_categoria"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.LT_productos_sub_categoria",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_productos_sub_categoria",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_LT_productos_sub_categoria",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "productos_categoria a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "LT_productos_categoria.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.LT_productos_categoria"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.LT_productos_categoria",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Categoria Producto ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Categoria Producto ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Descripcion Categoria",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Descripcion Categoria",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_productos_categoria",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_LT_productos_categoria",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "productos a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "LT_productos.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.LT_productos"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.LT_productos",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Producto ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Producto ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Numero Producto",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Numero Producto",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Producto Sub Categoria ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Producto Sub Categoria ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Nombre Producto",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Nombre Producto",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_productos",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_LT_productos",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "target_region a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "db_target_region.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.db_target_region"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.db_target_region",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "fecha",
+											"type": "String"
+										},
+										"sink": {
+											"name": "fecha",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Año",
+											"type": "String"
+										},
+										"sink": {
+											"name": "anio",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Mes",
+											"type": "String"
+										},
+										"sink": {
+											"name": "mes",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Region ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Region ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Target",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Target",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_db_target_region",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_db_target_region",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1.extract"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:04Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_SEMANAL_EXTRACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "customerZIP a FILESTORAGE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "customerCSV a STAGING",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "customerZIP a FILESTORAGE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "source/github/LT_customer.zip"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.LT_customer"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"compressionProperties": {
+										"type": "ZipDeflateReadSettings"
+									}
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.LT_customer",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Nombre",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Nombre",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Apellido",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Apellido",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Segmento",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Segmento",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_LT_customer",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "customerLocalizacionZIP a FILESTORAGE",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_LT_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_ZIP_LT_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "customerLocalizacionCSV a STAGING",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "customerLocalizacionZIP a FILESTORAGE",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "source/github/lt_customer_localizacion.zip"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.lt_customer_localizacion"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"compressionProperties": {
+										"type": "ZipDeflateReadSettings"
+									}
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.lt_customer_localizacion",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Cliente ID",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Pais",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Pais",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Ciudad",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Ciudad",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Estado",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Estado",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Codigo Postal",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Codigo Postal",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Region",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Region",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_SOURCE_LT_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_lt_customer_localizacion",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1.extract"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:04Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TRIMESTRAL_EXTRACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "geografia a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "lt_geografia.json"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.lt_geografia"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.lt_geografia",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['Pais']"
+										},
+										"sink": {
+											"name": "Pais",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Estado']"
+										},
+										"sink": {
+											"name": "Estado",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Ciudad']"
+										},
+										"sink": {
+											"name": "Ciudad",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_lt_geografia",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_lt_geografia",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "modo_envio a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "tb_modo_envio.xml"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.tb_modo_envio"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.tb_modo_envio",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['@id_modo']"
+										},
+										"sink": {
+											"name": "id_modo",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Descripcion']"
+										},
+										"sink": {
+											"name": "Descripcion",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Tipo_x0020_ID']"
+										},
+										"sink": {
+											"name": "Tipo_x0020_ID",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_modo_envio']['maestria.tb_modo_envio']",
+								"mapComplexValuesToString": false
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_tb_modo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_tb_modo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "tipo_envio a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "tb_tipo_envio.xml"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.tb_tipo_envio"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"detectDataType": true,
+									"namespaces": true
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.tb_tipo_envio",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "[['@id_tipo']"
+										},
+										"sink": {
+											"name": "id_tipo",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "[['@Descripción']"
+										},
+										"sink": {
+											"name": "Descripcion",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['Data']['table_maestria.tb_tipo_envio']['maestria.tb_tipo_envio']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_tb_tipo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_tb_tipo_envio",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "regiones a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "Regiones.txt"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.Regiones"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.Regiones",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Region ID",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Region ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Region Desc",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Region Desc",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Detalle region",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Detalle region",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_GITHUB_SOURCE_Regiones",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_Regiones",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "fechas a STAGING",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "source-utilities//fechas.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "staging.fechas"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table staging.fechas",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_FILESTORAGE_SOURCE_banmarket",
+										"type": "LinkedServiceReference"
+									},
+									"path": "errors"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id_fecha",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id_fecha",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_anio",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_anio",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_trimestre",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_trimestre",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_mes",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_mes",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "num_dia",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "num_dia",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_FILESTORAGE_SOURCE_fechas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQL_STAGING_fechas",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "1.extract"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-05-28T12:03:05Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_modo_envio')]",
+				"[concat(variables('factoryId'), '/datasets/DS_SQL_STAGING_tb_tipo_envio')]"
+			]
+		}
+	]
+}

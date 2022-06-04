@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "gr2013-df2"
+		},
+		"LS_FILESTORAGE_SOURCE_banmarket_connectionString": {
+			"value": ""
+		},
+		"LS_SQL_SOURCE_banmarket_connectionString": {
+			"value": ""
+		},
+		"LS_SQL_TARGET_dw_connectionString": {
+			"value": ""
+		},
+		"LS_GITHUB_SOURCE_raw_banmarket_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/here4data/DWH/main/Sources/"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_properties_typeProperties_url": {
+			"value": "https://github.com/here4data/DWH/blob/main/Sources/LT_customer.zip?raw=true"
+		},
+		"LS_GITHUB_SOURCE_zip_customer_localizacion_properties_typeProperties_url": {
+			"value": "https://github.com/here4data/DWH/blob/main/Sources/lt_customer_localizacion.zip?raw=true"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
